@@ -1,0 +1,5 @@
+.venv
+outputs
+dryrun-test
+nul
+**/__pycache__

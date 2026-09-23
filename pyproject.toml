@@ -1,0 +1,20 @@
+[project]
+name = "vla"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "lerobot[evaluation,feetech,hardware,pusht,smolvla]==0.6.1",
+    "torch==2.11.0+cu130",
+    "torchvision==0.26.0+cu130",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
