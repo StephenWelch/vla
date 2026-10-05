@@ -1,0 +1,41 @@
+{
+    "dataset_root":  "E:\\vla-ogbench\\datasets",
+    "timestamp":  "2026-10-04T22:14:24.1113033Z",
+    "datasets":  [
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\cube-mixed-smoke",
+                         "episodes":  2,
+                         "removed":  true
+                     },
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                         "episodes":  2,
+                         "removed":  true
+                     },
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\scene-verified",
+                         "episodes":  1,
+                         "removed":  true
+                     },
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\train-smoke-v1",
+                         "episodes":  4,
+                         "removed":  true
+                     },
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\vla-ready",
+                         "episodes":  5,
+                         "removed":  true
+                     },
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\vla-smoke256",
+                         "episodes":  2,
+                         "removed":  true
+                     },
+                     {
+                         "path":  "E:\\vla-ogbench\\datasets\\vla-starter",
+                         "episodes":  2,
+                         "removed":  true
+                     }
+                 ]
+}

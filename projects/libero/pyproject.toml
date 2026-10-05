@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vla-libero"
+version = "0.1.0"
+description = "Single-task LIBERO training and held-out demonstration evaluation"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "vla-tools",
+  "lerobot[libero,training,evaluation]==0.6.1",
+  "mujoco==3.8.1",
+  "torch==2.11.0",
+  "h5py>=3.12,<4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.12"]
+
+[project.scripts]
+vla-libero-train = "vla_libero.train:main"
+vla-libero-eval-validation = "vla_libero.evaluate_validation:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vla_libero"]
+
+[tool.uv.sources]
+vla-tools = { path = "../../packages/vla-tools", editable = true }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

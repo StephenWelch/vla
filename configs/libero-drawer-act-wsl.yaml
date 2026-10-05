@@ -1,0 +1,25 @@
+revision: a1aaacb7f6cd6ee5fb43120f673cebb0cfea7dd4
+suite: libero_goal
+task_id: 0
+instruction: open the middle drawer of the cabinet
+repo_id: lerobot/libero
+revision: a1aaacb7f6cd6ee5fb43120f673cebb0cfea7dd4
+output: ${oc.env:LIBERO_DATA_ROOT,outputs/libero}/runs/libero-drawer-act-20261005
+cache: ${oc.env:LIBERO_CACHE,outputs/libero/cache}
+assets: ${oc.env:LIBERO_DATA_ROOT,outputs/libero}/libero-assets
+steps: 20000
+batch_size: 8
+workers: 2
+chunk_size: 16
+validation_fraction: 0.2
+loss_eval_freq: 1000
+rollout_eval_freq: 2000
+eval_episodes: 10
+test_episodes: 20
+seed: 1000
+test_seed: 2027
+wandb:
+  enable: true
+  project: vla-libero
+  name: libero-drawer-act-20261005
+  tags: [act, libero-goal, drawer, single-task]

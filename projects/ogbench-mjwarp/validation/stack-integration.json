@@ -1,0 +1,150 @@
+{
+    "date":  "2026-10-04",
+    "device":  "RTX 5090, native Windows training; Docker Desktop/WSL 2 generation tools",
+    "tests_passed":  9,
+    "source_sha256":  {
+                          "scripts/train-smolvla.py":  "4283758e1ccc73f08af3c647ab2d517635df95ade6b66e8dce801ea5bfa389ac",
+                          "scripts/run-ogbench.ps1":  "1b57728a175db68455272cf4daaedb881ee995a9fddad1cdfa5f9e974052b5ac",
+                          "scripts/setup-ogbench.ps1":  "6be86c5ec060a6984912f4430cde6e478b92dff8997b49a0fec3835f717edb8a",
+                          "scripts/view-ogbench.ps1":  "98e603a19440eef70357278a86ca200819cfce466fc0f39c7dd85b19e8f983ca",
+                          "scripts/train-lighter-smolvla.ps1":  "6ff82cbcfba45bfed9f3327c0d11634f2f49e8548c771ee5d5f0be240577221f",
+                          "configs/train-ogbench-smolvla.yaml":  "63920b4fdc22428297e9e47932a5f230659283e0b14fffb258a8db926fc75ad2",
+                          "pyproject.toml":  "0577d2b59ac4d930e7c24462ece9e385f2bd2dede4508be4cc4435770839dcd2",
+                          "uv.lock":  "9e00c63a416ad06025c57b3558262fda6d395c7538c23a92378d2efda79d5f52"
+                      },
+    "training":  {
+                     "schema_version":  1,
+                     "versions":  {
+                                      "lerobot":  "0.6.1",
+                                      "torch":  "2.11.0+cu130"
+                                  },
+                     "config":  {
+                                    "dataset":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                    "policy":  "E:\\vla-smolvla\\smolvla_base",
+                                    "output":  "E:\\vla-ogbench\\runs\\stack-smoke-final-20261004",
+                                    "repo_id":  null,
+                                    "camera_keys":  [
+                                                        "observation.images.front",
+                                                        "observation.images.wrist"
+                                                    ],
+                                    "camera_names":  [
+                                                         "observation.images.camera1",
+                                                         "observation.images.camera2"
+                                                     ],
+                                    "episodes":  null,
+                                    "steps":  1,
+                                    "batch_size":  1,
+                                    "workers":  0,
+                                    "save_freq":  1,
+                                    "seed":  1000,
+                                    "device":  "cuda",
+                                    "hf_home":  "E:\\vla-smolvla\\hf-cache",
+                                    "overrides":  [
+                                                      "log_freq=1",
+                                                      "policy.chunk_size=8",
+                                                      "policy.n_action_steps=8"
+                                                  ],
+                                    "dry_run":  false
+                                },
+                     "dataset":  {
+                                     "repo_id":  "local/ogbench-mjwarp",
+                                     "episodes":  2,
+                                     "frames":  250,
+                                     "selected_episodes":  null,
+                                     "state":  {
+                                                   "dtype":  "float32",
+                                                   "shape":  [
+                                                                 18
+                                                             ],
+                                                   "names":  [
+                                                                 "joint_0.position",
+                                                                 "joint_1.position",
+                                                                 "joint_2.position",
+                                                                 "joint_3.position",
+                                                                 "joint_4.position",
+                                                                 "joint_5.position",
+                                                                 "joint_0.velocity",
+                                                                 "joint_1.velocity",
+                                                                 "joint_2.velocity",
+                                                                 "joint_3.velocity",
+                                                                 "joint_4.velocity",
+                                                                 "joint_5.velocity",
+                                                                 "effector.x",
+                                                                 "effector.y",
+                                                                 "effector.z",
+                                                                 "effector.yaw",
+                                                                 "gripper.opening",
+                                                                 "gripper.velocity"
+                                                             ]
+                                               },
+                                     "action":  {
+                                                    "dtype":  "float32",
+                                                    "shape":  [
+                                                                  5
+                                                              ],
+                                                    "names":  [
+                                                                  "delta_x",
+                                                                  "delta_y",
+                                                                  "delta_z",
+                                                                  "delta_yaw",
+                                                                  "delta_gripper"
+                                                              ]
+                                                },
+                                     "provenance":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\manifest.json"
+                                 },
+                     "camera_map":  {
+                                        "observation.images.front":  "observation.images.camera1",
+                                        "observation.images.wrist":  "observation.images.camera2"
+                                    },
+                     "metadata_sha256":  {
+                                             "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\meta\\info.json":  "c6d9e726451a5a1bd7a8082ec059b1a692ddad124a1796329094dc528d86aecd",
+                                             "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\meta\\stats.json":  "e20b54a21aee25094ed7959ae150759e00bc0cad95539498cdc5759644338261",
+                                             "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\manifest.json":  "845db136fa62c2a66d58b97cb367d704f9a41cb2186d5b2a9afadf0f548a7fbb",
+                                             "E:\\vla-smolvla\\smolvla_base\\config.json":  "650584b56c104720f7a3c91d1ec6bec9e8de8ac11e60c92ba2fa82d93eda147d"
+                                         },
+                     "command":  [
+                                     "C:\\Users\\steph\\code\\vla\\.venv\\Scripts\\python.exe",
+                                     "-m",
+                                     "lerobot.scripts.lerobot_train",
+                                     "--dataset.repo_id=local/ogbench-mjwarp",
+                                     "--dataset.root=E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                     "--dataset.video_backend=pyav",
+                                     "--dataset.eval_split=0",
+                                     "--policy.path=E:\\vla-smolvla\\smolvla_base",
+                                     "--policy.device=cuda",
+                                     "--policy.push_to_hub=false",
+                                     "--policy.input_features={\"observation.state\": {\"type\": \"STATE\", \"shape\": [18]}, \"observation.images.camera1\": {\"type\": \"VISUAL\", \"shape\": [3, 32, 32]}, \"observation.images.camera2\": {\"type\": \"VISUAL\", \"shape\": [3, 32, 32]}}",
+                                     "--save_checkpoint_to_hub=false",
+                                     "--rename_map={\"observation.images.front\": \"observation.images.camera1\", \"observation.images.wrist\": \"observation.images.camera2\"}",
+                                     "--output_dir=E:\\vla-ogbench\\runs\\stack-smoke-final-20261004",
+                                     "--steps=1",
+                                     "--batch_size=1",
+                                     "--num_workers=0",
+                                     "--save_freq=1",
+                                     "--seed=1000",
+                                     "--eval_steps=0",
+                                     "--env_eval_freq=0",
+                                     "--wandb.enable=false",
+                                     "--log_freq=1",
+                                     "--policy.chunk_size=8",
+                                     "--policy.n_action_steps=8"
+                                 ],
+                     "status":  "complete"
+                 },
+    "checkpoint":  "E:/vla-ogbench/runs/stack-smoke-final-20261004/checkpoints/000001/pretrained_model",
+    "checkpoint_state_shape":  [
+                                   18
+                               ],
+    "checkpoint_action_shape":  [
+                                    5
+                                ],
+    "loss_after_one_step":  4.699,
+    "verified":  [
+                     "Root Docker command with YAML forwarding and output path",
+                     "Root WSLg viewer opens and exits after timed preview",
+                     "Native GPU training loads annotated LeRobot RGB/state/action and saves checkpoint",
+                     "Dry-run validates recipe without creating a run",
+                     "PowerShell syntax, Ruff checks/formatting, uv lock check"
+                 ],
+    "scope":  "One training update on two diagnostic episodes, not a policy-performance evaluation. No hardware training or movement was performed."
+}

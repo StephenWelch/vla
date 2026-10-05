@@ -1,0 +1,118 @@
+{
+    "date":  "2026-10-04",
+    "status":  "complete",
+    "scope":  "Behavior-preserving cleanup of OGBench evaluation and shared policy utilities",
+    "source_sha256":  {
+                          "scripts/policy_utils.py":  "756eb1d0a4d33a2c148f52fa58073208d86e5ec123defcea085ec2c589625377",
+                          "scripts/train-policy.py":  "2e0e30ad9aac9e9729fb634392c946a8fae02051abb00aad6bc4b8a78b28707d",
+                          "scripts/evaluate-policy.py":  "cab57e06063f33fa3e7fc9faeb49e52c4d184b19754355a7e36ce1f42eeb8983",
+                          "scripts/download-policy.py":  "257965cadd472b1ec264a4ba804a693d10c94887048fee1167c9231b41d6f158",
+                          "scripts/evaluate-ogbench.py":  "6659ebb8e38718a9416ecfac1970e056aab171e4cfb71a98b6f2c6992f52b8fc",
+                          "scripts/eval-ogbench.ps1":  "560018f046007654d3872c3a8776544b940ac2e222f11e3c05b49128771202e1",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/environment.py":  "8a3600e8378799b045eb592e6c64aebae9f14627b62118420fb9839e32d90d9b",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/lerobot_env.py":  "b0999c5a0c9389621fba49fffc89a5507ddbd2240a03bfebbb2114d796cd3c1b",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/io.py":  "be199b7348e833b007ddb2da4f97d72b2ed79fd6fee8f4a6e194493cf2a855fd",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/recording.py":  "b9f79604931b1426f914be20c1aa2afa5a7503c39ad82732a2a6ee2dfab4ca05",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/tasks.py":  "aef52b4bb90332aef65dd5b1d8bcc64877fc22014cac3b4fbcfa5b1921638f46",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/cli.py":  "4cfe151c37579fa43fab53d50b96a8a50d537246a1a19a955e28ff25cb91837a",
+                          "tests/test_train_smolvla.py":  "e16345415a07fceb8becde20cbc840de30a94bb61a4a09d3732abbbb38641475",
+                          "projects/ogbench-mjwarp/tests/test_lerobot_env.py":  "820d3a45354a9e26ee21750fd91271b411dc8926c0411963f935adc78be5a8a4",
+                          "projects/ogbench-mjwarp/tests/test_policy_evaluation.py":  "0fdba4762be0df4790775fc9f15410f9e4aa2cb4e12548d08e9ca3eb0131bee1"
+                      },
+    "tests":  {
+                  "lockfiles":  "passed",
+                  "formatting":  "passed",
+                  "training_launcher":  13,
+                  "ogbench_full_suite":  94,
+                  "adapter_recheck":  12,
+                  "lint":  "passed",
+                  "focused_evaluation_tests":  21
+              },
+    "trace":  {
+                  "status":  "passed",
+                  "worlds":  2,
+                  "ticks":  6,
+                  "arrays_compared":  144,
+                  "absolute_tolerance":  1E-06,
+                  "episode_records_equal":  true
+              },
+    "artifact_checks":  {
+                            "status":  "passed",
+                            "recording_frames":  2,
+                            "recording_episodes":  1,
+                            "act_offline_report_identical":  true,
+                            "policy_smokes":  [
+                                                  "act",
+                                                  "smolvla"
+                                              ],
+                            "partial_batch_episodes_per_policy":  3,
+                            "video_frames_per_policy":  8
+                        },
+    "policies":  {
+                     "act":  {
+                                 "config":  {
+                                                "checkpoint":  "/mnt/e/vla-ogbench/runs/act-pilot-20261004/checkpoints/000500/pretrained_model",
+                                                "output":  "/mnt/e/vla-ogbench/runs/eval-cleanup/act-smoke",
+                                                "dataset":  "/mnt/e/vla-ogbench/datasets/diversity-demo-v1",
+                                                "episodes":  3,
+                                                "batch_size":  2,
+                                                "seed":  2027,
+                                                "env":  "cube-single-v0",
+                                                "task_ids":  [
+                                                                 1
+                                                             ],
+                                                "max_steps":  8,
+                                                "videos":  1,
+                                                "device":  "cuda",
+                                                "hf_home":  "/mnt/e/vla-smolvla/hf-cache"
+                                            },
+                                 "aggregated":  {
+                                                    "avg_sum_reward":  0.0,
+                                                    "avg_max_reward":  0.0,
+                                                    "pc_success":  0.0,
+                                                    "eval_s":  7.856590270996094,
+                                                    "eval_ep_s":  2.618863503138224,
+                                                    "pc_task_success":  0.0,
+                                                    "pc_contact_valid":  100.0
+                                                },
+                                 "report_sha256":  "5502896100bb61d312efc861d2279e3a091c224dadacb17eb6b24da69057c46a",
+                                 "checkpoint_sha256":  "76f50e818762c4f326c2ec6cd6e4165b1fd7ea25adf115e085c91deb1a030096",
+                                 "report":  "E:/vla-ogbench/runs/eval-cleanup/act-smoke/eval_info.json"
+                             },
+                     "smolvla":  {
+                                     "config":  {
+                                                    "checkpoint":  "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/checkpoints/000500/pretrained_model",
+                                                    "output":  "/mnt/e/vla-ogbench/runs/eval-cleanup/smolvla-smoke",
+                                                    "dataset":  "/mnt/e/vla-ogbench/datasets/diversity-demo-v1",
+                                                    "episodes":  3,
+                                                    "batch_size":  2,
+                                                    "seed":  2027,
+                                                    "env":  "cube-single-v0",
+                                                    "task_ids":  [
+                                                                     1
+                                                                 ],
+                                                    "max_steps":  8,
+                                                    "videos":  1,
+                                                    "device":  "cuda",
+                                                    "hf_home":  "/mnt/e/vla-smolvla/hf-cache"
+                                                },
+                                     "aggregated":  {
+                                                        "avg_sum_reward":  0.0,
+                                                        "avg_max_reward":  0.0,
+                                                        "pc_success":  0.0,
+                                                        "eval_s":  8.286456108093262,
+                                                        "eval_ep_s":  2.762152115503947,
+                                                        "pc_task_success":  0.0,
+                                                        "pc_contact_valid":  100.0
+                                                    },
+                                     "report_sha256":  "4d4abc0ef46a8cab58e87f6e73b03b59a4b96c0161d0bb4c03ac0177f6d8019e",
+                                     "checkpoint_sha256":  "95e0b7557a4de669146f9b3a59aa6aeaa8610143d1c7ba330443041ec3159615",
+                                     "report":  "E:/vla-ogbench/runs/eval-cleanup/smolvla-smoke/eval_info.json"
+                                 }
+                 },
+    "native_recording":  "E:/vla-ogbench/runs/eval-cleanup/native-recording/recordings/cube-single-v0_1",
+    "training_dry_run":  "passed",
+    "historical_metrics_preserved":  true,
+    "checkpoints_unchanged":  true,
+    "limitations":  "Eight-step smoke runs verify compatibility, not policy performance. No retraining or hardware movement."
+}

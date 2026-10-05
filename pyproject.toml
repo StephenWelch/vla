@@ -1,0 +1,19 @@
+[project]
+name = "vla-research"
+version = "0.1.0"
+description = "Development tooling for the VLA research monorepo"
+requires-python = ">=3.12,<3.14"
+dependencies = []
+
+[dependency-groups]
+dev = ["ruff>=0.12"]
+
+[tool.ruff]
+target-version = "py312"
+
+# Simulator projects intentionally resolve dependencies independently.
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+markers = ["gpu: requires NVIDIA GPU", "dataset: requires LeRobot"]

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vla-tools"
+version = "0.1.0"
+description = "Shared configuration, checkpoint and experiment logging utilities"
+requires-python = ">=3.12,<3.14"
+dependencies = ["tyro>=1,<2", "omegaconf>=2.3,<3", "wandb>=0.27,<0.28"]
+
+[project.scripts]
+vla-evaluate-recorded = "vla_tools.evaluate:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vla_tools"]

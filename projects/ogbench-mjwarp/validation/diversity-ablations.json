@@ -1,0 +1,855 @@
+{
+  "date": "2026-10-03",
+  "device": "RTX 5090, Docker Desktop/WSL 2",
+  "report": {
+    "env": "cube-double-v0",
+    "task_id": 2,
+    "environment_seed": 2026,
+    "variants": 2,
+    "profiles": [
+      {
+        "name": "baseline",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 482,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 73.42421932900015,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.000334218554136118,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00030018115421985445,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.05453944266901613,
+              "min_distance": 0.05453944266901613,
+              "max_distance": 0.05453944266901613
+            }
+          ]
+        }
+      },
+      {
+        "name": "order",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 482,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 43.03170243199975,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003342235781602929,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003001554868796202,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.054539432535906755,
+              "min_distance": 0.054539432535906755,
+              "max_distance": 0.054539432535906755
+            }
+          ]
+        }
+      },
+      {
+        "name": "grasp",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 482,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 38.55240244300012,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0002900773230786845,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00033971663052579753,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.2578880295106938,
+              "min_distance": 0.2578880295106938,
+              "max_distance": 0.2578880295106938
+            }
+          ]
+        }
+      },
+      {
+        "name": "path",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 482,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 38.24195288200008,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00029276375067935475,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003515723367309114,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.05850611048451031,
+              "min_distance": 0.05850611048451031,
+              "max_distance": 0.05850611048451031
+            }
+          ]
+        }
+      },
+      {
+        "name": "timing",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 502,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 31.299808742000096,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003633947453353975,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0002985753963563892,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.056395289305395294,
+              "min_distance": 0.056395289305395294,
+              "max_distance": 0.056395289305395294
+            }
+          ]
+        }
+      },
+      {
+        "name": "joint_targets",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 482,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 39.724956215999555,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0002973202716218528,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00029993263946300706,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.05563354832459758,
+              "min_distance": 0.05563354832459758,
+              "max_distance": 0.05563354832459758
+            }
+          ]
+        }
+      },
+      {
+        "name": "combined",
+        "summary": {
+          "episodes": 2,
+          "successes": 2,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 502,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "generation_seconds": 36.796057934000146,
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0002832346161029415,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00031912765048233726,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+          }
+        ],
+        "all_successes_contact_valid": true,
+        "diversity": {
+          "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+          "samples_per_phase": 8,
+          "groups": [
+            {
+              "env": "cube-double-v0",
+              "task_id": 2,
+              "environment_seed": 2026,
+              "initial_state_fingerprint": "7c4f85f223cb5ae41b7ed4c0aa87d8cd65a11648a944a08e638882b9f90415c8",
+              "reset_identity": "saved_state_fingerprint",
+              "episodes": 2,
+              "pairs": 1,
+              "mean_distance": 0.25802239389926296,
+              "min_distance": 0.25802239389926296,
+              "max_distance": 0.25802239389926296
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "runs": {
+    "baseline": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.0,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": false,
+          "cube_grasps": false,
+          "handle_grasps": false,
+          "position_noise": 0.0,
+          "yaw_noise": 0.0,
+          "duration_scale_min": 1.0,
+          "duration_scale_max": 1.0
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "order": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.0,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": true,
+          "cube_grasps": false,
+          "handle_grasps": false,
+          "position_noise": 0.0,
+          "yaw_noise": 0.0,
+          "duration_scale_min": 1.0,
+          "duration_scale_max": 1.0
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "grasp": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.0,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": false,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.0,
+          "yaw_noise": 0.0,
+          "duration_scale_min": 1.0,
+          "duration_scale_max": 1.0
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "path": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.0,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": false,
+          "cube_grasps": false,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 1.0,
+          "duration_scale_max": 1.0
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "timing": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.0,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": false,
+          "cube_grasps": false,
+          "handle_grasps": false,
+          "position_noise": 0.0,
+          "yaw_noise": 0.0,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "joint_targets": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": false,
+          "cube_grasps": false,
+          "handle_grasps": false,
+          "position_noise": 0.0,
+          "yaw_noise": 0.0,
+          "duration_scale_min": 1.0,
+          "duration_scale_max": 1.0
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "combined": {
+      "env_id": "cube-double-v0",
+      "episodes": 2,
+      "task_ids": [
+        2
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 2,
+        "horizon": 2,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    }
+  },
+  "scope": "Two variants per profile on one reset/goal. Generation times include compilation and concurrent GPU load; not a benchmark."
+}

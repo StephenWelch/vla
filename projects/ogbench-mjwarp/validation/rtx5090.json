@@ -1,0 +1,1372 @@
+{
+  "date": "2026-09-26",
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "driver": "616.56",
+  "platform": "Docker Desktop / WSL 2 / Linux",
+  "data_root": "E:/vla-ogbench",
+  "final_integration_source_sha256": "32a6fe9cca89e4f6171ee27c653a38aa4e8c71f882ca72fd81ed3a5332d26e2d",
+  "tests": {
+    "passed": 16,
+    "failed": 0,
+    "seconds": 86.61,
+    "command": "python -m pytest /opt/ogbench-mjwarp/tests -x -q"
+  },
+  "coverage": {
+    "environments": [
+      {
+        "env": "cube-single-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 91,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/cube-single/cube-single-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 90,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/cube-single/cube-single-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 92,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/cube-single/cube-single-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 92,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/cube-single/cube-single-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 91,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/cube-single/cube-single-v0",
+            "reported_source_sha256": null
+          }
+        ]
+      },
+      {
+        "env": "cube-double-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 91,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-double-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 225,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-double-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 226,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-double-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 356,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-double-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 224,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-double-v0",
+            "reported_source_sha256": null
+          }
+        ]
+      },
+      {
+        "env": "cube-triple-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 91,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-triple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 356,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-triple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 358,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-triple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 627,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-triple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 361,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-triple-v0",
+            "reported_source_sha256": null
+          }
+        ]
+      },
+      {
+        "env": "cube-quadruple-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 226,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-quadruple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 493,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-quadruple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 622,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-quadruple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 888,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-quadruple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 490,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-quadruple-v0",
+            "reported_source_sha256": null
+          }
+        ]
+      },
+      {
+        "env": "cube-octuple-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 493,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-octuple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 1288,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-octuple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 1021,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-octuple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 1500,
+            "outcome": "failure",
+            "reason": "timeout",
+            "source": "validation/full/cube-octuple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 1154,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/full/cube-octuple-v0",
+            "reported_source_sha256": null
+          },
+          {
+            "episode_id": 0,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 1288,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/octuple-stage-goal",
+            "reported_source_sha256": "e9c6148a683b5a3548ea5e71d6e3f352fac3c7eedf7a3b8a6af7d3ddba4a0dad"
+          }
+        ]
+      },
+      {
+        "env": "scene-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 87,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/scene-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 290,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/scene-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 269,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/scene-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 267,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/scene-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 480,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/scene-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          }
+        ]
+      },
+      {
+        "env": "puzzle-3x3-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 72,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 212,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 381,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 403,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 314,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          }
+        ]
+      },
+      {
+        "env": "puzzle-4x4-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 470,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 271,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 275,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 282,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 334,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          }
+        ]
+      },
+      {
+        "env": "puzzle-4x5-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 180,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 457,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 711,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 797,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 971,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+            "reported_source_sha256": "95a90dc5f4e04e50cb087a53c9c7df37b4f4613a1fedaff14dfca8e273a9acec"
+          }
+        ]
+      },
+      {
+        "env": "puzzle-4x6-v0",
+        "successful_task_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "attempts": [
+          {
+            "episode_id": 0,
+            "task_id": 1,
+            "seed": 1000,
+            "length": 222,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/released-4x6/puzzle-4x6-v0",
+            "reported_source_sha256": "f8fab413c02485105531e7a2540252e4f6e0c74b2a19a60f13d50a0bc7b5d21b"
+          },
+          {
+            "episode_id": 1,
+            "task_id": 2,
+            "seed": 1001,
+            "length": 305,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/released-4x6/puzzle-4x6-v0",
+            "reported_source_sha256": "f8fab413c02485105531e7a2540252e4f6e0c74b2a19a60f13d50a0bc7b5d21b"
+          },
+          {
+            "episode_id": 2,
+            "task_id": 3,
+            "seed": 1002,
+            "length": 454,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/released-4x6/puzzle-4x6-v0",
+            "reported_source_sha256": "f8fab413c02485105531e7a2540252e4f6e0c74b2a19a60f13d50a0bc7b5d21b"
+          },
+          {
+            "episode_id": 3,
+            "task_id": 4,
+            "seed": 1003,
+            "length": 549,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/released-4x6/puzzle-4x6-v0",
+            "reported_source_sha256": "f8fab413c02485105531e7a2540252e4f6e0c74b2a19a60f13d50a0bc7b5d21b"
+          },
+          {
+            "episode_id": 4,
+            "task_id": 5,
+            "seed": 1004,
+            "length": 804,
+            "outcome": "success",
+            "reason": "success",
+            "source": "validation/released-4x6/puzzle-4x6-v0",
+            "reported_source_sha256": "f8fab413c02485105531e7a2540252e4f6e0c74b2a19a60f13d50a0bc7b5d21b"
+          }
+        ]
+      }
+    ],
+    "total_goals": 50,
+    "all_goals_have_success": true,
+    "collected_across_development_revisions": true,
+    "image_size": 64,
+    "base_budget": {
+      "episodes": 5,
+      "candidates": 8,
+      "horizon": 8,
+      "iterations": 1
+    },
+    "notes": [
+      "Coverage is a fixed-seed development check, not a success-rate estimate.",
+      "Historical runs used different skill timing and termination policies. Rerun validate for the final source.",
+      "The initial octuple task 4 timeout is retained; the intermediate-goal retry succeeded.",
+      "Some early runs did not record a source hash. Reported hashes in editable WSL runs may reflect files edited after module import. Final Docker source is immutable and versions are cached per process."
+    ]
+  },
+  "upstream_terminal_checks": {
+    "episodes": 56,
+    "all_outcomes_match": true,
+    "outcomes": [
+      {
+        "source": "validation/cube-single/cube-single-v0",
+        "episode_id": 0,
+        "env": "cube-single-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/cube-single/cube-single-v0",
+        "episode_id": 1,
+        "env": "cube-single-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/cube-single/cube-single-v0",
+        "episode_id": 2,
+        "env": "cube-single-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/cube-single/cube-single-v0",
+        "episode_id": 3,
+        "env": "cube-single-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/cube-single/cube-single-v0",
+        "episode_id": 4,
+        "env": "cube-single-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-double-v0",
+        "episode_id": 0,
+        "env": "cube-double-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-double-v0",
+        "episode_id": 1,
+        "env": "cube-double-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-double-v0",
+        "episode_id": 2,
+        "env": "cube-double-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-double-v0",
+        "episode_id": 3,
+        "env": "cube-double-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-double-v0",
+        "episode_id": 4,
+        "env": "cube-double-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-triple-v0",
+        "episode_id": 0,
+        "env": "cube-triple-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-triple-v0",
+        "episode_id": 1,
+        "env": "cube-triple-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-triple-v0",
+        "episode_id": 2,
+        "env": "cube-triple-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-triple-v0",
+        "episode_id": 3,
+        "env": "cube-triple-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-triple-v0",
+        "episode_id": 4,
+        "env": "cube-triple-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-quadruple-v0",
+        "episode_id": 0,
+        "env": "cube-quadruple-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-quadruple-v0",
+        "episode_id": 1,
+        "env": "cube-quadruple-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-quadruple-v0",
+        "episode_id": 2,
+        "env": "cube-quadruple-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-quadruple-v0",
+        "episode_id": 3,
+        "env": "cube-quadruple-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-quadruple-v0",
+        "episode_id": 4,
+        "env": "cube-quadruple-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-octuple-v0",
+        "episode_id": 0,
+        "env": "cube-octuple-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-octuple-v0",
+        "episode_id": 1,
+        "env": "cube-octuple-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-octuple-v0",
+        "episode_id": 2,
+        "env": "cube-octuple-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-octuple-v0",
+        "episode_id": 3,
+        "env": "cube-octuple-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "failure",
+        "upstream_goal_satisfied": false,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/full/cube-octuple-v0",
+        "episode_id": 4,
+        "env": "cube-octuple-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/octuple-stage-goal",
+        "episode_id": 0,
+        "env": "cube-octuple-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/scene-v0",
+        "episode_id": 0,
+        "env": "scene-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/scene-v0",
+        "episode_id": 1,
+        "env": "scene-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/scene-v0",
+        "episode_id": 2,
+        "env": "scene-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/scene-v0",
+        "episode_id": 3,
+        "env": "scene-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/scene-v0",
+        "episode_id": 4,
+        "env": "scene-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+        "episode_id": 0,
+        "env": "puzzle-3x3-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+        "episode_id": 1,
+        "env": "puzzle-3x3-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+        "episode_id": 2,
+        "env": "puzzle-3x3-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+        "episode_id": 3,
+        "env": "puzzle-3x3-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-3x3-v0",
+        "episode_id": 4,
+        "env": "puzzle-3x3-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+        "episode_id": 0,
+        "env": "puzzle-4x4-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+        "episode_id": 1,
+        "env": "puzzle-4x4-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+        "episode_id": 2,
+        "env": "puzzle-4x4-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+        "episode_id": 3,
+        "env": "puzzle-4x4-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x4-v0",
+        "episode_id": 4,
+        "env": "puzzle-4x4-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+        "episode_id": 0,
+        "env": "puzzle-4x5-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+        "episode_id": 1,
+        "env": "puzzle-4x5-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+        "episode_id": 2,
+        "env": "puzzle-4x5-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+        "episode_id": 3,
+        "env": "puzzle-4x5-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/contact-stages-v3/puzzle-4x5-v0",
+        "episode_id": 4,
+        "env": "puzzle-4x5-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/released-4x6/puzzle-4x6-v0",
+        "episode_id": 0,
+        "env": "puzzle-4x6-v0",
+        "task_id": 1,
+        "seed": 1000,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/released-4x6/puzzle-4x6-v0",
+        "episode_id": 1,
+        "env": "puzzle-4x6-v0",
+        "task_id": 2,
+        "seed": 1001,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/released-4x6/puzzle-4x6-v0",
+        "episode_id": 2,
+        "env": "puzzle-4x6-v0",
+        "task_id": 3,
+        "seed": 1002,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/released-4x6/puzzle-4x6-v0",
+        "episode_id": 3,
+        "env": "puzzle-4x6-v0",
+        "task_id": 4,
+        "seed": 1003,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "validation/released-4x6/puzzle-4x6-v0",
+        "episode_id": 4,
+        "env": "puzzle-4x6-v0",
+        "task_id": 5,
+        "seed": 1004,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "raw/vla-ready/cube",
+        "episode_id": 0,
+        "env": "cube-single-v0",
+        "task_id": 1,
+        "seed": 2026,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "raw/vla-ready/scene",
+        "episode_id": 0,
+        "env": "scene-v0",
+        "task_id": 4,
+        "seed": 2026,
+        "outcome": "failure",
+        "upstream_goal_satisfied": false,
+        "outcome_matches": true
+      },
+      {
+        "source": "raw/vla-ready/scene-v2",
+        "episode_id": 0,
+        "env": "scene-v0",
+        "task_id": 4,
+        "seed": 2026,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "raw/vla-ready/puzzle",
+        "episode_id": 0,
+        "env": "puzzle-3x3-v0",
+        "task_id": 1,
+        "seed": 2026,
+        "outcome": "success",
+        "upstream_goal_satisfied": true,
+        "outcome_matches": true
+      },
+      {
+        "source": "raw/vla-failure256-v2",
+        "episode_id": 0,
+        "env": "cube-single-v0",
+        "task_id": 1,
+        "seed": 2027,
+        "outcome": "failure",
+        "upstream_goal_satisfied": false,
+        "outcome_matches": true
+      }
+    ]
+  },
+  "dataset": {
+    "root": "/data/datasets/vla-ready",
+    "episodes": 5,
+    "frames": 1192,
+    "success_episodes": 3,
+    "success_frames": 440,
+    "failure_episodes": 2,
+    "failure_frames": 752,
+    "front_shape": [
+      3,
+      256,
+      256
+    ],
+    "wrist_shape": [
+      3,
+      256,
+      256
+    ],
+    "state_shape": [
+      18
+    ],
+    "action_chunk_shape": [
+      16,
+      5
+    ],
+    "replay": [
+      {
+        "episode": 0,
+        "steps": 120,
+        "max_qpos_error": 0.003289520740509033,
+        "nonfinite_steps": 0,
+        "success": true,
+        "recorded_outcome": "success",
+        "outcome_matches": true,
+        "restore_frames": false
+      },
+      {
+        "episode": 1,
+        "steps": 246,
+        "max_qpos_error": 1.6119024753570557,
+        "nonfinite_steps": 0,
+        "success": true,
+        "recorded_outcome": "success",
+        "outcome_matches": true,
+        "restore_frames": false
+      },
+      {
+        "episode": 2,
+        "steps": 74,
+        "max_qpos_error": 0.005147159099578857,
+        "nonfinite_steps": 0,
+        "success": true,
+        "recorded_outcome": "success",
+        "outcome_matches": true,
+        "restore_frames": false
+      },
+      {
+        "episode": 3,
+        "steps": 750,
+        "max_qpos_error": 1.6013538837432861,
+        "nonfinite_steps": 0,
+        "success": false,
+        "recorded_outcome": "failure",
+        "outcome_matches": true,
+        "restore_frames": false
+      },
+      {
+        "episode": 4,
+        "steps": 2,
+        "max_qpos_error": 0.0,
+        "nonfinite_steps": 0,
+        "success": false,
+        "recorded_outcome": "failure",
+        "outcome_matches": true,
+        "restore_frames": false
+      }
+    ]
+  },
+  "benchmark": {
+    "config": {
+      "episodes": 8,
+      "candidates": 128,
+      "horizon": 16,
+      "iterations": 3,
+      "elite_fraction": 0.1,
+      "noise": 0.12,
+      "gripper_noise": 0.0,
+      "min_std": 0.015,
+      "tracking_weight": 100.0,
+      "action_weight": 0.01,
+      "smoothness_weight": 0.02,
+      "task_weight": 20.0,
+      "nconmax": 128,
+      "njmax": 512
+    },
+    "steps": 5,
+    "seconds": 5.811858910999945,
+    "execution_steps_per_second": 6.882479532373559,
+    "rollout_steps_per_second": 42285.954246903144,
+    "planner_seconds": [
+      1.1606486810005663,
+      1.158776880000005,
+      1.1548479820003195,
+      1.1555051790001016,
+      1.1496453889994882
+    ],
+    "render_pair_seconds": 0.9441404449999027,
+    "device_used_bytes": 4688642048,
+    "torch_peak_bytes": 27416576,
+    "valid": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "success": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "versions": {
+      "ogbench": "1.2.1",
+      "mujoco": "3.14.0",
+      "mujoco-warp": "3.14.0",
+      "warp-lang": "1.17.0",
+      "torch": "2.11.0",
+      "ogbench-mjwarp": "0.1.0",
+      "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+      "integration_source_sha256": "32a6fe9cca89e4f6171ee27c653a38aa4e8c71f882ca72fd81ed3a5332d26e2d"
+    },
+    "env": "cube-single-v0"
+  }
+}

@@ -1,0 +1,1039 @@
+{
+    "date":  "2026-10-04",
+    "status":  "complete",
+    "hardware":  "RTX 5090 32 GB",
+    "platform":  "Ubuntu/WSL, CUDA, EGL",
+    "backend":  "MJWarp",
+    "lerobot_version":  "0.6.1",
+    "source_sha256":  {
+                          "scripts/evaluate-ogbench.py":  "428c62d3811eada92e283ec85ed61fa9c069cb0bc69d289d086ae4d63d7e62ea",
+                          "scripts/lerobot-eval-ogbench.py":  "5d13c5bb48efca72e2ec38d8fe6d00fa8d1d093209fc7640954a798f99254c79",
+                          "scripts/eval-ogbench.ps1":  "30fa08b2c8382aeeb099167cc7f3b87fd7a7faefb6ae673a64be7780a665f548",
+                          "configs/eval-ogbench-act.yaml":  "493bf528bf5f01ead72aff3d1379f34a466fa7d033ee6435ce03769b3e32bd35",
+                          "configs/eval-ogbench-smolvla.yaml":  "72ad3d556940169c84ba0c639c6df378b6649e6e36f72985a5e90985e3746abd",
+                          "projects/ogbench-mjwarp/src/ogbench_mjwarp/lerobot_env.py":  "b2a1365ad5e6e08c09b3ecd654e87eb70d85528434a277717d910c47d2315856",
+                          "projects/ogbench-mjwarp/tests/test_lerobot_env.py":  "5ab20b5433416b603a91aaf9440ae512bdc2c19750d44649a4f76750ddf85806",
+                          "projects/ogbench-mjwarp/pyproject.toml":  "3e1fde74966366b2693ad86ef98c45b4f2e8f008a203a769c0ef8be8dd45eedb",
+                          "projects/ogbench-mjwarp/uv.lock":  "82617f5bb5b1c4de39378e6f6b41567ba54b6f845794aef24dadebd3eb9d45e4"
+                      },
+    "tests":  {
+                  "new_adapter_tests":  5,
+                  "gpu_adapter":  1,
+                  "powershell_launcher_smoke":  "passed",
+                  "videos_decoded":  6,
+                  "native_cli_smoke":  "passed",
+                  "native_recording_reload":  "passed",
+                  "non_gpu_suite":  65
+              },
+    "policies":  {
+                     "act":  {
+                                 "seen":  {
+                                              "success_definition":  "Task reached with finite physics and no contact tolerance violations during the episode",
+                                              "versions":  {
+                                                               "ogbench":  "1.2.1",
+                                                               "mujoco":  "3.14.0",
+                                                               "mujoco-warp":  "3.14.0",
+                                                               "warp-lang":  "1.17.0",
+                                                               "torch":  "2.11.0",
+                                                               "ogbench-mjwarp":  "0.1.0",
+                                                               "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                                               "integration_source_sha256":  "6077eacd403e64dfcdd456c96a2cc28833ce0b2904f359fa642f45f578f12f96"
+                                                           },
+                                              "config":  {
+                                                             "checkpoint":  "/mnt/e/vla-ogbench/runs/act-pilot-20261004/checkpoints/000500/pretrained_model",
+                                                             "output":  "/mnt/e/vla-ogbench/runs/act-pilot-20261004/eval-seen-v2",
+                                                             "dataset":  "/mnt/e/vla-ogbench/datasets/diversity-demo-v1",
+                                                             "episodes":  1,
+                                                             "batch_size":  1,
+                                                             "seed":  2026,
+                                                             "env":  "cube-single-v0",
+                                                             "task_ids":  [
+                                                                              1
+                                                                          ],
+                                                             "max_steps":  250,
+                                                             "videos":  1,
+                                                             "device":  "cuda",
+                                                             "hf_home":  "/mnt/e/vla-smolvla/hf-cache"
+                                                         },
+                                              "checkpoint_sha256":  "76f50e818762c4f326c2ec6cd6e4165b1fd7ea25adf115e085c91deb1a030096",
+                                              "contact_thresholds_m":  {
+                                                                           "nonpad":  0.001,
+                                                                           "all_robot":  0.003
+                                                                       },
+                                              "report":  "E:/vla-ogbench/runs/act-pilot-20261004/eval-seen-v2/eval_info.json",
+                                              "report_sha256":  "b21cb20c32e332a85cd98a62ddb20f62c371809353438e2d290091534b158f44",
+                                              "tasks":  {
+                                                            "1":  {
+                                                                      "per_episode":  [
+                                                                                          {
+                                                                                              "episode_ix":  0,
+                                                                                              "sum_reward":  0.0,
+                                                                                              "max_reward":  0.0,
+                                                                                              "success":  false,
+                                                                                              "seed":  2026,
+                                                                                              "task_id":  1,
+                                                                                              "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                              "goal":  {
+                                                                                                           "task_name":  "task1_horizontal",
+                                                                                                           "init_xyzs":  [
+                                                                                                                             [
+                                                                                                                                 0.425,
+                                                                                                                                 0.1,
+                                                                                                                                 0.02
+                                                                                                                             ]
+                                                                                                                         ],
+                                                                                                           "goal_xyzs":  [
+                                                                                                                             [
+                                                                                                                                 0.425,
+                                                                                                                                 -0.1,
+                                                                                                                                 0.02
+                                                                                                                             ]
+                                                                                                                         ]
+                                                                                                       },
+                                                                                              "steps":  250,
+                                                                                              "task_success":  false,
+                                                                                              "contact_valid":  true,
+                                                                                              "physics_valid":  true,
+                                                                                              "truncated":  true,
+                                                                                              "peak_nonpad_penetration":  0.0,
+                                                                                              "peak_penetration":  0.0005256502190604806
+                                                                                          }
+                                                                                      ],
+                                                                      "aggregated":  {
+                                                                                         "avg_sum_reward":  0.0,
+                                                                                         "avg_max_reward":  0.0,
+                                                                                         "pc_success":  0.0,
+                                                                                         "eval_s":  44.07361435890198,
+                                                                                         "eval_ep_s":  44.073615074157715,
+                                                                                         "pc_task_success":  0.0,
+                                                                                         "pc_contact_valid":  100.0
+                                                                                     },
+                                                                      "video_paths":  [
+                                                                                          "/mnt/e/vla-ogbench/runs/act-pilot-20261004/eval-seen-v2/task-1/videos/eval_episode_0.mp4"
+                                                                                      ]
+                                                                  }
+                                                        }
+                                          },
+                                 "heldout":  {
+                                                 "success_definition":  "Task reached with finite physics and no contact tolerance violations during the episode",
+                                                 "versions":  {
+                                                                  "ogbench":  "1.2.1",
+                                                                  "mujoco":  "3.14.0",
+                                                                  "mujoco-warp":  "3.14.0",
+                                                                  "warp-lang":  "1.17.0",
+                                                                  "torch":  "2.11.0",
+                                                                  "ogbench-mjwarp":  "0.1.0",
+                                                                  "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                                                  "integration_source_sha256":  "6077eacd403e64dfcdd456c96a2cc28833ce0b2904f359fa642f45f578f12f96"
+                                                              },
+                                                 "config":  {
+                                                                "checkpoint":  "/mnt/e/vla-ogbench/runs/act-pilot-20261004/checkpoints/000500/pretrained_model",
+                                                                "output":  "/mnt/e/vla-ogbench/runs/act-pilot-20261004/eval-heldout",
+                                                                "dataset":  "/mnt/e/vla-ogbench/datasets/diversity-demo-v1",
+                                                                "episodes":  10,
+                                                                "batch_size":  5,
+                                                                "seed":  2027,
+                                                                "env":  "cube-single-v0",
+                                                                "task_ids":  [
+                                                                                 1
+                                                                             ],
+                                                                "max_steps":  250,
+                                                                "videos":  2,
+                                                                "device":  "cuda",
+                                                                "hf_home":  "/mnt/e/vla-smolvla/hf-cache"
+                                                            },
+                                                 "checkpoint_sha256":  "76f50e818762c4f326c2ec6cd6e4165b1fd7ea25adf115e085c91deb1a030096",
+                                                 "contact_thresholds_m":  {
+                                                                              "nonpad":  0.001,
+                                                                              "all_robot":  0.003
+                                                                          },
+                                                 "report":  "E:/vla-ogbench/runs/act-pilot-20261004/eval-heldout/eval_info.json",
+                                                 "report_sha256":  "ee87a6bbb5b0df021b4f819389022639751889ac92a134e3877d46cdebafd5fb",
+                                                 "tasks":  {
+                                                               "1":  {
+                                                                         "per_episode":  [
+                                                                                             {
+                                                                                                 "episode_ix":  0,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2027,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  0.000515831052325666
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  1,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2028,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  8.94162803888321E-06
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  2,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2029,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  2.9308721423149109E-06
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  3,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2030,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  6.6943466663360596E-06
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  4,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2031,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  0.0004497553745750338
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  5,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2032,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  1.9524246454238892E-05
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  6,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2033,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  4.509463906288147E-06
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  7,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2034,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  false,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0010862667113542557,
+                                                                                                 "peak_penetration":  0.0010862667113542557
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  8,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2035,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  1.1145137250423431E-05
+                                                                                             },
+                                                                                             {
+                                                                                                 "episode_ix":  9,
+                                                                                                 "sum_reward":  0.0,
+                                                                                                 "max_reward":  0.0,
+                                                                                                 "success":  false,
+                                                                                                 "seed":  2036,
+                                                                                                 "task_id":  1,
+                                                                                                 "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                 "goal":  {
+                                                                                                              "task_name":  "task1_horizontal",
+                                                                                                              "init_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ],
+                                                                                                              "goal_xyzs":  [
+                                                                                                                                [
+                                                                                                                                    0.425,
+                                                                                                                                    -0.1,
+                                                                                                                                    0.02
+                                                                                                                                ]
+                                                                                                                            ]
+                                                                                                          },
+                                                                                                 "steps":  250,
+                                                                                                 "task_success":  false,
+                                                                                                 "contact_valid":  true,
+                                                                                                 "physics_valid":  true,
+                                                                                                 "truncated":  true,
+                                                                                                 "peak_nonpad_penetration":  0.0,
+                                                                                                 "peak_penetration":  0.00011046975123463199
+                                                                                             }
+                                                                                         ],
+                                                                         "aggregated":  {
+                                                                                            "avg_sum_reward":  0.0,
+                                                                                            "avg_max_reward":  0.0,
+                                                                                            "pc_success":  0.0,
+                                                                                            "eval_s":  385.6607656478882,
+                                                                                            "eval_ep_s":  38.56607658863068,
+                                                                                            "pc_task_success":  0.0,
+                                                                                            "pc_contact_valid":  90.0
+                                                                                        },
+                                                                         "video_paths":  [
+                                                                                             "/mnt/e/vla-ogbench/runs/act-pilot-20261004/eval-heldout/task-1/videos/eval_episode_0.mp4",
+                                                                                             "/mnt/e/vla-ogbench/runs/act-pilot-20261004/eval-heldout/task-1/videos/eval_episode_1.mp4"
+                                                                                         ]
+                                                                     }
+                                                           }
+                                             }
+                             },
+                     "smolvla":  {
+                                     "seen":  {
+                                                  "success_definition":  "Task reached with finite physics and no contact tolerance violations during the episode",
+                                                  "versions":  {
+                                                                   "ogbench":  "1.2.1",
+                                                                   "mujoco":  "3.14.0",
+                                                                   "mujoco-warp":  "3.14.0",
+                                                                   "warp-lang":  "1.17.0",
+                                                                   "torch":  "2.11.0",
+                                                                   "ogbench-mjwarp":  "0.1.0",
+                                                                   "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                                                   "integration_source_sha256":  "6077eacd403e64dfcdd456c96a2cc28833ce0b2904f359fa642f45f578f12f96"
+                                                               },
+                                                  "config":  {
+                                                                 "checkpoint":  "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/checkpoints/000500/pretrained_model",
+                                                                 "output":  "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/eval-seen",
+                                                                 "dataset":  "/mnt/e/vla-ogbench/datasets/diversity-demo-v1",
+                                                                 "episodes":  1,
+                                                                 "batch_size":  1,
+                                                                 "seed":  2026,
+                                                                 "env":  "cube-single-v0",
+                                                                 "task_ids":  [
+                                                                                  1
+                                                                              ],
+                                                                 "max_steps":  250,
+                                                                 "videos":  1,
+                                                                 "device":  "cuda",
+                                                                 "hf_home":  "/mnt/e/vla-smolvla/hf-cache"
+                                                             },
+                                                  "checkpoint_sha256":  "95e0b7557a4de669146f9b3a59aa6aeaa8610143d1c7ba330443041ec3159615",
+                                                  "contact_thresholds_m":  {
+                                                                               "nonpad":  0.001,
+                                                                               "all_robot":  0.003
+                                                                           },
+                                                  "report":  "E:/vla-ogbench/runs/smolvla-pilot-20261004/eval-seen/eval_info.json",
+                                                  "report_sha256":  "c1dc4a366bedf1ce943e7a1a68453ae3db60232d03a779d651479ee976950a22",
+                                                  "tasks":  {
+                                                                "1":  {
+                                                                          "per_episode":  [
+                                                                                              {
+                                                                                                  "episode_ix":  0,
+                                                                                                  "sum_reward":  0.0,
+                                                                                                  "max_reward":  0.0,
+                                                                                                  "success":  false,
+                                                                                                  "seed":  2026,
+                                                                                                  "task_id":  1,
+                                                                                                  "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                  "goal":  {
+                                                                                                               "task_name":  "task1_horizontal",
+                                                                                                               "init_xyzs":  [
+                                                                                                                                 [
+                                                                                                                                     0.425,
+                                                                                                                                     0.1,
+                                                                                                                                     0.02
+                                                                                                                                 ]
+                                                                                                                             ],
+                                                                                                               "goal_xyzs":  [
+                                                                                                                                 [
+                                                                                                                                     0.425,
+                                                                                                                                     -0.1,
+                                                                                                                                     0.02
+                                                                                                                                 ]
+                                                                                                                             ]
+                                                                                                           },
+                                                                                                  "steps":  250,
+                                                                                                  "task_success":  false,
+                                                                                                  "contact_valid":  true,
+                                                                                                  "physics_valid":  true,
+                                                                                                  "truncated":  true,
+                                                                                                  "peak_nonpad_penetration":  0.0,
+                                                                                                  "peak_penetration":  0.0
+                                                                                              }
+                                                                                          ],
+                                                                          "aggregated":  {
+                                                                                             "avg_sum_reward":  0.0,
+                                                                                             "avg_max_reward":  0.0,
+                                                                                             "pc_success":  0.0,
+                                                                                             "eval_s":  61.25022220611572,
+                                                                                             "eval_ep_s":  61.25022268295288,
+                                                                                             "pc_task_success":  0.0,
+                                                                                             "pc_contact_valid":  100.0
+                                                                                         },
+                                                                          "video_paths":  [
+                                                                                              "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/eval-seen/task-1/videos/eval_episode_0.mp4"
+                                                                                          ]
+                                                                      }
+                                                            }
+                                              },
+                                     "heldout":  {
+                                                     "success_definition":  "Task reached with finite physics and no contact tolerance violations during the episode",
+                                                     "versions":  {
+                                                                      "ogbench":  "1.2.1",
+                                                                      "mujoco":  "3.14.0",
+                                                                      "mujoco-warp":  "3.14.0",
+                                                                      "warp-lang":  "1.17.0",
+                                                                      "torch":  "2.11.0",
+                                                                      "ogbench-mjwarp":  "0.1.0",
+                                                                      "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                                                      "integration_source_sha256":  "6077eacd403e64dfcdd456c96a2cc28833ce0b2904f359fa642f45f578f12f96"
+                                                                  },
+                                                     "config":  {
+                                                                    "checkpoint":  "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/checkpoints/000500/pretrained_model",
+                                                                    "output":  "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/eval-heldout",
+                                                                    "dataset":  "/mnt/e/vla-ogbench/datasets/diversity-demo-v1",
+                                                                    "episodes":  10,
+                                                                    "batch_size":  5,
+                                                                    "seed":  2027,
+                                                                    "env":  "cube-single-v0",
+                                                                    "task_ids":  [
+                                                                                     1
+                                                                                 ],
+                                                                    "max_steps":  250,
+                                                                    "videos":  2,
+                                                                    "device":  "cuda",
+                                                                    "hf_home":  "/mnt/e/vla-smolvla/hf-cache"
+                                                                },
+                                                     "checkpoint_sha256":  "95e0b7557a4de669146f9b3a59aa6aeaa8610143d1c7ba330443041ec3159615",
+                                                     "contact_thresholds_m":  {
+                                                                                  "nonpad":  0.001,
+                                                                                  "all_robot":  0.003
+                                                                              },
+                                                     "report":  "E:/vla-ogbench/runs/smolvla-pilot-20261004/eval-heldout/eval_info.json",
+                                                     "report_sha256":  "da4e1c1689c6ae2332e0464ac04828e1571661a42a656b028733cd704b968a2c",
+                                                     "tasks":  {
+                                                                   "1":  {
+                                                                             "per_episode":  [
+                                                                                                 {
+                                                                                                     "episode_ix":  0,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2027,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  1,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2028,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  false,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0017808419652283192,
+                                                                                                     "peak_penetration":  0.0017808419652283192
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  2,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2029,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  3,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2030,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  4,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2031,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  5,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2032,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  6,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2033,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  7,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2034,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  8,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2035,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  0.0
+                                                                                                 },
+                                                                                                 {
+                                                                                                     "episode_ix":  9,
+                                                                                                     "sum_reward":  0.0,
+                                                                                                     "max_reward":  0.0,
+                                                                                                     "success":  false,
+                                                                                                     "seed":  2036,
+                                                                                                     "task_id":  1,
+                                                                                                     "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                     "goal":  {
+                                                                                                                  "task_name":  "task1_horizontal",
+                                                                                                                  "init_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                  "goal_xyzs":  [
+                                                                                                                                    [
+                                                                                                                                        0.425,
+                                                                                                                                        -0.1,
+                                                                                                                                        0.02
+                                                                                                                                    ]
+                                                                                                                                ]
+                                                                                                              },
+                                                                                                     "steps":  250,
+                                                                                                     "task_success":  false,
+                                                                                                     "contact_valid":  true,
+                                                                                                     "physics_valid":  true,
+                                                                                                     "truncated":  true,
+                                                                                                     "peak_nonpad_penetration":  0.0,
+                                                                                                     "peak_penetration":  5.8642588555812836E-05
+                                                                                                 }
+                                                                                             ],
+                                                                             "aggregated":  {
+                                                                                                "avg_sum_reward":  0.0,
+                                                                                                "avg_max_reward":  0.0,
+                                                                                                "pc_success":  0.0,
+                                                                                                "eval_s":  399.9197108745575,
+                                                                                                "eval_ep_s":  39.99197111129761,
+                                                                                                "pc_task_success":  0.0,
+                                                                                                "pc_contact_valid":  90.0
+                                                                                            },
+                                                                             "video_paths":  [
+                                                                                                 "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/eval-heldout/task-1/videos/eval_episode_0.mp4",
+                                                                                                 "/mnt/e/vla-ogbench/runs/smolvla-pilot-20261004/eval-heldout/task-1/videos/eval_episode_1.mp4"
+                                                                                             ]
+                                                                         }
+                                                               }
+                                                 }
+                                 }
+                 },
+    "scope":  "Cube-single task 1 only. One training reset and ten new reset seeds per policy; 250 control steps at 20 Hz. Same predefined task/goal, diagnostic 32x32 cameras. Original 500-update checkpoints; no retraining or hardware movement.",
+    "video_audit":  {
+                        "value":  [
+                                      {
+                                          "path":  "E:\\vla-ogbench\\runs\\act-pilot-20261004\\eval-seen-v2\\task-1\\videos\\eval_episode_0.mp4",
+                                          "frames":  250,
+                                          "width":  64,
+                                          "height":  32,
+                                          "fps":  20
+                                      },
+                                      {
+                                          "path":  "E:\\vla-ogbench\\runs\\act-pilot-20261004\\eval-heldout\\task-1\\videos\\eval_episode_0.mp4",
+                                          "frames":  250,
+                                          "width":  64,
+                                          "height":  32,
+                                          "fps":  20
+                                      },
+                                      {
+                                          "path":  "E:\\vla-ogbench\\runs\\act-pilot-20261004\\eval-heldout\\task-1\\videos\\eval_episode_1.mp4",
+                                          "frames":  250,
+                                          "width":  64,
+                                          "height":  32,
+                                          "fps":  20
+                                      },
+                                      {
+                                          "path":  "E:\\vla-ogbench\\runs\\smolvla-pilot-20261004\\eval-seen\\task-1\\videos\\eval_episode_0.mp4",
+                                          "frames":  250,
+                                          "width":  64,
+                                          "height":  32,
+                                          "fps":  20
+                                      },
+                                      {
+                                          "path":  "E:\\vla-ogbench\\runs\\smolvla-pilot-20261004\\eval-heldout\\task-1\\videos\\eval_episode_0.mp4",
+                                          "frames":  250,
+                                          "width":  64,
+                                          "height":  32,
+                                          "fps":  20
+                                      },
+                                      {
+                                          "path":  "E:\\vla-ogbench\\runs\\smolvla-pilot-20261004\\eval-heldout\\task-1\\videos\\eval_episode_1.mp4",
+                                          "frames":  250,
+                                          "width":  64,
+                                          "height":  32,
+                                          "fps":  20
+                                      }
+                                  ],
+                        "Count":  6
+                    },
+    "recording_audit":  {
+                            "status":  "complete",
+                            "dataset":  "E:\\vla-ogbench\\runs\\act-pilot-20261004\\eval-recording-smoke\\recordings\\cube-single-v0_1",
+                            "episodes":  1,
+                            "frames":  2,
+                            "state_shape":  [
+                                                18
+                                            ],
+                            "action_shape":  [
+                                                 5
+                                             ],
+                            "video_backend":  "pyav"
+                        }
+}

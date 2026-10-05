@@ -1,0 +1,913 @@
+{
+    "date":  "2026-10-03",
+    "attempts":  21,
+    "successes":  20,
+    "failures":  1,
+    "goals_attempted":  20,
+    "goals_with_contact_valid_success":  20,
+    "all_successes_contact_valid":  true,
+    "tests_passed":  52,
+    "runs":  [
+                 {
+                     "env_id":  "cube-single-v0",
+                     "episodes":  5,
+                     "task_ids":  [
+                                      1,
+                                      2,
+                                      3,
+                                      4,
+                                      5
+                                  ],
+                     "seed":  2026,
+                     "planner":  {
+                                     "episodes":  5,
+                                     "candidates":  8,
+                                     "horizon":  8,
+                                     "iterations":  1,
+                                     "elite_fraction":  0.1,
+                                     "noise":  0.12,
+                                     "gripper_noise":  0.0,
+                                     "joint_target_noise":  0.01,
+                                     "min_std":  0.015,
+                                     "tracking_weight":  100.0,
+                                     "action_weight":  0.01,
+                                     "smoothness_weight":  0.02,
+                                     "task_weight":  20.0,
+                                     "contact_weight":  100.0,
+                                     "max_nonpad_penetration":  0.001,
+                                     "max_penetration":  0.003,
+                                     "nconmax":  128,
+                                     "njmax":  512
+                                 },
+                     "image_size":  16,
+                     "max_steps":  null,
+                     "record_images":  false,
+                     "versions":  {
+                                      "ogbench":  "1.2.1",
+                                      "mujoco":  "3.14.0",
+                                      "mujoco-warp":  "3.14.0",
+                                      "warp-lang":  "1.17.0",
+                                      "torch":  "2.11.0",
+                                      "ogbench-mjwarp":  "0.1.0",
+                                      "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                      "integration_source_sha256":  "c81ed7bec9fe9819da7dbda1f6f7a90680d121a5c1b4bdab6d95f28c92c7964f"
+                                  }
+                 },
+                 {
+                     "env_id":  "scene-v0",
+                     "episodes":  5,
+                     "task_ids":  [
+                                      1,
+                                      2,
+                                      3,
+                                      4,
+                                      5
+                                  ],
+                     "seed":  2026,
+                     "planner":  {
+                                     "episodes":  5,
+                                     "candidates":  8,
+                                     "horizon":  8,
+                                     "iterations":  1,
+                                     "elite_fraction":  0.1,
+                                     "noise":  0.12,
+                                     "gripper_noise":  0.0,
+                                     "joint_target_noise":  0.01,
+                                     "min_std":  0.015,
+                                     "tracking_weight":  100.0,
+                                     "action_weight":  0.01,
+                                     "smoothness_weight":  0.02,
+                                     "task_weight":  20.0,
+                                     "contact_weight":  100.0,
+                                     "max_nonpad_penetration":  0.001,
+                                     "max_penetration":  0.003,
+                                     "nconmax":  128,
+                                     "njmax":  512
+                                 },
+                     "image_size":  16,
+                     "max_steps":  null,
+                     "record_images":  false,
+                     "versions":  {
+                                      "ogbench":  "1.2.1",
+                                      "mujoco":  "3.14.0",
+                                      "mujoco-warp":  "3.14.0",
+                                      "warp-lang":  "1.17.0",
+                                      "torch":  "2.11.0",
+                                      "ogbench-mjwarp":  "0.1.0",
+                                      "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                      "integration_source_sha256":  "c81ed7bec9fe9819da7dbda1f6f7a90680d121a5c1b4bdab6d95f28c92c7964f"
+                                  }
+                 },
+                 {
+                     "env_id":  "puzzle-3x3-v0",
+                     "episodes":  5,
+                     "task_ids":  [
+                                      1,
+                                      2,
+                                      3,
+                                      4,
+                                      5
+                                  ],
+                     "seed":  2026,
+                     "planner":  {
+                                     "episodes":  5,
+                                     "candidates":  8,
+                                     "horizon":  8,
+                                     "iterations":  1,
+                                     "elite_fraction":  0.1,
+                                     "noise":  0.12,
+                                     "gripper_noise":  0.0,
+                                     "joint_target_noise":  0.01,
+                                     "min_std":  0.015,
+                                     "tracking_weight":  100.0,
+                                     "action_weight":  0.01,
+                                     "smoothness_weight":  0.02,
+                                     "task_weight":  20.0,
+                                     "contact_weight":  100.0,
+                                     "max_nonpad_penetration":  0.001,
+                                     "max_penetration":  0.003,
+                                     "nconmax":  128,
+                                     "njmax":  512
+                                 },
+                     "image_size":  16,
+                     "max_steps":  null,
+                     "record_images":  false,
+                     "versions":  {
+                                      "ogbench":  "1.2.1",
+                                      "mujoco":  "3.14.0",
+                                      "mujoco-warp":  "3.14.0",
+                                      "warp-lang":  "1.17.0",
+                                      "torch":  "2.11.0",
+                                      "ogbench-mjwarp":  "0.1.0",
+                                      "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                      "integration_source_sha256":  "c81ed7bec9fe9819da7dbda1f6f7a90680d121a5c1b4bdab6d95f28c92c7964f"
+                                  }
+                 },
+                 {
+                     "env_id":  "puzzle-4x6-v0",
+                     "episodes":  5,
+                     "task_ids":  [
+                                      1,
+                                      2,
+                                      3,
+                                      4,
+                                      5
+                                  ],
+                     "seed":  2026,
+                     "planner":  {
+                                     "episodes":  5,
+                                     "candidates":  8,
+                                     "horizon":  8,
+                                     "iterations":  1,
+                                     "elite_fraction":  0.1,
+                                     "noise":  0.12,
+                                     "gripper_noise":  0.0,
+                                     "joint_target_noise":  0.01,
+                                     "min_std":  0.015,
+                                     "tracking_weight":  100.0,
+                                     "action_weight":  0.01,
+                                     "smoothness_weight":  0.02,
+                                     "task_weight":  20.0,
+                                     "contact_weight":  100.0,
+                                     "max_nonpad_penetration":  0.001,
+                                     "max_penetration":  0.003,
+                                     "nconmax":  128,
+                                     "njmax":  512
+                                 },
+                     "image_size":  16,
+                     "max_steps":  null,
+                     "record_images":  false,
+                     "versions":  {
+                                      "ogbench":  "1.2.1",
+                                      "mujoco":  "3.14.0",
+                                      "mujoco-warp":  "3.14.0",
+                                      "warp-lang":  "1.17.0",
+                                      "torch":  "2.11.0",
+                                      "ogbench-mjwarp":  "0.1.0",
+                                      "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                      "integration_source_sha256":  "c81ed7bec9fe9819da7dbda1f6f7a90680d121a5c1b4bdab6d95f28c92c7964f"
+                                  }
+                 }
+             ],
+    "sweep":  {
+                  "all_tasks_succeeded":  false,
+                  "all_successes_contact_valid":  true,
+                  "environments":  [
+                                       {
+                                           "env":  "cube-single-v0",
+                                           "missing_successes":  [
+
+                                                                 ],
+                                           "summary":  {
+                                                           "episodes":  5,
+                                                           "successes":  5,
+                                                           "failures":  0,
+                                                           "success_rate":  1.0,
+                                                           "frames":  599,
+                                                           "outcomes":  [
+                                                                            {
+                                                                                "episode_id":  0,
+                                                                                "task_id":  1,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  1,
+                                                                                "task_id":  2,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  2,
+                                                                                "task_id":  3,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  3,
+                                                                                "task_id":  4,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  4,
+                                                                                "task_id":  5,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            }
+                                                                        ]
+                                                       },
+                                           "contact_audits":  [
+                                                                  {
+                                                                      "episode":  0,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0003185875789668275,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  1,
+                                                                      "seed":  2026,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.00046743403072468936,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  1,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.00025508383123678684,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  2,
+                                                                      "seed":  2027,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.000330520560964942,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  2,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.00025785902099198716,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  3,
+                                                                      "seed":  2028,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0003062465402763337,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  3,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.00028585904276253534,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  4,
+                                                                      "seed":  2029,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0005119209527038038,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  4,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.000424336656256593,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  5,
+                                                                      "seed":  2030,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.000424336656256593,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  }
+                                                              ]
+                                       },
+                                       {
+                                           "env":  "scene-v0",
+                                           "missing_successes":  [
+                                                                     4
+                                                                 ],
+                                           "summary":  {
+                                                           "episodes":  5,
+                                                           "successes":  4,
+                                                           "failures":  1,
+                                                           "success_rate":  0.8,
+                                                           "frames":  1555,
+                                                           "outcomes":  [
+                                                                            {
+                                                                                "episode_id":  0,
+                                                                                "task_id":  1,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  1,
+                                                                                "task_id":  2,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  2,
+                                                                                "task_id":  3,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  3,
+                                                                                "task_id":  4,
+                                                                                "outcome":  "failure",
+                                                                                "reason":  "invalid_candidates"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  4,
+                                                                                "task_id":  5,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            }
+                                                                        ]
+                                                       },
+                                           "contact_audits":  [
+                                                                  {
+                                                                      "episode":  0,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.00020474372935783535,
+                                                                      "peak_penetration":  0.0003951060967247316,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  1,
+                                                                      "seed":  2026,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0008261213079094887,
+                                                                                       "peak_penetration":  0.0008261213079094887,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  1,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.00035621103267648917,
+                                                                      "peak_penetration":  0.000812667333518452,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  2,
+                                                                      "seed":  2027,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.00039410594035871327,
+                                                                                       "peak_penetration":  0.0008525493904016912,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  2,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.00013383879941380347,
+                                                                      "peak_penetration":  0.0007853707143973265,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  3,
+                                                                      "seed":  2028,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0004669277695938945,
+                                                                                       "peak_penetration":  0.0007854010327719152,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  3,
+                                                                      "recorded_outcome":  "failure",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0002768320440974955,
+                                                                      "peak_penetration":  0.0006101642803932467,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  4,
+                                                                      "seed":  2029,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.000526348827406764,
+                                                                                       "peak_penetration":  0.0010396844008937478,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  4,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.00029027976252159307,
+                                                                      "peak_penetration":  0.0008331471833543935,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  5,
+                                                                      "seed":  2030,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0003851142537314445,
+                                                                                       "peak_penetration":  0.0008331547142006457,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  }
+                                                              ]
+                                       },
+                                       {
+                                           "env":  "puzzle-3x3-v0",
+                                           "missing_successes":  [
+
+                                                                 ],
+                                           "summary":  {
+                                                           "episodes":  5,
+                                                           "successes":  5,
+                                                           "failures":  0,
+                                                           "success_rate":  1.0,
+                                                           "frames":  1030,
+                                                           "outcomes":  [
+                                                                            {
+                                                                                "episode_id":  0,
+                                                                                "task_id":  1,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  1,
+                                                                                "task_id":  2,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  2,
+                                                                                "task_id":  3,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  3,
+                                                                                "task_id":  4,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  4,
+                                                                                "task_id":  5,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            }
+                                                                        ]
+                                                       },
+                                           "contact_audits":  [
+                                                                  {
+                                                                      "episode":  0,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0010188726703041356,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  1,
+                                                                      "seed":  2026,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0012904934119433165,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  1,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0007329335606778703,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  2,
+                                                                      "seed":  2027,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0007329434156417847,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  2,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0010264571867694972,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  3,
+                                                                      "seed":  2028,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0010522668017074466,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  3,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0009719660555901483,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  4,
+                                                                      "seed":  2029,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0009719660555901483,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  4,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.001118153114199244,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  5,
+                                                                      "seed":  2030,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0011429935693740845,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  }
+                                                              ]
+                                       },
+                                       {
+                                           "env":  "puzzle-4x6-v0",
+                                           "missing_successes":  [
+
+                                                                 ],
+                                           "summary":  {
+                                                           "episodes":  5,
+                                                           "successes":  5,
+                                                           "failures":  0,
+                                                           "success_rate":  1.0,
+                                                           "frames":  2341,
+                                                           "outcomes":  [
+                                                                            {
+                                                                                "episode_id":  0,
+                                                                                "task_id":  1,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  1,
+                                                                                "task_id":  2,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  2,
+                                                                                "task_id":  3,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  3,
+                                                                                "task_id":  4,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            },
+                                                                            {
+                                                                                "episode_id":  4,
+                                                                                "task_id":  5,
+                                                                                "outcome":  "success",
+                                                                                "reason":  "success"
+                                                                            }
+                                                                        ]
+                                                       },
+                                           "contact_audits":  [
+                                                                  {
+                                                                      "episode":  0,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0010573566872359025,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  1,
+                                                                      "seed":  2026,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0011597387492656708,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  1,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0009096962210330406,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  2,
+                                                                      "seed":  2027,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0009157444583252072,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  2,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.000920894538559841,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  3,
+                                                                      "seed":  2028,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0009925703052431345,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  3,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0009455559541562686,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  4,
+                                                                      "seed":  2029,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0009523874614387751,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  },
+                                                                  {
+                                                                      "episode":  4,
+                                                                      "recorded_outcome":  "success",
+                                                                      "contact_valid":  true,
+                                                                      "peak_nonpad_penetration":  0.0,
+                                                                      "peak_penetration":  0.0011399638474016288,
+                                                                      "violations":  [
+
+                                                                                     ],
+                                                                      "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+                                                                      "task_id":  5,
+                                                                      "seed":  2030,
+                                                                      "substeps":  {
+                                                                                       "valid":  true,
+                                                                                       "peak_nonpad_penetration":  0.0,
+                                                                                       "peak_penetration":  0.0011399638474016288,
+                                                                                       "max_nonpad_penetration":  0.001,
+                                                                                       "max_penetration":  0.003,
+                                                                                       "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                                                   }
+                                                                  }
+                                                              ]
+                                       }
+                                   ]
+              },
+    "retry":  {
+                  "metadata":  {
+                                   "env_id":  "scene-v0",
+                                   "task_id":  4,
+                                   "seed":  2029,
+                                   "instruction":  "Place the red cube at (0.330, -0.356, 0.066) meters. Set the buttons in row-major order to 1, 0. Set the drawer to 0.000 meters and the window to 0.000 meters.",
+                                   "goal":  {
+                                                "task_name":  "task4_put_in_drawer",
+                                                "init":  {
+                                                             "block_xyzs":  [
+                                                                                [
+                                                                                    0.35,
+                                                                                    0.05,
+                                                                                    0.02
+                                                                                ]
+                                                                            ],
+                                                             "button_states":  [
+                                                                                   0,
+                                                                                   0
+                                                                               ],
+                                                             "drawer_pos":  0.0,
+                                                             "window_pos":  0.0
+                                                         },
+                                                "goal":  {
+                                                             "block_xyzs":  [
+                                                                                [
+                                                                                    0.33,
+                                                                                    -0.356,
+                                                                                    0.065986
+                                                                                ]
+                                                                            ],
+                                                             "button_states":  [
+                                                                                   1,
+                                                                                   0
+                                                                               ],
+                                                             "drawer_pos":  0.0,
+                                                             "window_pos":  0.0
+                                                         }
+                                            },
+                                   "fps":  20,
+                                   "image_size":  16,
+                                   "record_images":  false,
+                                   "versions":  {
+                                                    "ogbench":  "1.2.1",
+                                                    "mujoco":  "3.14.0",
+                                                    "mujoco-warp":  "3.14.0",
+                                                    "warp-lang":  "1.17.0",
+                                                    "torch":  "2.11.0",
+                                                    "ogbench-mjwarp":  "0.1.0",
+                                                    "ogbench_revision":  "1d4140997f60c52c6fb0702ec100dc988b18c548",
+                                                    "integration_source_sha256":  "c81ed7bec9fe9819da7dbda1f6f7a90680d121a5c1b4bdab6d95f28c92c7964f"
+                                                },
+                                   "planner":  {
+                                                   "episodes":  1,
+                                                   "candidates":  32,
+                                                   "horizon":  8,
+                                                   "iterations":  2,
+                                                   "elite_fraction":  0.1,
+                                                   "noise":  0.12,
+                                                   "gripper_noise":  0.0,
+                                                   "joint_target_noise":  0.01,
+                                                   "min_std":  0.015,
+                                                   "tracking_weight":  100.0,
+                                                   "action_weight":  0.01,
+                                                   "smoothness_weight":  0.02,
+                                                   "task_weight":  20.0,
+                                                   "contact_weight":  100.0,
+                                                   "max_nonpad_penetration":  0.001,
+                                                   "max_penetration":  0.003,
+                                                   "nconmax":  128,
+                                                   "njmax":  512
+                                               },
+                                   "joint_target_offset":  [
+                                                               0.00598235335201025,
+                                                               -0.009231762029230595,
+                                                               -0.0016726034227758646,
+                                                               0.004956970456987619,
+                                                               0.00035855273017659783,
+                                                               -0.004443250130861998
+                                                           ],
+                                   "contact_quality":  {
+                                                           "valid":  true,
+                                                           "peak_nonpad_penetration":  0.0003111974219791591,
+                                                           "peak_penetration":  0.000579996791202575,
+                                                           "max_nonpad_penetration":  0.001,
+                                                           "max_penetration":  0.003,
+                                                           "scope":  "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+                                                       },
+                                   "success_verified":  true,
+                                   "episode_id":  0,
+                                   "length":  299,
+                                   "outcome":  "success",
+                                   "reason":  "success",
+                                   "archive":  "episode-000000.npz"
+                               },
+                  "cpu_audit":  {
+                                    "episode":  0,
+                                    "recorded_outcome":  "success",
+                                    "contact_valid":  true,
+                                    "peak_nonpad_penetration":  0.0002818508672829521,
+                                    "peak_penetration":  0.0005718816873068883,
+                                    "violations":  [
+
+                                                   ],
+                                    "scope":  "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+                                }
+              }
+}

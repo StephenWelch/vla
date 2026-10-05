@@ -218,3 +218,24 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local research artifacts and machine configuration
+outputs/
+data/
+datasets/
+runs/
+checkpoints/
+wandb/
+.idea/
+.pi/
+nul
+configs/local/
+*.npz
+*.hdf5
+*.h5
+*.safetensors
+*.mp4
+*.pt
+*.pth
+.netrc
+*.log

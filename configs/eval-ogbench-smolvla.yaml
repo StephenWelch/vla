@@ -1,0 +1,12 @@
+# Paths are for the isolated WSL evaluation environment.
+checkpoint: ${oc.env:OGBENCH_DATA_ROOT,outputs/ogbench}/runs/smolvla-long-v2/checkpoints/last/pretrained_model
+dataset: ${oc.env:OGBENCH_DATA_ROOT,outputs/ogbench}/datasets/cube-training-v2
+output: ${oc.env:OGBENCH_DATA_ROOT,outputs/ogbench}/runs/smolvla-long-v2/eval-heldout
+hf_home: ${oc.env:VLA_MODEL_ROOT,outputs/models}/hf-cache
+episodes: 10
+batch_size: 5
+seed: 2027
+env: cube-single-v0
+task_ids: [1]
+max_steps: 250
+videos: 2

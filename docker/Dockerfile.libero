@@ -1,0 +1,27 @@
+# The GPU base supplies CUDA, EGL, Python, and uv. Pin its amd64 image so the
+# benchmark does not silently change when the upstream latest tag moves.
+FROM huggingface/lerobot-gpu@sha256:031a10c9bb2437859da3621e475fd5eff4abfc619c9976247802b0c90706237e
+
+WORKDIR /home/user_lerobot
+
+COPY packages/vla-tools /opt/vla/packages/vla-tools
+COPY projects/libero /opt/vla/projects/libero
+
+# The base image is built from LeRobot's development branch. Replace its
+# editable installation with the released version used by this repository.
+RUN uv pip install --python /lerobot/.venv/bin/python --reinstall-package lerobot --no-cache \
+    'lerobot[libero,smolvla,training,evaluation]==0.6.1' 'mujoco==3.8.1' && \
+    python -c "import importlib.metadata; assert importlib.metadata.version('lerobot') == '0.6.1'"
+RUN uv pip install --python /lerobot/.venv/bin/python /opt/vla/packages/vla-tools /opt/vla/projects/libero
+
+# LIBERO asks an interactive setup question on its first import without this.
+# LIBERO's get_assets_path() looks in this cache directory before attempting
+# a Hub download. eval-libero.ps1 mounts the host assets there.
+RUN LIBERO_DIR=$(python -c "import importlib.util, os; s=importlib.util.find_spec('libero'); print(os.path.join(os.path.dirname(s.origin), 'libero'))") && \
+    if [ ! -e "${LIBERO_DIR}/assets" ] && [ ! -L "${LIBERO_DIR}/assets" ]; then ln -s /home/user_lerobot/.cache/libero/assets "${LIBERO_DIR}/assets"; fi && \
+    mkdir -p /home/user_lerobot/.libero && \
+    printf "assets: /home/user_lerobot/.cache/libero/assets\nbddl_files: ${LIBERO_DIR}/bddl_files\ndatasets: ${LIBERO_DIR}/../datasets\ninit_states: ${LIBERO_DIR}/init_files\n" \
+    > /home/user_lerobot/.libero/config.yaml
+
+ENV MUJOCO_GL=egl
+CMD ["/bin/bash"]

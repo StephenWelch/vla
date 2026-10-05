@@ -1,0 +1,55 @@
+{
+  "episode": 1,
+  "recorded_outcome": "success",
+  "contact_valid": false,
+  "peak_nonpad_penetration": 0.0031269640458618693,
+  "peak_penetration": 0.0031269640458618693,
+  "violations": [
+    {
+      "frame": 220,
+      "nonpad_penetration": 0.0016565704415823915,
+      "penetration": 0.0016565704415823915,
+      "bodies": [
+        "drawer_link",
+        "ur5e/robotiq/left_coupler"
+      ]
+    },
+    {
+      "frame": 233,
+      "nonpad_penetration": 0.0031269640458618693,
+      "penetration": 0.0031269640458618693,
+      "bodies": [
+        "drawer_link",
+        "ur5e/robotiq/left_follower"
+      ]
+    },
+    {
+      "frame": 237,
+      "nonpad_penetration": 0.0022613357656089414,
+      "penetration": 0.0022613357656089414,
+      "bodies": [
+        "drawer_link",
+        "ur5e/robotiq/left_follower"
+      ]
+    },
+    {
+      "frame": 239,
+      "nonpad_penetration": 0.002600917953808027,
+      "penetration": 0.002600917953808027,
+      "bodies": [
+        "drawer_link",
+        "ur5e/robotiq/left_follower"
+      ]
+    },
+    {
+      "frame": 240,
+      "nonpad_penetration": 0.0017136299541514275,
+      "penetration": 0.0017136299541514275,
+      "bodies": [
+        "drawer_link",
+        "ur5e/robotiq/left_follower"
+      ]
+    }
+  ],
+  "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+}

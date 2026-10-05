@@ -1,0 +1,113 @@
+{
+    "date":  "2026-10-04",
+    "project":  "vla-ogbench",
+    "online_url":  "https://wandb.ai/rlgoats/vla-ogbench/runs/l26g4uli",
+    "runs":  {
+                 "eval":  {
+                              "output":  "E:/vla-ogbench/runs/wandb-eval-smoke",
+                              "videos":  1,
+                              "tracking":  {
+                                               "run_id":  "cpd9wxn6",
+                                               "project":  "vla-ogbench",
+                                               "entity":  "",
+                                               "group":  "wandb-validation",
+                                               "mode":  "offline",
+                                               "url":  null,
+                                               "status":  "complete",
+                                               "last_event":  0,
+                                               "fallback_reason":  null,
+                                               "segments":  [
+                                                                "/mnt/e/vla-ogbench/runs/wandb-eval-smoke/wandb/offline-run-20261004_213423-cpd9wxn6"
+                                                            ]
+                                           }
+                          },
+                 "collect":  {
+                                 "output":  "E:/vla-ogbench/runs/wandb-collect-smoke",
+                                 "videos":  0,
+                                 "tracking":  {
+                                                  "run_id":  "9ip9znkr",
+                                                  "project":  "vla-ogbench",
+                                                  "entity":  "",
+                                                  "group":  "wandb-validation",
+                                                  "mode":  "offline",
+                                                  "url":  null,
+                                                  "status":  "complete",
+                                                  "last_event":  0,
+                                                  "fallback_reason":  null,
+                                                  "segments":  [
+                                                                   "/mnt/e/vla-ogbench/runs/wandb-collect-smoke/wandb/offline-run-20261004_212741-9ip9znkr"
+                                                               ]
+                                              }
+                             },
+                 "smolvla":  {
+                                 "output":  "E:/vla-ogbench/runs/wandb-smolvla-smoke",
+                                 "videos":  4,
+                                 "tracking":  {
+                                                  "run_id":  "x3qejocp",
+                                                  "project":  "vla-ogbench",
+                                                  "entity":  "",
+                                                  "group":  "wandb-validation",
+                                                  "mode":  "offline",
+                                                  "url":  null,
+                                                  "status":  "complete",
+                                                  "last_event":  8,
+                                                  "fallback_reason":  null,
+                                                  "segments":  [
+                                                                   "/mnt/e/vla-ogbench/runs/wandb-smolvla-smoke/wandb/offline-run-20261004_213010-x3qejocp",
+                                                                   "/mnt/e/vla-ogbench/runs/wandb-smolvla-smoke/wandb/offline-run-20261004_213249-x3qejocp"
+                                                               ]
+                                              }
+                             },
+                 "act":  {
+                             "output":  "E:/vla-ogbench/runs/wandb-act-smoke",
+                             "videos":  4,
+                             "tracking":  {
+                                              "run_id":  "05qld34f",
+                                              "project":  "vla-ogbench",
+                                              "entity":  "",
+                                              "group":  "wandb-validation",
+                                              "mode":  "offline",
+                                              "url":  null,
+                                              "status":  "complete",
+                                              "last_event":  5,
+                                              "fallback_reason":  null,
+                                              "segments":  [
+                                                               "/mnt/e/vla-ogbench/runs/wandb-act-smoke/wandb/offline-run-20261004_212649-05qld34f",
+                                                               "/mnt/e/vla-ogbench/runs/wandb-act-smoke/wandb/offline-run-20261004_212858-05qld34f"
+                                                           ]
+                                          }
+                         },
+                 "online":  {
+                                "output":  "E:/vla-ogbench/runs/wandb-online-smoke",
+                                "videos":  0,
+                                "tracking":  {
+                                                 "run_id":  "l26g4uli",
+                                                 "project":  "vla-ogbench",
+                                                 "entity":  "rlgoats",
+                                                 "group":  "wandb-validation",
+                                                 "mode":  "online",
+                                                 "url":  "https://wandb.ai/rlgoats/vla-ogbench/runs/l26g4uli",
+                                                 "status":  "complete",
+                                                 "last_event":  0,
+                                                 "fallback_reason":  null,
+                                                 "segments":  [
+                                                                  "/mnt/e/vla-ogbench/runs/wandb-online-smoke/wandb/run-20261004_213846-l26g4uli"
+                                                              ]
+                                             }
+                            }
+             },
+    "validation":  {
+                       "long_run_restarted":  false,
+                       "rollout_horizon":  2,
+                       "historical_import":  false,
+                       "training_updates":  [
+                                                2,
+                                                3
+                                            ],
+                       "checkpoint_uploads":  false,
+                       "smolvla_resume_dry_run":  "passed",
+                       "tests_passed":  130,
+                       "ruff":  "passed",
+                       "powershell_syntax":  "passed"
+                   }
+}

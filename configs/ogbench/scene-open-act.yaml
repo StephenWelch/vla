@@ -1,0 +1,20 @@
+# Fresh Scene task 1 collection followed by ACT from scratch.
+experiment: scene-open-act-20261005
+env_id: scene-v0
+task_id: 1
+scenes: 100
+scenes_per_round: 32
+variants: 1
+generation_batch_size: 32
+raw: outputs/scene-open-act-20261005/raw
+dataset: ${oc.env:OGBENCH_DATA_ROOT,outputs/ogbench}/datasets/scene-open-act-20261005
+runs: ${oc.env:OGBENCH_DATA_ROOT,outputs/ogbench}/runs
+size: [480, 640]
+policies: [act]
+steps: 20000
+eval_max_steps: 750
+background: true
+wandb:
+  enable: true
+  project: vla-ogbench
+  tags: [scene-task1, renderer-v2]

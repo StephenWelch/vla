@@ -1,0 +1,48 @@
+{
+  "experiment": "scene-open-act-20261005",
+  "env_id": "scene-v0",
+  "task_id": 1,
+  "instruction": "Open the drawer and window. Leave the cube in place.",
+  "configuration": "configs/scene-open-act.yaml",
+  "status": "collecting",
+  "collection": {
+    "target_successful_independent_resets": 100,
+    "variants_per_reset": 1,
+    "concurrent_episodes": 32,
+    "renderer_revision": 2,
+    "resolution_per_camera": [
+      480,
+      640
+    ],
+    "wandb_url": "https://wandb.ai/rlgoats/vla-ogbench/runs/q24u4kk7"
+  },
+  "training": {
+    "policy": "act",
+    "from_scratch": true,
+    "steps": 20000,
+    "batch_size": 8,
+    "chunk_size": 16,
+    "validation_fraction": 0.2,
+    "loss_eval_freq": 1000,
+    "rollout_eval_freq": 2000,
+    "eval_episodes_per_split": 10,
+    "eval_max_steps": 750
+  },
+  "verification": {
+    "focused_regression_cases": 53,
+    "ruff": "passed",
+    "smoke_generation": {
+      "attempts": 4,
+      "successes": 3,
+      "exported_frames": 657,
+      "all_exported_contact_valid": true
+    },
+    "smoke_training": {
+      "updates": 2,
+      "train_val_probes": true,
+      "train_val_scene_rollouts": true,
+      "wandb_url": "https://wandb.ai/rlgoats/vla-ogbench/runs/vgx95p04"
+    }
+  },
+  "pipeline_status": "/mnt/e/vla-ogbench/runs/scene-open-act-20261005/pipeline-status.json"
+}

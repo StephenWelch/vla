@@ -1,0 +1,15 @@
+.venv
+outputs
+dryrun-test
+nul
+**/__pycache__
+**/.venv
+**/.pytest_cache
+**/.ruff_cache
+.git
+.idea
+.pi
+configs/local
+**/*.mp4
+**/*.safetensors
+**/*.npz

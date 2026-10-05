@@ -1,0 +1,103 @@
+{
+  "source": "/mnt/e/vla-ogbench/raw/cube-act-640x480-20261005/round-000000/episode-000000.npz",
+  "preview": "Saved demonstration states with corrected renderer; not a new policy evaluation",
+  "frames": 127,
+  "resolution_per_camera": [
+    480,
+    640
+  ],
+  "rendering": {
+    "backend": "mujoco-warp",
+    "revision": 2,
+    "visibility": "groups-0-1-2-nonzero-alpha",
+    "hidden_geoms": [
+      63
+    ],
+    "clip_meters": [
+      0.0034999999217689036,
+      7.0
+    ],
+    "cameras": [
+      "front",
+      "ur5e/wrist"
+    ],
+    "resolution": [
+      480,
+      640
+    ],
+    "model_sha256": "3cb1a84a82d77d1fbda13033bfd9e7ff0777059f965d9b7e1764760ae554336c",
+    "settings": {
+      "use_shadows": false,
+      "use_textures": true,
+      "use_ambient_lighting": true,
+      "samples_per_pixel": 1
+    },
+    "versions": {
+      "mujoco": "3.14.0",
+      "mujoco-warp": "3.14.0",
+      "warp-lang": "1.17.0"
+    }
+  },
+  "reference_checks": [
+    {
+      "frame": 0,
+      "camera": "front",
+      "geom_id_agreement": 0.9999934895833333
+    },
+    {
+      "frame": 0,
+      "camera": "ur5e/wrist",
+      "geom_id_agreement": 0.99998046875
+    },
+    {
+      "frame": 40,
+      "camera": "front",
+      "geom_id_agreement": 0.9999934895833333
+    },
+    {
+      "frame": 40,
+      "camera": "ur5e/wrist",
+      "geom_id_agreement": 0.9999869791666667
+    },
+    {
+      "frame": 80,
+      "camera": "front",
+      "geom_id_agreement": 0.9999934895833333
+    },
+    {
+      "frame": 80,
+      "camera": "ur5e/wrist",
+      "geom_id_agreement": 0.9999967447916667
+    },
+    {
+      "frame": 120,
+      "camera": "front",
+      "geom_id_agreement": 0.9999967447916667
+    },
+    {
+      "frame": 120,
+      "camera": "ur5e/wrist",
+      "geom_id_agreement": 0.9999934895833333
+    }
+  ],
+  "minimum_geom_id_agreement": 0.99998046875,
+  "fixes": [
+    "Refit dynamic BVH before every render",
+    "Exclude zero-alpha geometry from ray tracing",
+    "Reduce near plane from 70mm to 3.5mm"
+  ],
+  "regression_tests": {
+    "passed": 155,
+    "project_suite": 123,
+    "training_and_tracking": 30,
+    "additional_stale_renderer_cases": 2,
+    "ruff": "passed",
+    "scope": "Full OGBench suite, training/tracking tests, and stale-renderer rejection cases"
+  },
+  "wandb_url": "https://wandb.ai/rlgoats/vla-ogbench/runs/suetzq5x",
+  "preview_decode": {
+    "frames": 127,
+    "width": 1280,
+    "height": 480
+  }
+}

@@ -1,0 +1,397 @@
+{
+  "status": "complete",
+  "config": {
+    "source": "/mnt/e/vla-ogbench/raw/cube-act-640x480-20261005/round-000000",
+    "output": "/mnt/e/vla-ogbench/runs/pipeline-optimization-20261005",
+    "wait_for_training": null,
+    "wandb": {
+      "enable": true,
+      "project": "vla-ogbench",
+      "entity": null,
+      "mode": "online",
+      "group": "pipeline-optimization-20261005",
+      "name": null,
+      "tags": []
+    }
+  },
+  "results": {
+    "export_baseline": {
+      "root": "/mnt/e/vla-ogbench/runs/pipeline-optimization-20261005/export-baseline",
+      "streaming_encoding": false,
+      "export_seconds": 35.11845712499962,
+      "source_wait_seconds": 5.550999048864469e-06,
+      "export_active_seconds": 35.118452355000954,
+      "episodes": 8,
+      "frames": 1017
+    },
+    "export_optimized": {
+      "root": "/mnt/e/vla-ogbench/runs/pipeline-optimization-20261005/export-optimized",
+      "streaming_encoding": true,
+      "export_seconds": 11.721336237999822,
+      "source_wait_seconds": 1.2959999367012642e-06,
+      "export_active_seconds": 11.721335455999906,
+      "episodes": 8,
+      "frames": 1017
+    },
+    "baseline": {
+      "generation_seconds": 248.57884414199998,
+      "pipeline_seconds": 310.8751896520007,
+      "overlap_export": false,
+      "export": {
+        "streaming_encoding": false,
+        "export_seconds": 60.10922764600036,
+        "source_wait_seconds": 3.540299985616002e-05,
+        "export_active_seconds": 60.109193289999894,
+        "episodes": 15,
+        "frames": 1903
+      },
+      "rounds": [
+        {
+          "episodes": 8,
+          "successes": 7,
+          "failures": 1,
+          "success_rate": 0.875,
+          "frames": 1091,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 1,
+              "outcome": "failure",
+              "reason": "timeout"
+            },
+            {
+              "episode_id": 5,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 6,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 7,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ],
+          "performance": {
+            "render_seconds": 2.3059601369941447,
+            "host_transfer_seconds": 5.5048275149947585,
+            "cpu_validation_seconds": 1.9765249239972036,
+            "planner_seconds": 121.07122678600808,
+            "generation_seconds": 140.32222643099976,
+            "archive_wait_seconds": 1.7687000763544347e-05,
+            "active_slot_utilization": 0.8290273556231003,
+            "torch_peak_allocated_bytes": 25678336,
+            "torch_peak_reserved_bytes": 75497472
+          }
+        },
+        {
+          "episodes": 8,
+          "successes": 8,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1012,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 5,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 6,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 7,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ],
+          "performance": {
+            "render_seconds": 1.6338300450124734,
+            "host_transfer_seconds": 4.240821960997891,
+            "cpu_validation_seconds": 1.5462026689974664,
+            "planner_seconds": 95.40803063200656,
+            "generation_seconds": 108.15594581699952,
+            "archive_wait_seconds": 1.200199949380476e-05,
+            "active_slot_utilization": 0.9693486590038314,
+            "torch_peak_allocated_bytes": 42717696,
+            "torch_peak_reserved_bytes": 117440512
+          }
+        }
+      ],
+      "contact": {
+        "valid_episodes": 16,
+        "peak_nonpad_penetration": 0.0,
+        "peak_penetration": 0.000947353255469352
+      },
+      "split": {
+        "train": 11,
+        "val": 4
+      }
+    },
+    "optimized": {
+      "generation_seconds": 213.762579878,
+      "pipeline_seconds": 227.4285999419999,
+      "overlap_export": true,
+      "export": {
+        "streaming_encoding": true,
+        "export_seconds": 222.6799628660001,
+        "source_wait_seconds": 196.0396953519994,
+        "export_active_seconds": 26.640268708000804,
+        "episodes": 16,
+        "frames": 2029
+      },
+      "rounds": [
+        {
+          "episodes": 8,
+          "successes": 8,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1017,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 5,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 6,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 7,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ],
+          "performance": {
+            "render_seconds": 1.746055143004014,
+            "host_transfer_seconds": 4.306858110008761,
+            "cpu_validation_seconds": 0.9168604510077785,
+            "planner_seconds": 92.93591070000002,
+            "generation_seconds": 107.5781872030002,
+            "archive_wait_seconds": 1.9114000679110177e-05,
+            "active_slot_utilization": 0.9854651162790697,
+            "torch_peak_allocated_bytes": 25678336,
+            "torch_peak_reserved_bytes": 75497472
+          }
+        },
+        {
+          "episodes": 8,
+          "successes": 8,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1012,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 5,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 6,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 7,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ],
+          "performance": {
+            "render_seconds": 1.7058909420038617,
+            "host_transfer_seconds": 4.248464582002271,
+            "cpu_validation_seconds": 0.670109950022379,
+            "planner_seconds": 94.55028708301234,
+            "generation_seconds": 106.08671542499997,
+            "archive_wait_seconds": 1.1306000487820711e-05,
+            "active_slot_utilization": 0.9693486590038314,
+            "torch_peak_allocated_bytes": 42717696,
+            "torch_peak_reserved_bytes": 117440512
+          }
+        }
+      ],
+      "contact": {
+        "valid_episodes": 16,
+        "peak_nonpad_penetration": 0.0,
+        "peak_penetration": 0.0009473944664932787
+      },
+      "split": {
+        "train": 12,
+        "val": 4
+      }
+    }
+  },
+  "speedup": {
+    "export": 2.9961137887289535,
+    "pipeline": 1.3669133509650142
+  },
+  "validation": {
+    "tests_passed": 150,
+    "ruff": "passed",
+    "videos": {
+      "export-baseline": {
+        "expected_frames": 1017,
+        "decoded": {
+          "observation.images.front": 1017,
+          "observation.images.wrist": 1017
+        }
+      },
+      "export-optimized": {
+        "expected_frames": 1017,
+        "decoded": {
+          "observation.images.front": 1017,
+          "observation.images.wrist": 1017
+        }
+      },
+      "dataset-baseline": {
+        "expected_frames": 1903,
+        "decoded": {
+          "observation.images.front": 1903,
+          "observation.images.wrist": 1903
+        }
+      },
+      "dataset-optimized": {
+        "expected_frames": 2029,
+        "decoded": {
+          "observation.images.front": 2029,
+          "observation.images.wrist": 2029
+        }
+      }
+    },
+    "export_alignment": "Identical state, action, and frame annotation columns; all videos have exactly one frame per action."
+  },
+  "wandb_url": "https://wandb.ai/rlgoats/vla-ogbench/runs/28whp3ke"
+}

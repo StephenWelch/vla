@@ -1,0 +1,390 @@
+{
+    "schema_version":  1,
+    "date":  "2026-10-04",
+    "scope":  "Interface smoke checks, not policy task performance",
+    "policies":  {
+                     "act":  {
+                                 "root":  "/mnt/e/vla-ogbench/runs/periodic-act-verified",
+                                 "updates":  28,
+                                 "resume_from":  26,
+                                 "evaluation_steps":  [
+                                                          13,
+                                                          26,
+                                                          28
+                                                      ],
+                                 "train_reset_seeds":  [
+                                                           20001
+                                                       ],
+                                 "val_reset_seeds":  [
+                                                         20000
+                                                     ],
+                                 "final_metrics":  {
+                                                       "step":  28,
+                                                       "status":  "complete",
+                                                       "checkpoint":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/checkpoints/000028",
+                                                       "policy_type":  "act",
+                                                       "probe_seed":  1000,
+                                                       "dataset_manifest_sha256":  "057dafedb2bb594cff688a85f7855cbd07d261d0771932c1e3889ca286a760d9",
+                                                       "train_stats_sha256":  "6098b8a9243afd19d8836635cbed874601af2ad45349aa914045a7b4829fa753",
+                                                       "train/probe":  {
+                                                                           "loss":  0.835413958231608,
+                                                                           "l1_loss":  0.835413958231608,
+                                                                           "samples":  5,
+                                                                           "loss_definition":  "inference_mode_l1"
+                                                                       },
+                                                       "val/probe":  {
+                                                                         "loss":  0.6564527869224548,
+                                                                         "l1_loss":  0.6564527869224548,
+                                                                         "samples":  5,
+                                                                         "loss_definition":  "inference_mode_l1"
+                                                                     },
+                                                       "train/rollout":  {
+                                                                             "episodes":  [
+                                                                                              {
+                                                                                                  "episode_ix":  0,
+                                                                                                  "sum_reward":  0.0,
+                                                                                                  "max_reward":  0.0,
+                                                                                                  "success":  false,
+                                                                                                  "seed":  20001,
+                                                                                                  "task_id":  1,
+                                                                                                  "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                  "goal":  {
+                                                                                                               "task_name":  "task1_horizontal",
+                                                                                                               "init_xyzs":  [
+                                                                                                                                 [
+                                                                                                                                     0.425,
+                                                                                                                                     0.1,
+                                                                                                                                     0.02
+                                                                                                                                 ]
+                                                                                                                             ],
+                                                                                                               "goal_xyzs":  [
+                                                                                                                                 [
+                                                                                                                                     0.425,
+                                                                                                                                     -0.1,
+                                                                                                                                     0.02
+                                                                                                                                 ]
+                                                                                                                             ]
+                                                                                                           },
+                                                                                                  "steps":  2,
+                                                                                                  "task_success":  false,
+                                                                                                  "contact_valid":  true,
+                                                                                                  "physics_valid":  true,
+                                                                                                  "truncated":  true,
+                                                                                                  "peak_nonpad_penetration":  0.0,
+                                                                                                  "peak_penetration":  0.0
+                                                                                              }
+                                                                                          ],
+                                                                             "pc_success":  0.0,
+                                                                             "pc_task_success":  0.0,
+                                                                             "pc_contact_valid":  100.0,
+                                                                             "pc_physics_valid":  100.0,
+                                                                             "pc_truncated":  100.0
+                                                                         },
+                                                       "val/rollout":  {
+                                                                           "episodes":  [
+                                                                                            {
+                                                                                                "episode_ix":  0,
+                                                                                                "sum_reward":  0.0,
+                                                                                                "max_reward":  0.0,
+                                                                                                "success":  false,
+                                                                                                "seed":  20000,
+                                                                                                "task_id":  1,
+                                                                                                "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                "goal":  {
+                                                                                                             "task_name":  "task1_horizontal",
+                                                                                                             "init_xyzs":  [
+                                                                                                                               [
+                                                                                                                                   0.425,
+                                                                                                                                   0.1,
+                                                                                                                                   0.02
+                                                                                                                               ]
+                                                                                                                           ],
+                                                                                                             "goal_xyzs":  [
+                                                                                                                               [
+                                                                                                                                   0.425,
+                                                                                                                                   -0.1,
+                                                                                                                                   0.02
+                                                                                                                               ]
+                                                                                                                           ]
+                                                                                                         },
+                                                                                                "steps":  2,
+                                                                                                "task_success":  false,
+                                                                                                "contact_valid":  true,
+                                                                                                "physics_valid":  true,
+                                                                                                "truncated":  true,
+                                                                                                "peak_nonpad_penetration":  0.0,
+                                                                                                "peak_penetration":  0.0
+                                                                                            }
+                                                                                        ],
+                                                                           "pc_success":  0.0,
+                                                                           "pc_task_success":  0.0,
+                                                                           "pc_contact_valid":  100.0,
+                                                                           "pc_physics_valid":  100.0,
+                                                                           "pc_truncated":  100.0
+                                                                       }
+                                                   },
+                                 "decoded_videos":  [
+                                                        {
+                                                            "path":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/eval/000013/train/task-1/videos/eval_episode_0.mp4",
+                                                            "frames":  2,
+                                                            "size":  [
+                                                                         64,
+                                                                         32
+                                                                     ]
+                                                        },
+                                                        {
+                                                            "path":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/eval/000013/val/task-1/videos/eval_episode_0.mp4",
+                                                            "frames":  2,
+                                                            "size":  [
+                                                                         64,
+                                                                         32
+                                                                     ]
+                                                        },
+                                                        {
+                                                            "path":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/eval/000026/train/task-1/videos/eval_episode_0.mp4",
+                                                            "frames":  2,
+                                                            "size":  [
+                                                                         64,
+                                                                         32
+                                                                     ]
+                                                        },
+                                                        {
+                                                            "path":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/eval/000026/val/task-1/videos/eval_episode_0.mp4",
+                                                            "frames":  2,
+                                                            "size":  [
+                                                                         64,
+                                                                         32
+                                                                     ]
+                                                        },
+                                                        {
+                                                            "path":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/eval/000028/train/task-1/videos/eval_episode_0.mp4",
+                                                            "frames":  2,
+                                                            "size":  [
+                                                                         64,
+                                                                         32
+                                                                     ]
+                                                        },
+                                                        {
+                                                            "path":  "/mnt/e/vla-ogbench/runs/periodic-act-verified/eval/000028/val/task-1/videos/eval_episode_0.mp4",
+                                                            "frames":  2,
+                                                            "size":  [
+                                                                         64,
+                                                                         32
+                                                                     ]
+                                                        }
+                                                    ],
+                                 "retained_checkpoints":  [
+                                                              "000028"
+                                                          ],
+                                 "optimizer_metrics":  [
+                                                           {
+                                                               "step":  25,
+                                                               "train/optimizer_loss":  10.954911231994629,
+                                                               "train/l1_loss":  0.9740049839019775,
+                                                               "train/kld_loss":  0.9980906844139099
+                                                           }
+                                                       ]
+                             },
+                     "smolvla":  {
+                                     "root":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified",
+                                     "updates":  28,
+                                     "resume_from":  26,
+                                     "evaluation_steps":  [
+                                                              13,
+                                                              26,
+                                                              28
+                                                          ],
+                                     "train_reset_seeds":  [
+                                                               20001
+                                                           ],
+                                     "val_reset_seeds":  [
+                                                             20000
+                                                         ],
+                                     "final_metrics":  {
+                                                           "step":  28,
+                                                           "status":  "complete",
+                                                           "checkpoint":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/checkpoints/000028",
+                                                           "policy_type":  "smolvla",
+                                                           "probe_seed":  1000,
+                                                           "dataset_manifest_sha256":  "057dafedb2bb594cff688a85f7855cbd07d261d0771932c1e3889ca286a760d9",
+                                                           "train_stats_sha256":  "eb994aba9979973510ea26cd54bd31437bbc24c3af768628bef099242b3907bb",
+                                                           "train/probe":  {
+                                                                               "loss":  1.5958725094795227,
+                                                                               "losses_after_forward":  1.5100992798805237,
+                                                                               "losses_after_in_ep_bound":  1.4793659806251527,
+                                                                               "losses_after_rm_padding":  1.4793659806251527,
+                                                                               "samples":  5,
+                                                                               "loss_definition":  "flow_matching"
+                                                                           },
+                                                           "val/probe":  {
+                                                                             "loss":  1.3325020909309386,
+                                                                             "losses_after_forward":  1.3325020909309386,
+                                                                             "losses_after_in_ep_bound":  1.3325020909309386,
+                                                                             "losses_after_rm_padding":  1.3325020909309386,
+                                                                             "samples":  5,
+                                                                             "loss_definition":  "flow_matching"
+                                                                         },
+                                                           "train/rollout":  {
+                                                                                 "episodes":  [
+                                                                                                  {
+                                                                                                      "episode_ix":  0,
+                                                                                                      "sum_reward":  0.0,
+                                                                                                      "max_reward":  0.0,
+                                                                                                      "success":  false,
+                                                                                                      "seed":  20001,
+                                                                                                      "task_id":  1,
+                                                                                                      "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                      "goal":  {
+                                                                                                                   "task_name":  "task1_horizontal",
+                                                                                                                   "init_xyzs":  [
+                                                                                                                                     [
+                                                                                                                                         0.425,
+                                                                                                                                         0.1,
+                                                                                                                                         0.02
+                                                                                                                                     ]
+                                                                                                                                 ],
+                                                                                                                   "goal_xyzs":  [
+                                                                                                                                     [
+                                                                                                                                         0.425,
+                                                                                                                                         -0.1,
+                                                                                                                                         0.02
+                                                                                                                                     ]
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                                      "steps":  2,
+                                                                                                      "task_success":  false,
+                                                                                                      "contact_valid":  true,
+                                                                                                      "physics_valid":  true,
+                                                                                                      "truncated":  true,
+                                                                                                      "peak_nonpad_penetration":  0.0,
+                                                                                                      "peak_penetration":  0.0
+                                                                                                  }
+                                                                                              ],
+                                                                                 "pc_success":  0.0,
+                                                                                 "pc_task_success":  0.0,
+                                                                                 "pc_contact_valid":  100.0,
+                                                                                 "pc_physics_valid":  100.0,
+                                                                                 "pc_truncated":  100.0
+                                                                             },
+                                                           "val/rollout":  {
+                                                                               "episodes":  [
+                                                                                                {
+                                                                                                    "episode_ix":  0,
+                                                                                                    "sum_reward":  0.0,
+                                                                                                    "max_reward":  0.0,
+                                                                                                    "success":  false,
+                                                                                                    "seed":  20000,
+                                                                                                    "task_id":  1,
+                                                                                                    "instruction":  "Place the red cube at (0.425, -0.100, 0.020) meters.",
+                                                                                                    "goal":  {
+                                                                                                                 "task_name":  "task1_horizontal",
+                                                                                                                 "init_xyzs":  [
+                                                                                                                                   [
+                                                                                                                                       0.425,
+                                                                                                                                       0.1,
+                                                                                                                                       0.02
+                                                                                                                                   ]
+                                                                                                                               ],
+                                                                                                                 "goal_xyzs":  [
+                                                                                                                                   [
+                                                                                                                                       0.425,
+                                                                                                                                       -0.1,
+                                                                                                                                       0.02
+                                                                                                                                   ]
+                                                                                                                               ]
+                                                                                                             },
+                                                                                                    "steps":  2,
+                                                                                                    "task_success":  false,
+                                                                                                    "contact_valid":  true,
+                                                                                                    "physics_valid":  true,
+                                                                                                    "truncated":  true,
+                                                                                                    "peak_nonpad_penetration":  0.0,
+                                                                                                    "peak_penetration":  0.0
+                                                                                                }
+                                                                                            ],
+                                                                               "pc_success":  0.0,
+                                                                               "pc_task_success":  0.0,
+                                                                               "pc_contact_valid":  100.0,
+                                                                               "pc_physics_valid":  100.0,
+                                                                               "pc_truncated":  100.0
+                                                                           }
+                                                       },
+                                     "decoded_videos":  [
+                                                            {
+                                                                "path":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/eval/000013/train/task-1/videos/eval_episode_0.mp4",
+                                                                "frames":  2,
+                                                                "size":  [
+                                                                             64,
+                                                                             32
+                                                                         ]
+                                                            },
+                                                            {
+                                                                "path":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/eval/000013/val/task-1/videos/eval_episode_0.mp4",
+                                                                "frames":  2,
+                                                                "size":  [
+                                                                             64,
+                                                                             32
+                                                                         ]
+                                                            },
+                                                            {
+                                                                "path":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/eval/000026/train/task-1/videos/eval_episode_0.mp4",
+                                                                "frames":  2,
+                                                                "size":  [
+                                                                             64,
+                                                                             32
+                                                                         ]
+                                                            },
+                                                            {
+                                                                "path":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/eval/000026/val/task-1/videos/eval_episode_0.mp4",
+                                                                "frames":  2,
+                                                                "size":  [
+                                                                             64,
+                                                                             32
+                                                                         ]
+                                                            },
+                                                            {
+                                                                "path":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/eval/000028/train/task-1/videos/eval_episode_0.mp4",
+                                                                "frames":  2,
+                                                                "size":  [
+                                                                             64,
+                                                                             32
+                                                                         ]
+                                                            },
+                                                            {
+                                                                "path":  "/mnt/e/vla-ogbench/runs/periodic-smolvla-verified/eval/000028/val/task-1/videos/eval_episode_0.mp4",
+                                                                "frames":  2,
+                                                                "size":  [
+                                                                             64,
+                                                                             32
+                                                                         ]
+                                                            }
+                                                        ],
+                                     "retained_checkpoints":  [
+                                                                  "000028"
+                                                              ],
+                                     "optimizer_metrics":  [
+                                                               {
+                                                                   "step":  25,
+                                                                   "train/optimizer_loss":  1.8489830493927002,
+                                                                   "train/losses_after_forward":  1.564193606376648,
+                                                                   "train/losses_after_in_ep_bound":  1.5022987127304077,
+                                                                   "train/losses_after_rm_padding":  1.5022987127304077,
+                                                                   "train/loss":  1.8489830493927002
+                                                               }
+                                                           ]
+                                 }
+                 },
+    "checks":  {
+                   "pytest_passed":  113,
+                   "ruff":  "passed",
+                   "powershell_syntax":  "passed",
+                   "decoded_videos":  12
+               },
+    "long_pipeline":  {
+                          "started":  "2026-10-04",
+                          "initial_phase":  "collect",
+                          "pid":  15689,
+                          "status":  "E:/vla-ogbench/runs/long-training-status.json",
+                          "log":  "E:/vla-ogbench/runs/long-training.log"
+                      }
+}

@@ -1,0 +1,9 @@
+{
+  "episode": 0,
+  "recorded_outcome": "success",
+  "contact_valid": true,
+  "peak_nonpad_penetration": 0.0003041521364681249,
+  "peak_penetration": 0.00035644656646642396,
+  "violations": [],
+  "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+}

@@ -1,0 +1,350 @@
+{
+  "status": "complete",
+  "versions": {
+    "ogbench": "1.2.1",
+    "mujoco": "3.14.0",
+    "mujoco-warp": "3.14.0",
+    "warp-lang": "1.17.0",
+    "torch": "2.11.0",
+    "ogbench-mjwarp": "0.1.0",
+    "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+    "integration_source_sha256": "a0cc9037c68eb630a549b6bc63753855ef8c177071bde7b825ea08a6ffad332e"
+  },
+  "checks": {
+    "pytest_passed": 119,
+    "ruff": "passed",
+    "powershell_syntax": "passed",
+    "legacy_deletion_scope": "passed"
+  },
+  "dataset": {
+    "path": "/mnt/e/vla-ogbench/datasets/rendering-smoke-v2",
+    "format": "ogbench-mjwarp-2",
+    "episodes": 4,
+    "frames": 505,
+    "reset_seeds": [
+      20000,
+      20001
+    ],
+    "all_successful_contact_valid": true,
+    "rendering": {
+      "backend": "mujoco-warp",
+      "cameras": [
+        "front",
+        "ur5e/wrist"
+      ],
+      "resolution": [
+        32,
+        32
+      ],
+      "model_sha256": "9ce4b414273d3e4ca8188a23658e6e9e98a0ec359486d703eb9ce68762d5183e",
+      "settings": {
+        "use_shadows": false,
+        "use_textures": true,
+        "use_ambient_lighting": true,
+        "samples_per_pixel": 1
+      },
+      "versions": {
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0"
+      }
+    }
+  },
+  "training": {
+    "act": {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2",
+      "checkpoint": "/mnt/e/vla-ogbench/runs/rendering-act-v2/checkpoints/000003/pretrained_model",
+      "updates": 3,
+      "resumed_from": 2,
+      "loss_probe_steps": [
+        1,
+        2,
+        3
+      ],
+      "rollout_steps": [
+        2,
+        3
+      ],
+      "final_losses": {
+        "train": 0.9443565425226244,
+        "val": 0.7177514731884003
+      },
+      "standalone_eval": {
+        "avg_sum_reward": 0.0,
+        "avg_max_reward": 0.0,
+        "pc_success": 0.0,
+        "eval_s": 1.7794253826141357,
+        "eval_ep_s": 1.779425859451294,
+        "pc_task_success": 0.0,
+        "pc_contact_valid": 100.0
+      }
+    },
+    "smolvla": {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2",
+      "checkpoint": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2/checkpoints/000003/pretrained_model",
+      "updates": 3,
+      "resumed_from": 2,
+      "loss_probe_steps": [
+        1,
+        2,
+        3
+      ],
+      "rollout_steps": [
+        2,
+        3
+      ],
+      "final_losses": {
+        "train": 2.4114502668380737,
+        "val": 2.860163927078247
+      },
+      "standalone_eval": {
+        "avg_sum_reward": 0.0,
+        "avg_max_reward": 0.0,
+        "pc_success": 0.0,
+        "eval_s": 2.393402576446533,
+        "eval_ep_s": 2.3934028148651123,
+        "pc_task_success": 0.0,
+        "pc_contact_valid": 100.0
+      }
+    }
+  },
+  "videos": [
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2/eval/000002/train/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2/eval/000002/val/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2/eval/000003/train/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2/eval/000003/val/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2/eval-native/videos/cube-single-v0_1/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-act-v2/eval-standalone/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2/eval/000002/train/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2/eval/000002/val/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2/eval/000003/train/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2/eval/000003/val/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "/mnt/e/vla-ogbench/runs/rendering-smolvla-v2/eval-standalone/task-1/videos/eval_episode_0.mp4",
+      "frames": 2,
+      "size": [
+        64,
+        32
+      ]
+    }
+  ],
+  "benchmark": {
+    "config": {
+      "episodes": 32,
+      "candidates": 8,
+      "horizon": 8,
+      "iterations": 2,
+      "elite_fraction": 0.1,
+      "noise": 0.12,
+      "gripper_noise": 0.0,
+      "joint_target_noise": 0.0,
+      "min_std": 0.015,
+      "tracking_weight": 100.0,
+      "action_weight": 0.01,
+      "smoothness_weight": 0.02,
+      "task_weight": 20.0,
+      "contact_weight": 100.0,
+      "max_nonpad_penetration": 0.001,
+      "max_penetration": 0.003,
+      "nconmax": 128,
+      "njmax": 512
+    },
+    "steps": 5,
+    "seconds": 1.8284488000062993,
+    "execution_steps_per_second": 87.50586836199558,
+    "rollout_steps_per_second": 11200.751150335434,
+    "planner_seconds": [
+      0.35675078399071936,
+      0.3621177369932411,
+      0.3591762669966556,
+      0.3582784989994252,
+      0.35751905699726194
+    ],
+    "render_setup_seconds": 0.3053204300085781,
+    "render_batch_seconds": 0.0007869758002925665,
+    "rendered_images": 64,
+    "image_size": 32,
+    "device_used_bytes": 3010920448,
+    "torch_peak_bytes": 26000896,
+    "valid": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "success": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "legacy_removal": {
+    "dataset_root": "E:\\vla-ogbench\\datasets",
+    "timestamp": "2026-10-04T22:14:24.1113033Z",
+    "datasets": [
+      {
+        "path": "E:\\vla-ogbench\\datasets\\cube-mixed-smoke",
+        "episodes": 2,
+        "removed": true
+      },
+      {
+        "path": "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+        "episodes": 2,
+        "removed": true
+      },
+      {
+        "path": "E:\\vla-ogbench\\datasets\\scene-verified",
+        "episodes": 1,
+        "removed": true
+      },
+      {
+        "path": "E:\\vla-ogbench\\datasets\\train-smoke-v1",
+        "episodes": 4,
+        "removed": true
+      },
+      {
+        "path": "E:\\vla-ogbench\\datasets\\vla-ready",
+        "episodes": 5,
+        "removed": true
+      },
+      {
+        "path": "E:\\vla-ogbench\\datasets\\vla-smoke256",
+        "episodes": 2,
+        "removed": true
+      },
+      {
+        "path": "E:\\vla-ogbench\\datasets\\vla-starter",
+        "episodes": 2,
+        "removed": true
+      }
+    ]
+  },
+  "limitations": "Two updates plus resume to three; rollout horizon two steps. These verify interfaces, not policy performance."
+}

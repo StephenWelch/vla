@@ -1,0 +1,180 @@
+{
+  "date": "2026-10-03",
+  "tests": {
+    "passed": 73,
+    "warnings": 106,
+    "seconds": 192.52,
+    "image_id": "94628aea9c88931b5c9cebfe55be336c35fa7c9358bf026606c7d77e06890e56"
+  },
+  "run": {
+    "env_id": "cube-single-v0",
+    "episodes": 4,
+    "task_ids": [
+      1
+    ],
+    "seed": 2026,
+    "planner": {
+      "episodes": 4,
+      "candidates": 8,
+      "horizon": 8,
+      "iterations": 2,
+      "elite_fraction": 0.1,
+      "noise": 0.12,
+      "gripper_noise": 0.0,
+      "joint_target_noise": 0.01,
+      "min_std": 0.015,
+      "tracking_weight": 100.0,
+      "action_weight": 0.01,
+      "smoothness_weight": 0.02,
+      "task_weight": 20.0,
+      "contact_weight": 100.0,
+      "max_nonpad_penetration": 0.001,
+      "max_penetration": 0.003,
+      "nconmax": 128,
+      "njmax": 512
+    },
+    "randomization": {
+      "schema_version": 1,
+      "config": {
+        "seed": null,
+        "variants_per_reset": 4,
+        "order": true,
+        "cube_grasps": true,
+        "handle_grasps": false,
+        "position_noise": 0.01,
+        "yaw_noise": 0.1,
+        "duration_scale_min": 0.9,
+        "duration_scale_max": 1.2
+      },
+      "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+    },
+    "image_size": 32,
+    "max_steps": null,
+    "record_images": true,
+    "versions": {
+      "ogbench": "1.2.1",
+      "mujoco": "3.14.0",
+      "mujoco-warp": "3.14.0",
+      "warp-lang": "1.17.0",
+      "torch": "2.11.0",
+      "ogbench-mjwarp": "0.1.0",
+      "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+      "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+    }
+  },
+  "summary": {
+    "episodes": 4,
+    "successes": 4,
+    "failures": 0,
+    "success_rate": 1.0,
+    "frames": 512,
+    "outcomes": [
+      {
+        "episode_id": 0,
+        "task_id": 1,
+        "outcome": "success",
+        "reason": "success"
+      },
+      {
+        "episode_id": 1,
+        "task_id": 1,
+        "outcome": "success",
+        "reason": "success"
+      },
+      {
+        "episode_id": 2,
+        "task_id": 1,
+        "outcome": "success",
+        "reason": "success"
+      },
+      {
+        "episode_id": 3,
+        "task_id": 1,
+        "outcome": "success",
+        "reason": "success"
+      }
+    ]
+  },
+  "diversity": {
+    "metric": "RMS normalized phase-aligned paths, segment duration and skill order; angles represented as sine/cosine",
+    "samples_per_phase": 8,
+    "groups": [
+      {
+        "env": "cube-single-v0",
+        "task_id": 1,
+        "environment_seed": 2026,
+        "initial_state_fingerprint": "4fc1660f5c0aecf216bc1deedff377260bc794fb913ee5fc84c1fa52ab842b88",
+        "reset_identity": "saved_state_fingerprint",
+        "episodes": 4,
+        "pairs": 6,
+        "mean_distance": 0.3232616980847547,
+        "min_distance": 0.05393361033426699,
+        "max_distance": 0.48684193988179225
+      }
+    ]
+  },
+  "independent_recorded_state_audits": [
+    {
+      "episode": 0,
+      "recorded_outcome": "success",
+      "contact_valid": true,
+      "peak_nonpad_penetration": 0.0,
+      "peak_penetration": 0.00032256185410214797,
+      "violations": [],
+      "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+    },
+    {
+      "episode": 1,
+      "recorded_outcome": "success",
+      "contact_valid": true,
+      "peak_nonpad_penetration": 0.0,
+      "peak_penetration": 0.0003524002651586378,
+      "violations": [],
+      "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+    },
+    {
+      "episode": 2,
+      "recorded_outcome": "success",
+      "contact_valid": true,
+      "peak_nonpad_penetration": 0.0,
+      "peak_penetration": 0.00029883488393052995,
+      "violations": [],
+      "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+    },
+    {
+      "episode": 3,
+      "recorded_outcome": "success",
+      "contact_valid": true,
+      "peak_nonpad_penetration": 0.0,
+      "peak_penetration": 0.0003250050975362937,
+      "violations": [],
+      "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+    }
+  ],
+  "export": {
+    "root": "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+    "episodes": 2,
+    "frames": 250,
+    "selection": {
+      "method": "farthest_point_phase_aligned",
+      "diverse_per_task": 2,
+      "requires_success_and_contact_valid": true
+    },
+    "source_episodes": [
+      0,
+      1
+    ],
+    "checked": "Front/wrist RGB 32x32, state 18, action chunks [8,5], numeric annotations loaded through LeRobot.",
+    "stored_state_replay": {
+      "episode": 0,
+      "steps": 121,
+      "max_qpos_error": 9.088963270187378e-05,
+      "nonfinite_steps": 0,
+      "success": true,
+      "recorded_outcome": "success",
+      "outcome_matches": true,
+      "restore_frames": true
+    }
+  },
+  "scope": "Diagnostic sample. Earlier generation revision and final analysis/test revision are identified separately; no VLA training measured."
+}

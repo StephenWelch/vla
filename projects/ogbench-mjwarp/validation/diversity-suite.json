@@ -1,0 +1,3767 @@
+{
+  "date": "2026-10-03",
+  "device": "RTX 5090, Docker Desktop/WSL 2",
+  "report": {
+    "all_tasks_succeeded": false,
+    "all_successes_contact_valid": true,
+    "environments": [
+      {
+        "env": "cube-single-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 635,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003261600278056182,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0003731365723069757,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003376456205529903,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.00039710235432721674,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00031313056935742227,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.00034907288500107825,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00033500713929019647,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.00042741172364912927,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00027681412473979,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0004259679699316621,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "cube-double-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1263,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00031095510882275963,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0003689102886710316,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00032507525348455786,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0004279895219951868,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003607216058276292,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0004918389022350311,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003443062980126329,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0004990949528291821,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00034923495463317174,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.000484779360704124,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "cube-triple-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 2017,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00024502239629755154,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0002923707361333072,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00032614699070107443,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0005538659752346575,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009286490640491119,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009595939773134887,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00038495375548177664,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0008896487997844815,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.000438879942840509,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0006347513990476727,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "cube-quadruple-v0",
+        "missing_successes": [
+          5
+        ],
+        "summary": {
+          "episodes": 5,
+          "successes": 4,
+          "failures": 1,
+          "success_rate": 0.8,
+          "frames": 2939,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "failure",
+              "reason": "invalid_candidates"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0002915041114930843,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.00046824474702589214,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003391250971785688,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0004111557500436902,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0005692268970388183,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0005968561163172126,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003929388478400351,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0006322901463136077,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "failure",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003193840419967689,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0004994036862626672,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "cube-octuple-v0",
+        "missing_successes": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "summary": {
+          "episodes": 5,
+          "successes": 1,
+          "failures": 4,
+          "success_rate": 0.2,
+          "frames": 1553,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "failure",
+              "reason": "invalid_candidates"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "failure",
+              "reason": "invalid_candidates"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "failure",
+              "reason": "invalid_candidates"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "failure",
+              "reason": "invalid_candidates"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00028861460398083385,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0005383571260608733,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "failure",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00041030970489735406,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 5.910707113798708e-05,
+              "peak_penetration": 0.0008134182426147163,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "failure",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.000599046845885659,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.000600069819483906,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "failure",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0007179509162774113,
+            "peak_penetration": 0.0007179509162774113,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0007178488885983825,
+              "peak_penetration": 0.0007224645232781768,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "failure",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0003138221562175971,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.00037996069295331836,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "scene-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1658,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.00042734824099259754,
+            "peak_penetration": 0.00042734824099259754,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0004273775266483426,
+              "peak_penetration": 0.0004273775266483426,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0003879193406397969,
+            "peak_penetration": 0.0008194323771449491,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0003879573487211019,
+              "peak_penetration": 0.0008194707916118205,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.00019067342959498018,
+            "peak_penetration": 0.000863323055460094,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0003535534779075533,
+              "peak_penetration": 0.000863323055460094,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0008360857379618718,
+            "peak_penetration": 0.0008360857379618718,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0008360857379618718,
+              "peak_penetration": 0.0008360857379618718,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0003266162297134826,
+            "peak_penetration": 0.000879731912580603,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.00033786185667850077,
+              "peak_penetration": 0.001132121542468667,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "puzzle-3x3-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1131,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0007409944086135406,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0007409944086135406,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0008812557691346701,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0008812557691346701,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0010064766703027639,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0010064766703027639,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009850227785155874,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009850227785155874,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009749710163840797,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009749710163840797,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "puzzle-4x4-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 1312,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0010340420833727937,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.001034047338180244,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0008961175485029949,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0008961716084741056,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009408243870039218,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009408243870039218,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.000896970093579294,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.000896970093579294,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.00102841174319665,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.00102841174319665,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "puzzle-4x5-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 2510,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0007385553052276506,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0007927985279820859,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0008829588003713973,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009023387683555484,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009989661973324182,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009989661973324182,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0010151282103360582,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0010151282103360582,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009634091110901633,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009634091110901633,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      },
+      {
+        "env": "puzzle-4x6-v0",
+        "missing_successes": [],
+        "summary": {
+          "episodes": 5,
+          "successes": 5,
+          "failures": 0,
+          "success_rate": 1.0,
+          "frames": 2664,
+          "outcomes": [
+            {
+              "episode_id": 0,
+              "task_id": 1,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 1,
+              "task_id": 2,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 2,
+              "task_id": 3,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 3,
+              "task_id": 4,
+              "outcome": "success",
+              "reason": "success"
+            },
+            {
+              "episode_id": 4,
+              "task_id": 5,
+              "outcome": "success",
+              "reason": "success"
+            }
+          ]
+        },
+        "contact_audits": [
+          {
+            "episode": 0,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009240722409904201,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 1,
+            "seed": 2026,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009729310986585915,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 1,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0008587101810384745,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 2,
+            "seed": 2027,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0008688521338626742,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 2,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.000985151829966946,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 3,
+            "seed": 2028,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009852395160123706,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 3,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0010610506364434613,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 4,
+            "seed": 2029,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0010610506364434613,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          },
+          {
+            "episode": 4,
+            "recorded_outcome": "success",
+            "contact_valid": true,
+            "peak_nonpad_penetration": 0.0,
+            "peak_penetration": 0.0009765246957590262,
+            "violations": [],
+            "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed.",
+            "task_id": 5,
+            "seed": 2030,
+            "substeps": {
+              "valid": true,
+              "peak_nonpad_penetration": 0.0,
+              "peak_penetration": 0.0009765246957590262,
+              "max_nonpad_penetration": 0.001,
+              "max_penetration": 0.003,
+              "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "runs": {
+    "cube-single-v0": {
+      "env_id": "cube-single-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "cube-double-v0": {
+      "env_id": "cube-double-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "cube-triple-v0": {
+      "env_id": "cube-triple-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "cube-quadruple-v0": {
+      "env_id": "cube-quadruple-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "cube-octuple-v0": {
+      "env_id": "cube-octuple-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "scene-v0": {
+      "env_id": "scene-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "puzzle-3x3-v0": {
+      "env_id": "puzzle-3x3-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "puzzle-4x4-v0": {
+      "env_id": "puzzle-4x4-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "puzzle-4x5-v0": {
+      "env_id": "puzzle-4x5-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    },
+    "puzzle-4x6-v0": {
+      "env_id": "puzzle-4x6-v0",
+      "episodes": 5,
+      "task_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 5,
+        "candidates": 4,
+        "horizon": 4,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.01,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 1,
+          "order": true,
+          "cube_grasps": true,
+          "handle_grasps": false,
+          "position_noise": 0.01,
+          "yaw_noise": 0.1,
+          "duration_scale_min": 0.9,
+          "duration_scale_max": 1.2
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "57c91a8d2ecb7a8986569b188014b7611a42d7eab8f66fe312946c1e38d67617"
+      }
+    }
+  },
+  "experimental_handle_grasps": {
+    "run": {
+      "env_id": "scene-v0",
+      "episodes": 2,
+      "task_ids": [
+        4
+      ],
+      "seed": 2026,
+      "planner": {
+        "episodes": 2,
+        "candidates": 8,
+        "horizon": 8,
+        "iterations": 1,
+        "elite_fraction": 0.1,
+        "noise": 0.12,
+        "gripper_noise": 0.0,
+        "joint_target_noise": 0.0,
+        "min_std": 0.015,
+        "tracking_weight": 100.0,
+        "action_weight": 0.01,
+        "smoothness_weight": 0.02,
+        "task_weight": 20.0,
+        "contact_weight": 100.0,
+        "max_nonpad_penetration": 0.001,
+        "max_penetration": 0.003,
+        "nconmax": 128,
+        "njmax": 512
+      },
+      "randomization": {
+        "schema_version": 1,
+        "config": {
+          "seed": null,
+          "variants_per_reset": 2,
+          "order": false,
+          "cube_grasps": false,
+          "handle_grasps": true,
+          "position_noise": 0.0,
+          "yaw_noise": 0.0,
+          "duration_scale_min": 1.0,
+          "duration_scale_max": 1.0
+        },
+        "seed_derivation": "SeedSequence([diversity_seed, episode_id, fixed_stream_id]); environment_seed=seed+scenario_id"
+      },
+      "image_size": 16,
+      "max_steps": null,
+      "record_images": false,
+      "versions": {
+        "ogbench": "1.2.1",
+        "mujoco": "3.14.0",
+        "mujoco-warp": "3.14.0",
+        "warp-lang": "1.17.0",
+        "torch": "2.11.0",
+        "ogbench-mjwarp": "0.1.0",
+        "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+        "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+      }
+    },
+    "summary": {
+      "episodes": 2,
+      "successes": 0,
+      "failures": 2,
+      "success_rate": 0.0,
+      "frames": 120,
+      "outcomes": [
+        {
+          "episode_id": 0,
+          "task_id": 4,
+          "outcome": "failure",
+          "reason": "invalid_candidates"
+        },
+        {
+          "episode_id": 1,
+          "task_id": 4,
+          "outcome": "failure",
+          "reason": "invalid_candidates"
+        }
+      ]
+    },
+    "episodes": [
+      {
+        "env_id": "scene-v0",
+        "task_id": 4,
+        "seed": 2026,
+        "randomization": {
+          "schema_version": 1,
+          "available": true,
+          "scenario_id": 0,
+          "variant_id": 0,
+          "config": {
+            "seed": null,
+            "variants_per_reset": 2,
+            "order": false,
+            "cube_grasps": false,
+            "handle_grasps": true,
+            "position_noise": 0.0,
+            "yaw_noise": 0.0,
+            "duration_scale_min": 1.0,
+            "duration_scale_max": 1.0
+          },
+          "seeds": {
+            "oracle": 2727543821,
+            "order": 2255857163,
+            "grasp": 1000890113,
+            "path": 1858464651,
+            "timing": 770871491,
+            "planner": 735627880,
+            "joint_targets": 3129264926,
+            "environment": 2026
+          },
+          "factors": {
+            "initial_conditions": {
+              "enabled": true,
+              "method": "ogbench_reset",
+              "seed": 2026
+            },
+            "order": {
+              "enabled": false,
+              "method": "uniform_feasible_choice"
+            },
+            "cube_grasps": {
+              "enabled": false,
+              "method": "uniform_quarter_turn_symmetry",
+              "unit": "radian"
+            },
+            "handle_grasps": {
+              "enabled": true,
+              "method": "uniform_half_turn_symmetry",
+              "unit": "radian"
+            },
+            "path": {
+              "enabled": false,
+              "method": "uniform_free_keyframe_offsets",
+              "position_bounds": [
+                -0.0,
+                0.0
+              ],
+              "height_bounds": [
+                0.0,
+                0.0
+              ],
+              "yaw_bounds": [
+                -0.0,
+                0.0
+              ],
+              "position_unit": "meter",
+              "angle_unit": "radian",
+              "frame": "world"
+            },
+            "timing": {
+              "enabled": false,
+              "method": "uniform_segment_scale_with_safety_floors",
+              "bounds": [
+                1.0,
+                1.0
+              ]
+            },
+            "joint_targets": {
+              "enabled": false,
+              "method": "uniform_post_ik_episode_offset",
+              "bounds": [
+                -0.0,
+                0.0
+              ],
+              "unit": "radian",
+              "joint_order": [
+                "joint_0",
+                "joint_1",
+                "joint_2",
+                "joint_3",
+                "joint_4",
+                "joint_5"
+              ],
+              "actuator_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "actuator_bounds": [
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -3.1415,
+                  3.1415
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ]
+              ],
+              "applied_targets": "sim/ctrl[frame+1, actuator_ids]",
+              "clamping": "actuator limits after adding offsets when enabled",
+              "sample": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "oracle": {
+              "enabled": true,
+              "method": "seeded_ogbench_keyframes",
+              "note": "Upstream heights, clearance positions and timing jitter are recorded per skill."
+            },
+            "cem": {
+              "enabled": true,
+              "method": "gaussian_action_offset_search",
+              "settings": {
+                "episodes": 2,
+                "candidates": 8,
+                "horizon": 8,
+                "iterations": 1,
+                "elite_fraction": 0.1,
+                "noise": 0.12,
+                "gripper_noise": 0.0,
+                "joint_target_noise": 0.0,
+                "min_std": 0.015,
+                "tracking_weight": 100.0,
+                "action_weight": 0.01,
+                "smoothness_weight": 0.02,
+                "task_weight": 20.0,
+                "contact_weight": 100.0,
+                "max_nonpad_penetration": 0.001,
+                "max_penetration": 0.003,
+                "nconmax": 128,
+                "njmax": 512
+              }
+            }
+          },
+          "skills": [
+            {
+              "skill_id": 0,
+              "kind": "button",
+              "index": 0,
+              "goal": 1,
+              "start_frame": 0,
+              "choices": [
+                {
+                  "eligible": [
+                    0
+                  ],
+                  "selected": 0,
+                  "constraint": "unlock drawer before access or movement"
+                }
+              ],
+              "samples": {},
+              "upstream_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.3742199136465546,
+                    0.11620744504868052,
+                    0.33577148100957804
+                  ],
+                  "yaw": 4.255935688806945,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "press_start",
+                  "time": 1.0317597014726803,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press",
+                  "time": 1.4506430452701755,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.10039997545892401
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press_end",
+                  "time": 1.9674181099294867,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "final",
+                  "time": 2.7639476026559024,
+                  "position": [
+                    0.4540029782323779,
+                    -0.15966830141792077,
+                    0.22000693054698686
+                  ],
+                  "yaw": 2.97337897279213,
+                  "gripper": 0.0
+                }
+              ],
+              "baseline_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.3742199136465546,
+                    0.11620744504868052,
+                    0.33577148100957804
+                  ],
+                  "yaw": 4.255935688806945,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "press_start",
+                  "time": 1.0317597014726803,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press",
+                  "time": 1.4506430452701755,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.10039997545892401
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press_end",
+                  "time": 1.9674181099294867,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                }
+              ],
+              "keyframes_before_workspace_clip": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.3742199136465546,
+                    0.11620744504868052,
+                    0.33577148100957804
+                  ],
+                  "yaw": 4.255935688806945,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "press_start",
+                  "time": 1.0317597014726803,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press",
+                  "time": 1.4506430452701755,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.10039997545892401
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press_end",
+                  "time": 1.9674181099294867,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                }
+              ],
+              "phase_names": [
+                "initial",
+                "press_start",
+                "press",
+                "press_end"
+              ],
+              "phase_times": [
+                0.0,
+                1.0317597014726803,
+                1.4506430452701755,
+                1.9674181099294867
+              ],
+              "workspace_bounds": [
+                [
+                  0.25,
+                  -0.35,
+                  0.02
+                ],
+                [
+                  0.6,
+                  0.35,
+                  0.35
+                ]
+              ],
+              "workspace_clipped_frames": [],
+              "end_frame_exclusive": 40
+            },
+            {
+              "skill_id": 1,
+              "kind": "drawer",
+              "index": 0,
+              "goal": -0.16,
+              "start_frame": 40,
+              "choices": [
+                {
+                  "eligible": [
+                    0
+                  ],
+                  "selected": 0,
+                  "constraint": "drawer access precedes placement"
+                }
+              ],
+              "samples": {
+                "grasp": {
+                  "symmetry": 1,
+                  "yaw_offset": 3.141592653589793,
+                  "allowed_symmetries": [
+                    0,
+                    1
+                  ]
+                }
+              },
+              "upstream_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.5768921603257617,
+                    -0.04440110189231725,
+                    0.17907182853761394
+                  ],
+                  "yaw": 0.463340580396184,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "approach",
+                  "time": 0.5797617221156411,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_start",
+                  "time": 0.9162281194313395,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_end",
+                  "time": 1.2505721553643976,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "move",
+                  "time": 1.5149999009140889,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "release",
+                  "time": 1.7976444486092344,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "clearance",
+                  "time": 2.0412653285770057,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "final",
+                  "time": 2.7014646691952304,
+                  "position": [
+                    0.27501159082981513,
+                    -0.003864682945777742,
+                    0.24587846429500837
+                  ],
+                  "yaw": 2.985308427467351,
+                  "gripper": 0.0
+                }
+              ],
+              "baseline_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.5768921603257617,
+                    -0.04440110189231725,
+                    0.17907182853761394
+                  ],
+                  "yaw": 0.463340580396184,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "approach",
+                  "time": 0.5797617221156411,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_start",
+                  "time": 0.9162281194313395,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_end",
+                  "time": 1.5162281194313394,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "move",
+                  "time": 2.7162281194313396,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "release",
+                  "time": 3.1162281194313395,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "clearance",
+                  "time": 3.6162281194313395,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                }
+              ],
+              "keyframes_before_workspace_clip": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.5768921603257617,
+                    -0.04440110189231725,
+                    0.17907182853761394
+                  ],
+                  "yaw": 0.463340580396184,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "approach",
+                  "time": 0.5797617221156411,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.2
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_start",
+                  "time": 0.9162281194313395,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_end",
+                  "time": 1.5162281194313394,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "move",
+                  "time": 2.7162281194313396,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "release",
+                  "time": 3.1162281194313395,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "clearance",
+                  "time": 3.6162281194313395,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.2
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                }
+              ],
+              "phase_names": [
+                "initial",
+                "approach",
+                "grasp_start",
+                "grasp_end",
+                "move",
+                "release",
+                "clearance"
+              ],
+              "phase_times": [
+                0.0,
+                0.5797617221156411,
+                0.9162281194313395,
+                1.5162281194313394,
+                2.7162281194313396,
+                3.1162281194313395,
+                3.6162281194313395
+              ],
+              "workspace_bounds": [
+                [
+                  0.25,
+                  -0.35,
+                  0.02
+                ],
+                [
+                  0.6,
+                  0.35,
+                  0.35
+                ]
+              ],
+              "workspace_clipped_frames": [],
+              "end_frame_exclusive": 60
+            }
+          ],
+          "initial_state": {
+            "qpos": [
+              -1.618716865240638,
+              -1.8648241053625394,
+              1.809155927468132,
+              -1.5151281489004929,
+              -1.5707963267948972,
+              1.9793291461000702,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.35305569605370263,
+              0.04596605534711139,
+              0.02,
+              -0.9946185157284742,
+              0.0,
+              0.0,
+              0.10360505861243981,
+              0.0,
+              0.0,
+              0.0,
+              0.002717416082893028
+            ],
+            "mocap_pos": [
+              [
+                0.33,
+                -0.356,
+                0.065986
+              ]
+            ],
+            "buttons": [
+              0,
+              0
+            ],
+            "button_goals": [
+              1,
+              0
+            ],
+            "drawer_goal": 0.0,
+            "window_goal": 0.0,
+            "cubes": [
+              {
+                "index": 0,
+                "position": [
+                  0.35305569605370263,
+                  0.04596605534711139,
+                  0.02
+                ],
+                "quaternion_wxyz": [
+                  -0.9946185157284742,
+                  0.0,
+                  0.0,
+                  0.10360505861243981
+                ]
+              }
+            ]
+          },
+          "initial_state_fingerprint": "4ed535cd1e92876421669ff5b1d9e2f68004f9957edbd2a9288d5c7809f7334d",
+          "fingerprint_method": "sha256_saved_sim_state_excluding_joint_target_offset"
+        },
+        "instruction": "Place the red cube at (0.330, -0.356, 0.066) meters. Set the buttons in row-major order to 1, 0. Set the drawer to 0.000 meters and the window to 0.000 meters.",
+        "goal": {
+          "task_name": "task4_put_in_drawer",
+          "init": {
+            "block_xyzs": [
+              [
+                0.35,
+                0.05,
+                0.02
+              ]
+            ],
+            "button_states": [
+              0,
+              0
+            ],
+            "drawer_pos": 0.0,
+            "window_pos": 0.0
+          },
+          "goal": {
+            "block_xyzs": [
+              [
+                0.33,
+                -0.356,
+                0.065986
+              ]
+            ],
+            "button_states": [
+              1,
+              0
+            ],
+            "drawer_pos": 0.0,
+            "window_pos": 0.0
+          }
+        },
+        "fps": 20,
+        "image_size": 16,
+        "record_images": false,
+        "versions": {
+          "ogbench": "1.2.1",
+          "mujoco": "3.14.0",
+          "mujoco-warp": "3.14.0",
+          "warp-lang": "1.17.0",
+          "torch": "2.11.0",
+          "ogbench-mjwarp": "0.1.0",
+          "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+          "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+        },
+        "planner": {
+          "episodes": 2,
+          "candidates": 8,
+          "horizon": 8,
+          "iterations": 1,
+          "elite_fraction": 0.1,
+          "noise": 0.12,
+          "gripper_noise": 0.0,
+          "joint_target_noise": 0.0,
+          "min_std": 0.015,
+          "tracking_weight": 100.0,
+          "action_weight": 0.01,
+          "smoothness_weight": 0.02,
+          "task_weight": 20.0,
+          "contact_weight": 100.0,
+          "max_nonpad_penetration": 0.001,
+          "max_penetration": 0.003,
+          "nconmax": 128,
+          "njmax": 512
+        },
+        "joint_target_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "contact_quality": {
+          "valid": true,
+          "peak_nonpad_penetration": 0.0,
+          "peak_penetration": 0.000700982054695487,
+          "max_nonpad_penetration": 0.001,
+          "max_penetration": 0.003,
+          "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+        },
+        "success_verified": false,
+        "episode_id": 0,
+        "length": 60,
+        "outcome": "failure",
+        "reason": "invalid_candidates",
+        "archive": "episode-000000.npz"
+      },
+      {
+        "env_id": "scene-v0",
+        "task_id": 4,
+        "seed": 2026,
+        "randomization": {
+          "schema_version": 1,
+          "available": true,
+          "scenario_id": 0,
+          "variant_id": 1,
+          "config": {
+            "seed": null,
+            "variants_per_reset": 2,
+            "order": false,
+            "cube_grasps": false,
+            "handle_grasps": true,
+            "position_noise": 0.0,
+            "yaw_noise": 0.0,
+            "duration_scale_min": 1.0,
+            "duration_scale_max": 1.0
+          },
+          "seeds": {
+            "oracle": 2351327623,
+            "order": 3441769875,
+            "grasp": 4004802994,
+            "path": 709472606,
+            "timing": 1762370073,
+            "planner": 1885603355,
+            "joint_targets": 2424429795,
+            "environment": 2026
+          },
+          "factors": {
+            "initial_conditions": {
+              "enabled": true,
+              "method": "ogbench_reset",
+              "seed": 2026
+            },
+            "order": {
+              "enabled": false,
+              "method": "uniform_feasible_choice"
+            },
+            "cube_grasps": {
+              "enabled": false,
+              "method": "uniform_quarter_turn_symmetry",
+              "unit": "radian"
+            },
+            "handle_grasps": {
+              "enabled": true,
+              "method": "uniform_half_turn_symmetry",
+              "unit": "radian"
+            },
+            "path": {
+              "enabled": false,
+              "method": "uniform_free_keyframe_offsets",
+              "position_bounds": [
+                -0.0,
+                0.0
+              ],
+              "height_bounds": [
+                0.0,
+                0.0
+              ],
+              "yaw_bounds": [
+                -0.0,
+                0.0
+              ],
+              "position_unit": "meter",
+              "angle_unit": "radian",
+              "frame": "world"
+            },
+            "timing": {
+              "enabled": false,
+              "method": "uniform_segment_scale_with_safety_floors",
+              "bounds": [
+                1.0,
+                1.0
+              ]
+            },
+            "joint_targets": {
+              "enabled": false,
+              "method": "uniform_post_ik_episode_offset",
+              "bounds": [
+                -0.0,
+                0.0
+              ],
+              "unit": "radian",
+              "joint_order": [
+                "joint_0",
+                "joint_1",
+                "joint_2",
+                "joint_3",
+                "joint_4",
+                "joint_5"
+              ],
+              "actuator_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "actuator_bounds": [
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -3.1415,
+                  3.1415
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ],
+                [
+                  -6.2831,
+                  6.2831
+                ]
+              ],
+              "applied_targets": "sim/ctrl[frame+1, actuator_ids]",
+              "clamping": "actuator limits after adding offsets when enabled",
+              "sample": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "oracle": {
+              "enabled": true,
+              "method": "seeded_ogbench_keyframes",
+              "note": "Upstream heights, clearance positions and timing jitter are recorded per skill."
+            },
+            "cem": {
+              "enabled": true,
+              "method": "gaussian_action_offset_search",
+              "settings": {
+                "episodes": 2,
+                "candidates": 8,
+                "horizon": 8,
+                "iterations": 1,
+                "elite_fraction": 0.1,
+                "noise": 0.12,
+                "gripper_noise": 0.0,
+                "joint_target_noise": 0.0,
+                "min_std": 0.015,
+                "tracking_weight": 100.0,
+                "action_weight": 0.01,
+                "smoothness_weight": 0.02,
+                "task_weight": 20.0,
+                "contact_weight": 100.0,
+                "max_nonpad_penetration": 0.001,
+                "max_penetration": 0.003,
+                "nconmax": 128,
+                "njmax": 512
+              }
+            }
+          },
+          "skills": [
+            {
+              "skill_id": 0,
+              "kind": "button",
+              "index": 0,
+              "goal": 1,
+              "start_frame": 0,
+              "choices": [
+                {
+                  "eligible": [
+                    0
+                  ],
+                  "selected": 0,
+                  "constraint": "unlock drawer before access or movement"
+                }
+              ],
+              "samples": {},
+              "upstream_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.3742199136465546,
+                    0.11620744504868052,
+                    0.33577148100957804
+                  ],
+                  "yaw": 4.255935688806945,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "press_start",
+                  "time": 1.0901755525390482,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press",
+                  "time": 1.5276452601238653,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.10039997545892401
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press_end",
+                  "time": 1.9363339048818693,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "final",
+                  "time": 2.7303692586774617,
+                  "position": [
+                    0.5044771189939743,
+                    0.1305940364432694,
+                    0.24580809392287434
+                  ],
+                  "yaw": 1.4537813235929216,
+                  "gripper": 0.0
+                }
+              ],
+              "baseline_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.3742199136465546,
+                    0.11620744504868052,
+                    0.33577148100957804
+                  ],
+                  "yaw": 4.255935688806945,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "press_start",
+                  "time": 1.0901755525390482,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press",
+                  "time": 1.5276452601238653,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.10039997545892401
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press_end",
+                  "time": 1.9363339048818693,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                }
+              ],
+              "keyframes_before_workspace_clip": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.3742199136465546,
+                    0.11620744504868052,
+                    0.33577148100957804
+                  ],
+                  "yaw": 4.255935688806945,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "press_start",
+                  "time": 1.0901755525390482,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press",
+                  "time": 1.5276452601238653,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.10039997545892401
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "press_end",
+                  "time": 1.9363339048818693,
+                  "position": [
+                    0.58,
+                    -0.05006163568741076,
+                    0.185399975458924
+                  ],
+                  "yaw": 0.58,
+                  "gripper": 1.0
+                }
+              ],
+              "phase_names": [
+                "initial",
+                "press_start",
+                "press",
+                "press_end"
+              ],
+              "phase_times": [
+                0.0,
+                1.0901755525390482,
+                1.5276452601238653,
+                1.9363339048818693
+              ],
+              "workspace_bounds": [
+                [
+                  0.25,
+                  -0.35,
+                  0.02
+                ],
+                [
+                  0.6,
+                  0.35,
+                  0.35
+                ]
+              ],
+              "workspace_clipped_frames": [],
+              "end_frame_exclusive": 39
+            },
+            {
+              "skill_id": 1,
+              "kind": "drawer",
+              "index": 0,
+              "goal": -0.16,
+              "start_frame": 39,
+              "choices": [
+                {
+                  "eligible": [
+                    0
+                  ],
+                  "selected": 0,
+                  "constraint": "drawer access precedes placement"
+                }
+              ],
+              "samples": {
+                "grasp": {
+                  "symmetry": 1,
+                  "yaw_offset": 3.141592653589793,
+                  "allowed_symmetries": [
+                    0,
+                    1
+                  ]
+                }
+              },
+              "upstream_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.5768629393223599,
+                    -0.04852555277755864,
+                    0.16547122804067727
+                  ],
+                  "yaw": 0.3997718411773031,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "approach",
+                  "time": 0.6229170714976145,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_start",
+                  "time": 0.8893962766608965,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_end",
+                  "time": 1.1801686920877048,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "move",
+                  "time": 1.5412369523392866,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "release",
+                  "time": 1.759130449640536,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "clearance",
+                  "time": 2.126220748550447,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "final",
+                  "time": 2.6805629662883605,
+                  "position": [
+                    0.5233669448170899,
+                    -0.1412389370153588,
+                    0.28216616408695794
+                  ],
+                  "yaw": 5.966512596412697,
+                  "gripper": 0.0
+                }
+              ],
+              "baseline_keyframes": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.5768629393223599,
+                    -0.04852555277755864,
+                    0.16547122804067727
+                  ],
+                  "yaw": 0.3997718411773031,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "approach",
+                  "time": 0.6229170714976145,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_start",
+                  "time": 0.8893962766608965,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_end",
+                  "time": 1.4893962766608966,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "move",
+                  "time": 2.6893962766608963,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "release",
+                  "time": 3.0893962766608962,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "clearance",
+                  "time": 3.5893962766608962,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.2
+                  ],
+                  "yaw": 6.281592653589794,
+                  "gripper": 0.0
+                }
+              ],
+              "keyframes_before_workspace_clip": [
+                {
+                  "name": "initial",
+                  "time": 0.0,
+                  "position": [
+                    0.5768629393223599,
+                    -0.04852555277755864,
+                    0.16547122804067727
+                  ],
+                  "yaw": 0.3997718411773031,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "approach",
+                  "time": 0.6229170714976145,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.2
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_start",
+                  "time": 0.8893962766608965,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "grasp_end",
+                  "time": 1.4893962766608966,
+                  "position": [
+                    0.33028667752496765,
+                    -0.24000022828904283,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "move",
+                  "time": 2.6893962766608963,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 1.0
+                },
+                {
+                  "name": "release",
+                  "time": 3.0893962766608962,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.08000000000000002
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                },
+                {
+                  "name": "clearance",
+                  "time": 3.5893962766608962,
+                  "position": [
+                    0.33054150199160554,
+                    -0.08000043121263647,
+                    0.2
+                  ],
+                  "yaw": 3.14,
+                  "gripper": 0.0
+                }
+              ],
+              "phase_names": [
+                "initial",
+                "approach",
+                "grasp_start",
+                "grasp_end",
+                "move",
+                "release",
+                "clearance"
+              ],
+              "phase_times": [
+                0.0,
+                0.6229170714976145,
+                0.8893962766608965,
+                1.4893962766608966,
+                2.6893962766608963,
+                3.0893962766608962,
+                3.5893962766608962
+              ],
+              "workspace_bounds": [
+                [
+                  0.25,
+                  -0.35,
+                  0.02
+                ],
+                [
+                  0.6,
+                  0.35,
+                  0.35
+                ]
+              ],
+              "workspace_clipped_frames": [],
+              "end_frame_exclusive": 60
+            }
+          ],
+          "initial_state": {
+            "qpos": [
+              -1.618716865240638,
+              -1.8648241053625394,
+              1.809155927468132,
+              -1.5151281489004929,
+              -1.5707963267948972,
+              1.9793291461000702,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.35305569605370263,
+              0.04596605534711139,
+              0.02,
+              -0.9946185157284742,
+              0.0,
+              0.0,
+              0.10360505861243981,
+              0.0,
+              0.0,
+              0.0,
+              0.002717416082893028
+            ],
+            "mocap_pos": [
+              [
+                0.33,
+                -0.356,
+                0.065986
+              ]
+            ],
+            "buttons": [
+              0,
+              0
+            ],
+            "button_goals": [
+              1,
+              0
+            ],
+            "drawer_goal": 0.0,
+            "window_goal": 0.0,
+            "cubes": [
+              {
+                "index": 0,
+                "position": [
+                  0.35305569605370263,
+                  0.04596605534711139,
+                  0.02
+                ],
+                "quaternion_wxyz": [
+                  -0.9946185157284742,
+                  0.0,
+                  0.0,
+                  0.10360505861243981
+                ]
+              }
+            ]
+          },
+          "initial_state_fingerprint": "4ed535cd1e92876421669ff5b1d9e2f68004f9957edbd2a9288d5c7809f7334d",
+          "fingerprint_method": "sha256_saved_sim_state_excluding_joint_target_offset"
+        },
+        "instruction": "Place the red cube at (0.330, -0.356, 0.066) meters. Set the buttons in row-major order to 1, 0. Set the drawer to 0.000 meters and the window to 0.000 meters.",
+        "goal": {
+          "task_name": "task4_put_in_drawer",
+          "init": {
+            "block_xyzs": [
+              [
+                0.35,
+                0.05,
+                0.02
+              ]
+            ],
+            "button_states": [
+              0,
+              0
+            ],
+            "drawer_pos": 0.0,
+            "window_pos": 0.0
+          },
+          "goal": {
+            "block_xyzs": [
+              [
+                0.33,
+                -0.356,
+                0.065986
+              ]
+            ],
+            "button_states": [
+              1,
+              0
+            ],
+            "drawer_pos": 0.0,
+            "window_pos": 0.0
+          }
+        },
+        "fps": 20,
+        "image_size": 16,
+        "record_images": false,
+        "versions": {
+          "ogbench": "1.2.1",
+          "mujoco": "3.14.0",
+          "mujoco-warp": "3.14.0",
+          "warp-lang": "1.17.0",
+          "torch": "2.11.0",
+          "ogbench-mjwarp": "0.1.0",
+          "ogbench_revision": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+          "integration_source_sha256": "10aa65556dc4f416e8cd1186796cffbdfa0fdba36c50eff337d898f13e371ef3"
+        },
+        "planner": {
+          "episodes": 2,
+          "candidates": 8,
+          "horizon": 8,
+          "iterations": 1,
+          "elite_fraction": 0.1,
+          "noise": 0.12,
+          "gripper_noise": 0.0,
+          "joint_target_noise": 0.0,
+          "min_std": 0.015,
+          "tracking_weight": 100.0,
+          "action_weight": 0.01,
+          "smoothness_weight": 0.02,
+          "task_weight": 20.0,
+          "contact_weight": 100.0,
+          "max_nonpad_penetration": 0.001,
+          "max_penetration": 0.003,
+          "nconmax": 128,
+          "njmax": 512
+        },
+        "joint_target_offset": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "contact_quality": {
+          "valid": true,
+          "peak_nonpad_penetration": 0.0,
+          "peak_penetration": 0.0005912052583880723,
+          "max_nonpad_penetration": 0.001,
+          "max_penetration": 0.003,
+          "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only."
+        },
+        "success_verified": false,
+        "episode_id": 1,
+        "length": 60,
+        "outcome": "failure",
+        "reason": "invalid_candidates",
+        "archive": "episode-000001.npz"
+      }
+    ],
+    "independent_recorded_state_audits": [
+      {
+        "episode": 0,
+        "recorded_outcome": "failure",
+        "contact_valid": true,
+        "peak_nonpad_penetration": 0.0,
+        "peak_penetration": 0.0006584780040103516,
+        "violations": [],
+        "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+      },
+      {
+        "episode": 1,
+        "recorded_outcome": "failure",
+        "contact_valid": true,
+        "peak_nonpad_penetration": 0.0,
+        "peak_penetration": 0.0005888253238884728,
+        "violations": [],
+        "scope": "Recorded states only; substep peaks and visual-mesh overlap are not reconstructed."
+      }
+    ]
+  },
+  "scope": "One attempt per goal, combined recipe, small planner budget. Source revisions retained in run records; not a many-seed success-rate estimate."
+}

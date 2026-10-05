@@ -1,0 +1,412 @@
+{
+    "date":  "2026-10-04",
+    "device":  "RTX 5090 32 GB, native Windows",
+    "requested_scope":  "Pilot runs on existing data; ACT and SmolVLA, replacing pi0.5 at user request",
+    "tests_passed":  13,
+    "source_sha256":  {
+                          "scripts/train-policy.py":  "e1e46433eb0a1abd30a7123f1d7410f3fb9d9362d208d37255306f12b07f52f9",
+                          "scripts/train-smolvla.py":  "351c898454fc845fd9c44ad20b54fc6725c7b94388b55dc21ff06f668e309a88",
+                          "scripts/evaluate-policy.py":  "b0ebde9303cde411b9a59df3a1d8e54ae56738590a17fa7fd4f7dddd5b3f0b05",
+                          "scripts/download-policy.py":  "5fbd806031435a07be8ea2616540878946ce18d994215b5fe0473e2359117981",
+                          "configs/train-ogbench-act.yaml":  "33cff3195e4c0e600a66843f1a161092c5929a583fb624a2517e667fc447f2bd",
+                          "configs/train-ogbench-smolvla-pilot.yaml":  "fb9db49642adb3ad19fed7bb70fae196dd5edd83faeb20eb72613805263417c7",
+                          "configs/train-ogbench-pi05.yaml":  "990090ca09ee37cb3c946bad5b770b147e3c025fdd8b1c799a217d6e11692500",
+                          "pyproject.toml":  "32d672275709f702b4e784bff54ba12115c9c31bad0715e9b77e863579716fc2",
+                          "uv.lock":  "aa6658cd8f801a48aa063e3ec395ba1889fd9dd32a4c19e8f281d0cd8dfdb1dd"
+                      },
+    "act":  {
+                "status":  "complete",
+                "experiment":  {
+                                   "schema_version":  1,
+                                   "versions":  {
+                                                    "lerobot":  "0.6.1",
+                                                    "torch":  "2.11.0+cu130"
+                                                },
+                                   "config":  {
+                                                  "dataset":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                                  "policy":  null,
+                                                  "output":  "E:\\vla-ogbench\\runs\\act-pilot-20261004",
+                                                  "policy_type":  "act",
+                                                  "repo_id":  null,
+                                                  "camera_keys":  null,
+                                                  "camera_names":  null,
+                                                  "episodes":  null,
+                                                  "steps":  500,
+                                                  "batch_size":  8,
+                                                  "workers":  0,
+                                                  "save_freq":  250,
+                                                  "seed":  1000,
+                                                  "device":  "cuda",
+                                                  "hf_home":  "E:\\vla-smolvla\\hf-cache",
+                                                  "overrides":  [
+                                                                    "policy.chunk_size=16",
+                                                                    "policy.n_action_steps=16",
+                                                                    "log_freq=25"
+                                                                ],
+                                                  "dry_run":  false
+                                              },
+                                   "dataset":  {
+                                                   "repo_id":  "local/ogbench-mjwarp",
+                                                   "episodes":  2,
+                                                   "frames":  250,
+                                                   "selected_episodes":  null,
+                                                   "state":  {
+                                                                 "dtype":  "float32",
+                                                                 "shape":  [
+                                                                               18
+                                                                           ],
+                                                                 "names":  [
+                                                                               "joint_0.position",
+                                                                               "joint_1.position",
+                                                                               "joint_2.position",
+                                                                               "joint_3.position",
+                                                                               "joint_4.position",
+                                                                               "joint_5.position",
+                                                                               "joint_0.velocity",
+                                                                               "joint_1.velocity",
+                                                                               "joint_2.velocity",
+                                                                               "joint_3.velocity",
+                                                                               "joint_4.velocity",
+                                                                               "joint_5.velocity",
+                                                                               "effector.x",
+                                                                               "effector.y",
+                                                                               "effector.z",
+                                                                               "effector.yaw",
+                                                                               "gripper.opening",
+                                                                               "gripper.velocity"
+                                                                           ]
+                                                             },
+                                                   "action":  {
+                                                                  "dtype":  "float32",
+                                                                  "shape":  [
+                                                                                5
+                                                                            ],
+                                                                  "names":  [
+                                                                                "delta_x",
+                                                                                "delta_y",
+                                                                                "delta_z",
+                                                                                "delta_yaw",
+                                                                                "delta_gripper"
+                                                                            ]
+                                                              },
+                                                   "provenance":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\manifest.json"
+                                               },
+                                   "camera_map":  {
+
+                                                  },
+                                   "metadata_sha256":  {
+                                                           "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\meta\\info.json":  "c6d9e726451a5a1bd7a8082ec059b1a692ddad124a1796329094dc528d86aecd",
+                                                           "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\meta\\stats.json":  "e20b54a21aee25094ed7959ae150759e00bc0cad95539498cdc5759644338261",
+                                                           "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\manifest.json":  "845db136fa62c2a66d58b97cb367d704f9a41cb2186d5b2a9afadf0f548a7fbb"
+                                                       },
+                                   "command":  [
+                                                   "C:\\Users\\steph\\code\\vla\\.venv\\Scripts\\python.exe",
+                                                   "-m",
+                                                   "lerobot.scripts.lerobot_train",
+                                                   "--dataset.repo_id=local/ogbench-mjwarp",
+                                                   "--dataset.root=E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                                   "--dataset.video_backend=pyav",
+                                                   "--dataset.eval_split=0",
+                                                   "--policy.device=cuda",
+                                                   "--policy.push_to_hub=false",
+                                                   "--policy.input_features={\"observation.state\": {\"type\": \"STATE\", \"shape\": [18]}, \"observation.images.front\": {\"type\": \"VISUAL\", \"shape\": [3, 32, 32]}, \"observation.images.wrist\": {\"type\": \"VISUAL\", \"shape\": [3, 32, 32]}}",
+                                                   "--save_checkpoint_to_hub=false",
+                                                   "--output_dir=E:\\vla-ogbench\\runs\\act-pilot-20261004",
+                                                   "--steps=500",
+                                                   "--batch_size=8",
+                                                   "--num_workers=0",
+                                                   "--save_freq=250",
+                                                   "--seed=1000",
+                                                   "--eval_steps=0",
+                                                   "--env_eval_freq=0",
+                                                   "--wandb.enable=false",
+                                                   "--policy.type=act",
+                                                   "--policy.chunk_size=16",
+                                                   "--policy.n_action_steps=16",
+                                                   "--log_freq=25"
+                                               ],
+                                   "status":  "complete"
+                               },
+                "final_checkpoint":  "E:/vla-ogbench/runs/act-pilot-20261004/checkpoints/000500/pretrained_model",
+                "checkpoint_sha256":  "76f50e818762c4f326c2ec6cd6e4165b1fd7ea25adf115e085c91deb1a030096",
+                "training_log":  "E:/vla-ogbench/runs/act-pilot-20261004/train.log",
+                "final_logged_averages":  {
+                                              "kld_loss":  0.21,
+                                              "l1_loss":  0.426,
+                                              "kl_weight":  10,
+                                              "total_loss":  2.53
+                                          },
+                "offline_fit":  {
+                                    "policy_type":  "act",
+                                    "checkpoint":  "E:\\vla-ogbench\\runs\\act-pilot-20261004\\checkpoints\\000500\\pretrained_model",
+                                    "dataset":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                    "seed":  1000,
+                                    "samples":  40,
+                                    "action_names":  [
+                                                         "delta_x",
+                                                         "delta_y",
+                                                         "delta_z",
+                                                         "delta_yaw",
+                                                         "delta_gripper"
+                                                     ],
+                                    "mae":  0.17402075231075287,
+                                    "mse":  0.06516315042972565,
+                                    "per_action_mae":  [
+                                                           0.14205113053321838,
+                                                           0.1679132878780365,
+                                                           0.2712777256965637,
+                                                           0.20900030434131622,
+                                                           0.07986133545637131
+                                                       ],
+                                    "zero_action_mae":  0.34827643632888794,
+                                    "zero_action_mse":  0.23013049364089966,
+                                    "scope":  "Recorded-frame first-action prediction only. If these episodes were used for training, this is an in-sample fit check; it does not measure task success or generalization."
+                                },
+                "closed_loop":  {
+                                    "seen_aggregated":  {
+                                                            "avg_sum_reward":  0.0,
+                                                            "avg_max_reward":  0.0,
+                                                            "pc_success":  0.0,
+                                                            "eval_s":  44.07361435890198,
+                                                            "eval_ep_s":  44.073615074157715,
+                                                            "pc_task_success":  0.0,
+                                                            "pc_contact_valid":  100.0
+                                                        },
+                                    "heldout_report":  "E:/vla-ogbench/runs/act-pilot-20261004/eval-heldout/eval_info.json",
+                                    "seen_report":  "E:/vla-ogbench/runs/act-pilot-20261004/eval-seen-v2/eval_info.json",
+                                    "heldout_aggregated":  {
+                                                               "avg_sum_reward":  0.0,
+                                                               "avg_max_reward":  0.0,
+                                                               "pc_success":  0.0,
+                                                               "eval_s":  385.6607656478882,
+                                                               "eval_ep_s":  38.56607658863068,
+                                                               "pc_task_success":  0.0,
+                                                               "pc_contact_valid":  90.0
+                                                           },
+                                    "detail":  "projects/ogbench-mjwarp/validation/policy-evaluation.json",
+                                    "status":  "complete"
+                                }
+            },
+    "pi05":  {
+                 "status":  "cancelled_user_switched_to_smolvla",
+                 "source":  {
+                                "revision":  "b211f3d44c36b6acfcf7ae94a64e8e96f75a64ba",
+                                "repo_id":  "lerobot/pi05_base"
+                            },
+                 "base_weights_bytes":  14467165872,
+                 "downloaded_weights_sha256":  "0eb11ca9587678c1d2ef8cf32807c29f8ce53a2bfdfc1aa4a4c96f16fca59b0f",
+                 "tokenizer_repo":  "google/paligemma-3b-pt-224",
+                 "access_check":  "Authenticated tokenizer access succeeded",
+                 "recipe":  "configs/train-ogbench-pi05.yaml",
+                 "updates":  0,
+                 "weights_downloaded":  true,
+                 "weights_present":  false,
+                 "weight_removal_reason":  "Reclaim space for requested SmolVLA pilot; metadata and logs retained",
+                 "checkpoint":  null,
+                 "native_attempts":  [
+                                         {
+                                             "experiment":  "E:/vla-ogbench/runs/pi05-pilot-20261004.experiment.json",
+                                             "updates":  0,
+                                             "log":  "E:/vla-ogbench/runs/pi05-pilot-20261004.train.log",
+                                             "exit_code":  3221225477
+                                         },
+                                         {
+                                             "experiment":  "E:/vla-ogbench/runs/pi05-pilot-20261004-retry1.experiment.json",
+                                             "updates":  0,
+                                             "log":  "E:/vla-ogbench/runs/pi05-pilot-20261004-retry1.train.log",
+                                             "exit_code":  3221225477
+                                         }
+                                     ],
+                 "native_failure":  "Access violation during safetensors.load_file; root cause not established",
+                 "wsl_smoke":  {
+                                   "status":  "Terminated at user switch to SmolVLA",
+                                   "experiment":  "/home/stephen/vla-runs/pi05-smoke-20261004.experiment.json",
+                                   "updates":  0,
+                                   "log":  "/home/stephen/vla-runs/pi05-smoke-20261004.train.log",
+                                   "pretrained_keys_loaded":  true
+                               }
+             },
+    "scope":  "Two 32x32 diagnostic training episodes, 250 frames, same reset/goal. Offline metrics are in-sample. Closed-loop MJWarp evaluation: one training reset and ten new reset seeds per policy on task 1, 250-step horizon. No hardware movement.",
+    "smolvla":  {
+                    "status":  "complete",
+                    "experiment":  {
+                                       "schema_version":  1,
+                                       "versions":  {
+                                                        "lerobot":  "0.6.1",
+                                                        "torch":  "2.11.0+cu130"
+                                                    },
+                                       "config":  {
+                                                      "dataset":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                                      "policy":  "E:\\vla-smolvla\\smolvla_base",
+                                                      "output":  "E:\\vla-ogbench\\runs\\smolvla-pilot-20261004",
+                                                      "policy_type":  "smolvla",
+                                                      "repo_id":  null,
+                                                      "camera_keys":  [
+                                                                          "observation.images.front",
+                                                                          "observation.images.wrist"
+                                                                      ],
+                                                      "camera_names":  [
+                                                                           "observation.images.camera1",
+                                                                           "observation.images.camera2"
+                                                                       ],
+                                                      "episodes":  null,
+                                                      "steps":  500,
+                                                      "batch_size":  8,
+                                                      "workers":  0,
+                                                      "save_freq":  500,
+                                                      "seed":  1000,
+                                                      "device":  "cuda",
+                                                      "hf_home":  "E:\\vla-smolvla\\hf-cache",
+                                                      "overrides":  [
+                                                                        "policy.chunk_size=16",
+                                                                        "policy.n_action_steps=16",
+                                                                        "log_freq=25"
+                                                                    ],
+                                                      "dry_run":  false
+                                                  },
+                                       "dataset":  {
+                                                       "repo_id":  "local/ogbench-mjwarp",
+                                                       "episodes":  2,
+                                                       "frames":  250,
+                                                       "selected_episodes":  null,
+                                                       "state":  {
+                                                                     "dtype":  "float32",
+                                                                     "shape":  [
+                                                                                   18
+                                                                               ],
+                                                                     "names":  [
+                                                                                   "joint_0.position",
+                                                                                   "joint_1.position",
+                                                                                   "joint_2.position",
+                                                                                   "joint_3.position",
+                                                                                   "joint_4.position",
+                                                                                   "joint_5.position",
+                                                                                   "joint_0.velocity",
+                                                                                   "joint_1.velocity",
+                                                                                   "joint_2.velocity",
+                                                                                   "joint_3.velocity",
+                                                                                   "joint_4.velocity",
+                                                                                   "joint_5.velocity",
+                                                                                   "effector.x",
+                                                                                   "effector.y",
+                                                                                   "effector.z",
+                                                                                   "effector.yaw",
+                                                                                   "gripper.opening",
+                                                                                   "gripper.velocity"
+                                                                               ]
+                                                                 },
+                                                       "action":  {
+                                                                      "dtype":  "float32",
+                                                                      "shape":  [
+                                                                                    5
+                                                                                ],
+                                                                      "names":  [
+                                                                                    "delta_x",
+                                                                                    "delta_y",
+                                                                                    "delta_z",
+                                                                                    "delta_yaw",
+                                                                                    "delta_gripper"
+                                                                                ]
+                                                                  },
+                                                       "provenance":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\manifest.json"
+                                                   },
+                                       "camera_map":  {
+                                                          "observation.images.front":  "observation.images.camera1",
+                                                          "observation.images.wrist":  "observation.images.camera2"
+                                                      },
+                                       "metadata_sha256":  {
+                                                               "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\meta\\info.json":  "c6d9e726451a5a1bd7a8082ec059b1a692ddad124a1796329094dc528d86aecd",
+                                                               "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\meta\\stats.json":  "e20b54a21aee25094ed7959ae150759e00bc0cad95539498cdc5759644338261",
+                                                               "E:\\vla-ogbench\\datasets\\diversity-demo-v1\\manifest.json":  "845db136fa62c2a66d58b97cb367d704f9a41cb2186d5b2a9afadf0f548a7fbb",
+                                                               "E:\\vla-smolvla\\smolvla_base\\config.json":  "650584b56c104720f7a3c91d1ec6bec9e8de8ac11e60c92ba2fa82d93eda147d"
+                                                           },
+                                       "command":  [
+                                                       "C:\\Users\\steph\\code\\vla\\.venv\\Scripts\\python.exe",
+                                                       "-m",
+                                                       "lerobot.scripts.lerobot_train",
+                                                       "--dataset.repo_id=local/ogbench-mjwarp",
+                                                       "--dataset.root=E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                                       "--dataset.video_backend=pyav",
+                                                       "--dataset.eval_split=0",
+                                                       "--policy.device=cuda",
+                                                       "--policy.push_to_hub=false",
+                                                       "--policy.input_features={\"observation.state\": {\"type\": \"STATE\", \"shape\": [18]}, \"observation.images.camera1\": {\"type\": \"VISUAL\", \"shape\": [3, 32, 32]}, \"observation.images.camera2\": {\"type\": \"VISUAL\", \"shape\": [3, 32, 32]}}",
+                                                       "--save_checkpoint_to_hub=false",
+                                                       "--output_dir=E:\\vla-ogbench\\runs\\smolvla-pilot-20261004",
+                                                       "--steps=500",
+                                                       "--batch_size=8",
+                                                       "--num_workers=0",
+                                                       "--save_freq=500",
+                                                       "--seed=1000",
+                                                       "--eval_steps=0",
+                                                       "--env_eval_freq=0",
+                                                       "--wandb.enable=false",
+                                                       "--policy.path=E:\\vla-smolvla\\smolvla_base",
+                                                       "--rename_map={\"observation.images.front\": \"observation.images.camera1\", \"observation.images.wrist\": \"observation.images.camera2\"}",
+                                                       "--policy.chunk_size=16",
+                                                       "--policy.n_action_steps=16",
+                                                       "--log_freq=25"
+                                                   ],
+                                       "status":  "complete"
+                                   },
+                    "final_checkpoint":  "E:/vla-ogbench/runs/smolvla-pilot-20261004/checkpoints/000500/pretrained_model",
+                    "checkpoint_sha256":  "95e0b7557a4de669146f9b3a59aa6aeaa8610143d1c7ba330443041ec3159615",
+                    "checkpoint_bytes":  906712520,
+                    "training_log":  "E:/vla-ogbench/runs/smolvla-pilot-20261004/train.log",
+                    "final_logged_averages":  {
+                                                  "loss":  0.596,
+                                                  "gradient_norm":  2.214,
+                                                  "learning_rate":  2.7E-06
+                                              },
+                    "offline_fit":  {
+                                        "policy_type":  "smolvla",
+                                        "checkpoint":  "E:\\vla-ogbench\\runs\\smolvla-pilot-20261004\\checkpoints\\000500\\pretrained_model",
+                                        "dataset":  "E:\\vla-ogbench\\datasets\\diversity-demo-v1",
+                                        "seed":  1000,
+                                        "samples":  40,
+                                        "action_names":  [
+                                                             "delta_x",
+                                                             "delta_y",
+                                                             "delta_z",
+                                                             "delta_yaw",
+                                                             "delta_gripper"
+                                                         ],
+                                        "mae":  0.1785748302936554,
+                                        "mse":  0.06640563160181046,
+                                        "per_action_mae":  [
+                                                               0.16995811462402344,
+                                                               0.21056170761585236,
+                                                               0.2903326153755188,
+                                                               0.16091647744178772,
+                                                               0.06110529974102974
+                                                           ],
+                                        "zero_action_mae":  0.34827643632888794,
+                                        "zero_action_mse":  0.23013049364089966,
+                                        "scope":  "Recorded-frame first-action prediction only. If these episodes were used for training, this is an in-sample fit check; it does not measure task success or generalization."
+                                    },
+                    "closed_loop":  {
+                                        "seen_aggregated":  {
+                                                                "avg_sum_reward":  0.0,
+                                                                "avg_max_reward":  0.0,
+                                                                "pc_success":  0.0,
+                                                                "eval_s":  61.25022220611572,
+                                                                "eval_ep_s":  61.25022268295288,
+                                                                "pc_task_success":  0.0,
+                                                                "pc_contact_valid":  100.0
+                                                            },
+                                        "heldout_report":  "E:/vla-ogbench/runs/smolvla-pilot-20261004/eval-heldout/eval_info.json",
+                                        "seen_report":  "E:/vla-ogbench/runs/smolvla-pilot-20261004/eval-seen/eval_info.json",
+                                        "heldout_aggregated":  {
+                                                                   "avg_sum_reward":  0.0,
+                                                                   "avg_max_reward":  0.0,
+                                                                   "pc_success":  0.0,
+                                                                   "eval_s":  399.9197108745575,
+                                                                   "eval_ep_s":  39.99197111129761,
+                                                                   "pc_task_success":  0.0,
+                                                                   "pc_contact_valid":  90.0
+                                                               },
+                                        "detail":  "projects/ogbench-mjwarp/validation/policy-evaluation.json",
+                                        "status":  "complete"
+                                    }
+                }
+}
