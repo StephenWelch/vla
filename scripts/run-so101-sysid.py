@@ -191,84 +191,49 @@ def make_params(spec: mujoco.MjSpec, model: mujoco.MjModel) -> ParameterDict:
 # mjbatch rollout (framework custom_rollout)
 # ---------------------------------------------------------------------------
 
-def _rollout_column(model: mujoco.MjModel, cmds: np.ndarray, qs0: np.ndarray, qv0: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Batch one column's window rollouts. cmds (n_steps, n_windows, nu); returns (n_steps+1, n_windows, nq/nv)."""
-    n_windows = cmds.shape[1]
-    batch = Batch(model, n_windows)
-    q_view = batch.bind("qpos")
-    v_view = batch.bind("qvel")
-    c_view = batch.bind("ctrl")
-    batch.reset()
-    q_view[:] = qs0
-    v_view[:] = qv0
-    batch.forward()
-    out_q = np.empty((cmds.shape[0] + 1, n_windows, model.nq))
-    out_v = np.empty((cmds.shape[0] + 1, n_windows, model.nv))
-    out_q[0] = q_view
-    out_v[0] = v_view
-    for s in range(cmds.shape[0]):
-        c_view[:] = cmds[s]
-        batch.step()
-        out_q[s + 1] = q_view
-        out_v[s + 1] = v_view
-    return out_q, out_v
-
-
-def make_batched_rollout():
-    def batched_rollout(
-        models,
-        datas,
-        control_signal,
-        initial_states,
-        param_dicts,
-        rollout_signal_mapping,
-        rollout_state_mapping,
-        ctrl_mapping,
+def make_sequential_rollout():
+    """Sequential rollout using a single Batch per window to avoid memory explosion."""
+    def rollout_fn(
+        models, datas, control_signal, initial_states, param_dicts,
+        rollout_signal_mapping, rollout_state_mapping, ctrl_mapping,
     ):
         n_total = len(control_signal)
-        n_fd = len(param_dicts)
-        n_chunks = n_total // n_fd
         trajs = [None] * n_total
-        for c in range(n_fd):
-            base = c * n_chunks
-            model_c = models[base]
-            nq, nv = model_c.nq, model_c.nv
-            dt = model_c.opt.timestep
-            cmds = np.stack([control_signal[base + k].data for k in range(n_chunks)])  # (n_steps, n_chunks, nu)
-            times0 = np.array([control_signal[base + k].times[0] for k in range(n_chunks)])
-            states0 = np.stack(initial_states[base : base + n_chunks])
-            out_q, out_v = _rollout_column(model_c, cmds, states0[:, 1 : 1 + nq], states0[:, 1 + nq : 1 + nq + nv])
-            for k in range(n_chunks):
-                idx = base + k
-                i0 = states0[k, 0]
-                n_steps = out_q.shape[0] - 1
-                wtimes = times0[k] + np.arange(n_steps + 1) * dt
-                state = np.empty((n_steps + 1, 1 + nq + nv))
-                state[:, 0] = wtimes
-                state[:, 1 : 1 + nq] = out_q[:, k]
-                state[:, 1 + nq :] = out_v[:, k]
-                ts = control_signal[idx]
-                trajs[idx] = _trajectory(
-                    model_c,
-                    ts,
-                    TimeSeries(wtimes, np.zeros((n_steps + 1, 0)), signal_mapping=rollout_signal_mapping),
-                    states0[k],
-                    TimeSeries(wtimes, state, signal_mapping=rollout_state_mapping),
-                    ctrl_mapping,
-                )
+        b = None
+        for i in range(n_total):
+            model_i = models[i]
+            if b is None or b.model is not model_i:
+                b = Batch(model_i, 1)
+            nq, nv = model_i.nq, model_i.nv
+            dt = model_i.opt.timestep
+            cs = control_signal[i]
+            cmds = cs.data
+            state0 = initial_states[i]
+            qv = b.bind("qpos"); vv = b.bind("qvel"); cv = b.bind("ctrl")
+            b.reset()
+            qv[:] = state0[1 : 1 + nq]
+            vv[:] = state0[1 + nq : 1 + nq + nv]
+            b.forward()
+            n_steps = cmds.shape[0]
+            out_q = np.empty((n_steps + 1, 1, nq))
+            out_v = np.empty((n_steps + 1, 1, nv))
+            out_q[0] = qv
+            out_v[0] = vv
+            for s in range(n_steps):
+                cv[:] = cmds[s]
+                b.step()
+                out_q[s + 1] = qv
+                out_v[s + 1] = vv
+            wtimes = cs.times[0] + np.arange(n_steps + 1) * dt
+            trajs[i] = SystemTrajectory(
+                model=model_i,
+                control=TimeSeries(cs.times, cs.data, signal_mapping=ctrl_mapping),
+                sensordata=TimeSeries(wtimes, np.zeros((n_steps + 1, 0)), signal_mapping=rollout_signal_mapping),
+                initial_state=state0,
+                state=TimeSeries(wtimes, np.concatenate([wtimes[:, None], out_q.squeeze(1), out_v.squeeze(1)], axis=1), signal_mapping=rollout_state_mapping),
+            )
         return trajs
-
-    return batched_rollout
-
-
-def _trajectory(model, control_ts, sensordata, initial_state, state_ts, ctrl_mapping):
-    return SystemTrajectory(
-        model=model,
-        control=TimeSeries(control_ts.times, control_ts.data, signal_mapping=ctrl_mapping),
-        sensordata=sensordata,
-        initial_state=initial_state,
-        state=state_ts,
-    )
+    return rollout_fn
 
 
 # ---------------------------------------------------------------------------
@@ -327,6 +292,101 @@ def confidence_intervals(x_star: np.ndarray, residuals_star: np.ndarray, jac: np
     cov = (2.0 * float(residuals_star @ residuals_star) / max(n - m, 1)) * np.linalg.inv(jac.T @ jac)
     se = np.sqrt(np.clip(np.diag(cov), 0.0, None))
     return x_star - 1.96 * se, x_star + 1.96 * se
+
+
+# ---------------------------------------------------------------------------
+# Two-stage optimization (regression + CEM)
+# ---------------------------------------------------------------------------
+
+def run_regression(params: ParameterDict, residual_fn, n_samples: int = 20, max_iters: int = 5) -> list[tuple[float, np.ndarray]]:
+    """Run short LM optimizations from multiple random starting points.
+
+    Returns list of (cost, x_vector) sorted by increasing cost.
+    """
+    from mujoco.sysid import optimize
+    rng = np.random.default_rng()
+    results = []
+    x0 = np.asarray(params.as_vector(), dtype=np.float64)
+    bounds = params.get_bounds()
+    lower, upper = bounds
+
+    for i in range(n_samples):
+        perturbation = rng.standard_normal(len(x0)) * 0.1 * (upper - lower + 1e-6)
+        x_start = np.clip(x0 + perturbation, lower, upper)
+        params.update_from_vector(x_start)
+        try:
+            opt_params, opt_result = optimize(
+                params, residual_fn,
+                optimizer="scipy", max_iters=max_iters, verbose=False
+            )
+            costs_list, _, _ = residual_fn(opt_result.x, opt_params)
+            cost = 0.5 * np.sum(np.concatenate(costs_list) ** 2)
+            results.append((float(cost), opt_result.x.copy()))
+        except Exception as e:
+            print(f"Regression sample {i} failed: {e}", flush=True)
+
+    results.sort(key=lambda x: x[0])
+    return results
+
+
+def cem_optimize(params: ParameterDict, residual_fn, n_samples: int = 200, n_elite: int = 40, n_iters: int = 20) -> tuple[np.ndarray, float]:
+    """Cross-Entropy Method optimization.
+
+    Derivative-free stochastic optimization that samples, selects elite, and updates distribution.
+    Returns best parameters found and its cost.
+    """
+    rng = np.random.default_rng()
+    x0 = np.asarray(params.as_vector(), dtype=np.float64)
+    bounds = params.get_bounds()
+    lower, upper = np.asarray(bounds[0]), np.asarray(bounds[1])
+    eps = 1e-4
+
+    mean = x0.copy()
+    std = 0.1 * (upper - lower + eps)
+
+    best_cost = float("inf")
+    best_x = x0.copy()
+
+    for iteration in range(n_iters):
+        samples = rng.standard_normal((n_samples, len(x0))) * std + mean
+        samples = np.clip(samples, lower, upper)
+
+        costs = np.empty(n_samples)
+        for j, x in enumerate(samples):
+            params.update_from_vector(x)
+            res_list, _, _ = residual_fn(x, params)
+            res_arr = np.concatenate(res_list)
+            costs[j] = 0.5 * np.sum(res_arr ** 2)
+
+        elite_idx = np.argsort(costs)[:n_elite]
+        elite_samples = samples[elite_idx]
+
+        mean = elite_samples.mean(axis=0)
+        std = elite_samples.std(axis=0) + eps
+        std = np.maximum(std, eps)
+
+        if costs[elite_idx[0]] < best_cost:
+            best_cost = costs[elite_idx[0]]
+            best_x = elite_samples[0].copy()
+
+    return best_x, float(best_cost)
+
+
+def fit_parameters(params: ParameterDict, residual_fn, args):
+    """Run the selected fit, seeding CEM from the best regression result."""
+    if args.two_stage:
+        print("Two-stage optimization...", flush=True)
+        initial_x = np.asarray(params.as_vector(), dtype=np.float64).copy()
+        reg_results = run_regression(params, residual_fn, args.reg_samples, args.reg_iters)
+        if reg_results:
+            params.update_from_vector(reg_results[0][1])
+            best_x, _ = cem_optimize(
+                params, residual_fn, args.cem_samples, args.cem_elite, args.cem_iters
+            )
+            params.update_from_vector(best_x)
+        else:
+            params.update_from_vector(initial_x)
+    return optimize(params, residual_fn, optimizer=args.optimizer, max_iters=args.max_iters)
 
 
 # ---------------------------------------------------------------------------
@@ -435,7 +495,7 @@ def main() -> None:
     parser.add_argument("--data", default=None, help="Recording directory (data.csv + meta.json)")
     parser.add_argument("--model", default="assets/mjcf/so101_new_calib.xml", help="Base MJCF")
     parser.add_argument("--window", type=float, default=4.0, help="Window length in seconds (default: 4)")
-    parser.add_argument("--optimizer", default="scipy_parallel_fd", choices=["scipy_parallel_fd", "scipy", "mujoco"])
+    parser.add_argument("--optimizer", default="scipy", choices=["scipy_parallel_fd", "scipy", "mujoco"])
     parser.add_argument("--max-iters", type=int, default=200)
     parser.add_argument("--vel-weight", type=float, default=0.1, help="Velocity residual weight vs position (default: 0.1)")
     parser.add_argument("--seed", type=int, default=0)
@@ -444,6 +504,12 @@ def main() -> None:
     parser.add_argument("--synthetic-duration", type=float, default=120.0, help="Active synthetic duration in seconds")
     parser.add_argument("--no-videos", action="store_true", help="Skip report video generation")
     parser.add_argument("--no-report", action="store_true", help="Skip the HTML report")
+    parser.add_argument("--two-stage", action="store_true", help="Use two-stage optimization (regression + CEM)")
+    parser.add_argument("--reg-samples", type=int, default=20, help="Regression samples for two-stage (default: 20)")
+    parser.add_argument("--reg-iters", type=int, default=5, help="LM iterations for regression (default: 5)")
+    parser.add_argument("--cem-samples", type=int, default=200, help="CEM samples per iteration (default: 200)")
+    parser.add_argument("--cem-iters", type=int, default=20, help="CEM iterations (default: 20)")
+    parser.add_argument("--cem-elite", type=int, default=40, help="CEM elite samples (default: 40)")
     args = parser.parse_args()
 
     out_root = Path("outputs/so101_sysid")
@@ -497,13 +563,13 @@ def main() -> None:
 
     residual_fn = build_residual_fn(
         models_sequences=[sequences],
-        custom_rollout=make_batched_rollout(),
+        custom_rollout=make_sequential_rollout(),
         modify_residual=make_modify_residual(args.vel_weight),
     )
 
-    print(f"Optimizing with {args.optimizer} (max {args.max_iters} iterations)...")
-    opt_params, opt_result = optimize(params, residual_fn, optimizer=args.optimizer, max_iters=args.max_iters)
-
+    print(f"Optimizing with {args.optimizer} (max {args.max_iters} iterations)...", flush=True)
+    print(f"params.size={params.size}, n_windows={len(windows)}", flush=True)
+    opt_params, opt_result = fit_parameters(params, residual_fn, args)
     # Residuals at the optimum for confidence intervals.
     residuals_star, _, _ = residual_fn(opt_result.x, opt_params)
     residuals_star = np.concatenate(residuals_star)
@@ -554,7 +620,7 @@ def main() -> None:
             residual_fn,
             opt_result,
             title="SO-101 SysID",
-            save_path=out_dir / "report.html",
+            save_path=out_dir,  # default_report appends "/report.html"
             generate_videos=not args.no_videos,
         )
         print(f"Report: {out_dir / 'report.html'}")

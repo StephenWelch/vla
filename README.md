@@ -4,9 +4,52 @@ Open `vla.code-workspace` for this project and sibling `../telegrip` on `feature
 
 For Telegrip development here, run `.\scripts\setup-dev.ps1 -EnvironmentPath E:\vla-telegrip\venv -CachePath E:\vla-telegrip\uv-cache -Test` from `../telegrip`.
 
+## Demonstration generation
+
+[OGBench + MJWarp](projects/ogbench-mjwarp/README.md) generates manipulation demonstrations with front/wrist RGB, labeled outcomes, and randomization annotations. From this directory, use the same Docker/WSL workflow as LIBERO; data defaults to `E:\vla-ogbench`.
+
+```powershell
+.\scripts\setup-ogbench.ps1
+.\scripts\run-ogbench.ps1 generate --env cube-single-v0 --task-ids 1 --episodes 8 --seed 2026 --config /configs/diverse.yaml --planner.candidates 8 --planner.horizon 8 --planner.iterations 2 --output /data/raw/diverse-cube
+.\scripts\run-ogbench.ps1 export --source /data/raw/diverse-cube --output /data/datasets/diverse-cube --outcome success --require-contact-valid
+.\scripts\view-ogbench.ps1 -Root E:\vla-ogbench\datasets\diverse-cube -Episode 0
+```
+
+The root launchers accept `-DataRoot`; Docker launchers also accept `-Image`. `/data` inside Docker maps to that data root, while the WSLg viewer accepts Windows paths. Simulator dependencies remain in the subproject. Exported datasets use LeRobot 0.6.1, shared with training and Telegrip.
+
+New OGBench episodes render both views at 640×480, matching SO-101 wrist camera capture. `--size 480 640` overrides height/width; existing datasets retain their recorded resolution.
+
+## Training
+
+Train ACT or the local SmolVLA base checkpoint in the WSL policy environment:
+
+```powershell
+.\scripts\train-ogbench.ps1 -Config configs/train-ogbench-act-wandb.yaml
+.\scripts\train-ogbench.ps1 -Config configs/train-ogbench-smolvla-wandb.yaml
+```
+
+The Tyro CLI uses YAML defaults through OmegaConf; explicit flags override them. `--dataset`, `--policy`, and `--output` accept other paths; `--batch-size 4` reduces memory use. The recipe shares the base checkpoint and model cache at `E:\vla-smolvla` with hardware training, and writes runs under `E:\vla-ogbench\runs`. The launcher maps front/wrist to camera1/camera2, binds state/action dimensions to the dataset, and saves configuration, camera mapping, native training arguments, and dataset provenance hashes in `experiment.json`. Randomization annotations stay in the dataset manifest and are excluded from policy inputs.
+
+The lighter training script uses the same launcher with its wrist camera mapped to camera2. OGBench's native five-element actions and SO-101's six joint targets remain separate dataset contracts. Hold out entire reset seeds/scenarios when comparing VLA architectures; variants of one reset should stay in the same split. The one-step OGBench training check verifies data/model compatibility, not policy performance.
+
+OGBench v2 datasets use inline batched MJWarp cameras; checkpoints retain their rendering profile for evaluation. Legacy datasets are unsupported. The [archived pilot report](docs/ogbench-policy-pilots.md) records earlier training and the cancelled pi0.5 attempt. `train-smolvla.py` remains compatible with existing commands.
+
+Evaluate these checkpoints in the batched OGBench simulator with `.\scripts\eval-ogbench.ps1 -Config configs/eval-ogbench-act.yaml` or `configs/eval-ogbench-smolvla.yaml`. The [pilot report](docs/ogbench-policy-pilots.md) records closed-loop results and WSL setup. YAML/Tyro overrides control reset seeds, episode count, batch size, and horizon; evaluation saves LeRobot metrics, contact diagnostics, and rollout videos.
+
+For longer ACT/SmolVLA runs, the [training workflow](docs/ogbench-long-training.md) collects independent cube scenes and provides periodic train/validation losses, simulator evaluations, videos, and checkpoint resume. The [W&B workflow](docs/ogbench-wandb.md) groups collection, training, and evaluation metrics with provenance and selected videos; local reports and checkpoints remain available.
+
+For cloud training:
+
+```
+uv tool install "skypilot[lambda]" --with wandb
+sky check lambda
+```
+
 ## Eval
 
 ### LIBERO
+
+For single-task ACT training with validation loss, periodic simulator evaluation, and W&B logging, see [the LIBERO ACT workflow](docs/libero-act.md) and `configs/libero-drawer-act.yaml`.
 
 LIBERO is a Linux MuJoCo benchmark. This setup runs the [LIBERO-trained SmolVLA checkpoint](https://huggingface.co/HuggingFaceVLA/smolvla_libero) in Docker Desktop's WSL 2 GPU engine. The benchmark uses a simulated 7D end-effector controller, not an SO-101 arm.
 
@@ -64,6 +107,24 @@ With a SmolVLA checkpoint trained for this six-joint, one-camera setup, run a fi
 The rollout script uses camera `1` and checks the checkpoint and calibration before moving the arm. The local PushT and LIBERO checkpoints are incompatible.
 
 The base checkpoint can be tested without moving the arm using `uv run python scripts\shadow-smolvla-base.py`. Its unadapted actions are not suitable for direct SO-101 rollout.
+
+### Left-arm lighter demonstrations
+
+Use Telegrip's `config.windows-left.yaml` with `--task "Grasp the green lighter by its body and lift it at least 3 cm for one second."` to record one left-wrist-camera episode at a time. Mark five lighter positions A-E and collect 50 clean successes plus 10 successful recoveries; a success with a flagged mistake is a recovery. Failures and unmarked episodes stay in the raw dataset but are excluded from training.
+
+Episode start and stop move to home outside recording. Left X stows and disengages; press it again during the move to cut torque and keep a partial unmarked episode. Align the VR robot model with the left thumbstick to use operator-world control. With the arm disengaged, calibrate the A-E placement zones from the desktop and position each zone with the right thumbstick in VR.
+
+Record a separate 10-20 second diagnostic episode in `E:\vla-smolvla\datasets\wrist_timing` with Telegrip's left-arm config while gently varying left wrist roll in front of a stationary textured scene. Estimate camera lag and align new recordings before curation:
+
+```powershell
+uv run python scripts\estimate-camera-lag.py --source E:\vla-smolvla\datasets\wrist_timing --episode 0 --output E:\vla-smolvla\camera-lag.json
+uv run python scripts\align-lighter-dataset.py --source E:\vla-smolvla\datasets\lighter_left_raw --output E:\vla-smolvla\datasets\lighter_left_aligned --calibration E:\vla-smolvla\camera-lag.json
+uv run python scripts\curate-lighter-dataset.py --source E:\vla-smolvla\datasets\lighter_left_aligned --output E:\vla-smolvla\datasets\lighter_left_curated
+.\scripts\train-lighter-smolvla.ps1
+uv run python scripts\validate-lighter-smolvla.py --checkpoint <checkpoint-pretrained-model-directory>
+```
+
+The curation step makes a fixed 48-episode training set and 12-episode validation set, retaining recovery and position labels in `manifest.json`. Training uses the local SmolVLA base checkpoint, wrist camera input `camera2`, and PyAV. If GPU memory is insufficient, rerun in a new output directory with `-BatchSize 4`. Inspect validation errors before any supervised hardware rollout.
 
 ### Setting motor IDs
 ```

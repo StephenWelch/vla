@@ -5,9 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "lerobot[evaluation,feetech,hardware,pusht,smolvla]==0.6.1",
+    "lerobot[evaluation,feetech,hardware,pusht,smolvla,pi,training]==0.6.1",
     "torch==2.11.0+cu130",
     "torchvision==0.26.0+cu130",
+    "tyro>=1.0,<2",
+    "omegaconf>=2.3,<3",
 ]
 
 [tool.uv.sources]

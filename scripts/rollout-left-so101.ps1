@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Task,
     [string]$RobotId = 'left',
-    [string]$CameraName = 'gripper',
+    [string]$CameraName = 'camera2',
     [double]$DurationSeconds = 5,
     [double]$MaxRelativeTarget = 2
 )
@@ -28,9 +28,8 @@ $expectedCamera = "observation.images.$CameraName"
 if ($config.type -ne 'smolvla' -or
     $config.input_features.'observation.state'.shape[0] -ne 6 -or
     $config.output_features.action.shape[0] -ne 6 -or
-    $visualFeatures.Count -ne 1 -or
-    $visualFeatures[0].Name -ne $expectedCamera) {
-    throw "Checkpoint must be a six-joint SmolVLA policy with one camera feature named $expectedCamera."
+    $expectedCamera -notin @($visualFeatures | ForEach-Object { $_.Name })) {
+    throw "Checkpoint must be a six-joint SmolVLA policy with wrist camera feature $expectedCamera."
 }
 
 $calibrationRoot = (& $python -c "from lerobot.utils.constants import HF_LEROBOT_CALIBRATION, ROBOTS; print(HF_LEROBOT_CALIBRATION / ROBOTS / 'so_follower')").Trim()
