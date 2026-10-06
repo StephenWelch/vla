@@ -13,7 +13,7 @@ import torch
 from .config import RandomizationConfig
 from .contacts import contact_depths, contact_roles, update_contact_quality
 from .environment import BatchEnvironment
-from .io import episode_metadata, versions, write_json
+from .io import episode_metadata, jsonable, versions, write_json
 from .planner import SamplingMPC
 from .randomization import episode_randomization, initial_state_fingerprint
 from .skills import SkillPlan
@@ -175,6 +175,7 @@ def generate(
     }
     if settle_steps:
         run["execution"]["settle_steps"] = settle_steps
+    run = jsonable(run)
     run_path = root / "run.json"
     if run_path.exists():
         existing = json.loads(run_path.read_text())

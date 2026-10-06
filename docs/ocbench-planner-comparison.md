@@ -53,6 +53,6 @@ The native seven-dimensional action vector is not compatible with existing absol
 
 OCBench's current native pixel-observation path loops through worlds using CPU-side rendering; GPU simulation does not imply batched camera rendering. Reuse our MJWarp renderer after checking camera placement and geometry compatibility. See [native environment implementation](https://github.com/seohongpark/ocbench/blob/e2cd2f72110b66bd65afab1b855d81ebc73aeacc/ocbench/mjwarp/envs/manipulation.py).
 
-The 500-attempt OGBench collection was stopped at zero completed attempts when the user requested OCBench. Its completed 16-attempt pilot and exports remain available. OCBench is installed in the WSL simulator environment; the production dataset/action/evaluation bridge is not yet implemented.
+The 500-attempt OGBench collection was stopped at zero completed attempts when the user requested OCBench. Its completed 16-attempt pilot and exports remain available. The OCBench dataset/action/evaluation bridge is now implemented; see the [integration report](ocbench-workflow.md) for validation and run status.
 
 For a matched comparison, run both generators on the same OCBench resets and goal, with the same controller interface, termination policy, physical audit and rendering settings. Report warmup separately, attempts and audited successes per minute, valid failures per minute, motion duration, pauses, realized acceleration/jerk and diversity conditioned on outcome. Existing OGBench and OCBench pilot percentages cannot establish which planner is better.

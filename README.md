@@ -1,10 +1,11 @@
 ## Workspace
 
-VLA research with LeRobot datasets, ACT/SmolVLA training, held-out evaluation, and W&B metrics. LIBERO and OGBench live on `main`; SO-101 collection, rollout, and system identification retain their original layout on [`feature/so101`](https://github.com/StephenWelch/vla/tree/feature/so101).
+VLA research with LeRobot datasets, ACT/SmolVLA training, held-out evaluation, and W&B metrics. LIBERO, OGBench and OCBench live on `main`; SO-101 collection, rollout, and system identification retain their original layout on [`feature/so101`](https://github.com/StephenWelch/vla/tree/feature/so101).
 
 | Directory | Purpose |
 | --- | --- |
 | `projects/ogbench-mjwarp` | GPU-parallel demonstration planning, batched rendering, export, training and evaluation |
+| `projects/ocbench-mjwarp` | Native OCBench GPU demonstrations, quality audits and ACT workflow |
 | `projects/libero` | Single-task ACT training and evaluation from held-out demonstration states |
 | `packages/vla-tools` | YAML/Tyro configuration, checkpoints, policy loading and W&B logging |
 | `configs/ogbench`, `configs/libero` | Reproducible experiment recipes |
@@ -35,6 +36,8 @@ ogbench-mjwarp view --root outputs/scene/raw --episode 0
 ```
 
 Use `MUJOCO_GL=egl` for generation/evaluation and `MUJOCO_GL=glfw` for the WSLg viewer. Raw episodes retain randomization factors and contact diagnostics; exports retain provenance and use batched MJWarp camera views. See the [OGBench guide](projects/ogbench-mjwarp/README.md).
+
+For native OCBench stacking, run `vla-ocbench-pipeline --config configs/ocbench/stack-act.yaml` in its simulator environment. See the [OCBench guide](projects/ocbench-mjwarp/README.md) for setup and the 500-attempt ACT workflow.
 
 ## Training and evaluation
 
