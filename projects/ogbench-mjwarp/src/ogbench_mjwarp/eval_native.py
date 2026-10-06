@@ -24,10 +24,14 @@ def main():
             "Native OGBench eval requires --policy.path with a v2 rendering.json"
         )
     profile = json.loads((Path(checkpoint) / "rendering.json").read_text())
+    action_path = Path(checkpoint) / "action_profile.json"
+    actions = json.loads(action_path.read_text()) if action_path.exists() else None
     original = OGBenchEnvConfig.create_envs
 
     def create_envs(self, *args, **kwargs):
         self.rendering = profile
+        self.action_profile = actions
+        self.__post_init__()
         return original(self, *args, **kwargs)
 
     OGBenchEnvConfig.create_envs = create_envs

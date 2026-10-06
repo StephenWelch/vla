@@ -120,6 +120,9 @@ def training_plan(config):
     from ogbench_mjwarp.profile import ogbench_profile
 
     rendering = ogbench_profile(config.dataset, config.resume)
+    from ogbench_mjwarp.actions import action_profile
+
+    actions = action_profile(config.dataset, config.resume) if rendering else None
     repo_id = config.repo_id or manifest.get("repo_id")
     if not repo_id:
         raise ValueError("Pass --repo-id for datasets without repo_id in manifest.json")
@@ -295,6 +298,7 @@ def training_plan(config):
         },
         "camera_map": rename,
         "rendering": rendering,
+        "action_profile": actions,
         "split": split,
         "metadata_sha256": hashes,
         "command": (
@@ -330,8 +334,7 @@ def run_training(command, environment, log_path):
             raise subprocess.CalledProcessError(code, command)
 
 
-def main(argv=None):
-    config = parse_args(TrainConfig, argv)
+def train(config):
     plan = training_plan(config)
     preview = {
         **plan,
@@ -380,6 +383,10 @@ def main(argv=None):
                 import shutil
 
                 shutil.copyfile(log_path, config.output / "train.log")
+
+
+def main(argv=None):
+    return train(parse_args(TrainConfig, argv))
 
 
 if __name__ == "__main__":

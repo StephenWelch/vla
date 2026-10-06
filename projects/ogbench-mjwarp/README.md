@@ -39,6 +39,10 @@ Set `OGBENCH_DATA_ROOT` and `OGBENCH_ENVIRONMENT` to override the WSL locations.
 
 Use the same arguments with `ogbench-mjwarp` in Linux, replacing `/data` with your data directory. To exercise failure recording, generate a separate run with `--max-steps 2`.
 
+The optional [cuRobo stacking pilot](../../docs/curobo-stack-pilot.md) supports `cube-double-v0` task 5 through `--planner.backend curobo`. CEM remains the default. Set `OGBENCH_CUROBO=1` during WSL setup to install the pinned planner; joint-action recordings and checkpoints carry a separate v3 action contract.
+
+The [spline stacking workflow](../../docs/ogbench-spline-generation.md) adds `--planner.backend spline`: full-3D grasp variation, smooth timed motion, and completed failed attempts. Use `configs/ogbench/spline-stack.yaml` for state-only generation, then batched rendering and `export --quality validated-success` or `--quality valid-failure` for separate LeRobot datasets. The matched pilot logs quality and throughput to W&B.
+
 `list-tasks` lists the pinned upstream cube variants, scene, and puzzle sizes and their task IDs. Generation defaults to cycling tasks 1–5. Repeating the same command resumes completed episodes; a directory cannot be reused with a different configuration. Incomplete episodes are regenerated. Counts refer to attempts, not guaranteed successes. Export defaults to all attempts; `--outcome success` or `--outcome failure` filters episodes.
 
 Pass multiple directories to `export --source` to combine task runs into one dataset. Source episode IDs are preserved in the manifest and remapped to unique LeRobot episode indices. All sources must share image size and frame rate.

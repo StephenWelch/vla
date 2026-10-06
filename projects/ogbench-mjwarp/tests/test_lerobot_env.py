@@ -3,6 +3,7 @@
 from types import SimpleNamespace
 from unittest.mock import Mock
 
+import gymnasium as gym
 import numpy as np
 import pytest
 import torch
@@ -56,6 +57,7 @@ class FakeSim:
 def fake_env():
     env = OGBenchVectorEnv.__new__(OGBenchVectorEnv)
     env.num_envs = 2
+    env.single_action_space = gym.spaces.Box(-1, 1, (5,), np.float32)
     env.sim = FakeSim()
     env.config = SimpleNamespace(max_steps=3, image_size=16)
     env.done = np.zeros(2, dtype=bool)

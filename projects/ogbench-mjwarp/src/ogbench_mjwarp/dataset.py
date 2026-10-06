@@ -43,6 +43,7 @@ def export_dataset(
     encoder_queue_size=30,
     encoder_threads=2,
     progress=None,
+    quality="all",
 ):
     from lerobot.configs.video import RGBEncoderConfig
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
@@ -69,7 +70,7 @@ def export_dataset(
             if root is None:
                 break
             sources.append(root)
-            for row in episode_metadata(root, outcome, require_contact_valid):
+            for row in episode_metadata(root, outcome, require_contact_valid, quality):
                 if row["length"]:
                     yield root, row
 
@@ -95,9 +96,19 @@ def export_dataset(
             "OGBench images use a faulty renderer; collect a fresh dataset"
         )
     size, fps = first[1]["image_size"], first[1]["fps"]
+    actions = first[1].get("action_profile")
+    if actions:
+        from .actions import validate_profile
+
+        validate_profile(actions)
+    action_names = actions["names"] if actions else ACTION_NAMES
     features = {
         "observation.state": {"dtype": "float32", "shape": (18,), "names": STATE_NAMES},
-        "action": {"dtype": "float32", "shape": (5,), "names": ACTION_NAMES},
+        "action": {
+            "dtype": "float32",
+            "shape": (len(action_names),),
+            "names": action_names,
+        },
         "next.success": {"dtype": "bool", "shape": (1,), "names": None},
         "next.done": {"dtype": "bool", "shape": (1,), "names": None},
         "next.truncated": {"dtype": "bool", "shape": (1,), "names": None},
@@ -114,6 +125,18 @@ def export_dataset(
         "shape": (5,),
         "names": REFERENCE_NAMES,
     }
+    spline_annotations = first[1].get("annotation_schema_version") == 2
+    if spline_annotations:
+        features["annotation.target_pose"] = {
+            "dtype": "float32",
+            "shape": (7,),
+            "names": ["x", "y", "z", "qw", "qx", "qy", "qz"],
+        }
+        features["annotation.task_error"] = {
+            "dtype": "bool",
+            "shape": (1,),
+            "names": None,
+        }
     for view in ("front", "wrist"):
         features[f"observation.images.{view}"] = {
             "dtype": "video",
@@ -145,10 +168,14 @@ def export_dataset(
     replay_dir.mkdir()
     try:
         for index, (source_root, row) in enumerate(chain([first], rows)):
+            if (row.get("annotation_schema_version") == 2) != spline_annotations:
+                raise ValueError("Export requires one annotation schema")
             if not row.get("record_images", True):
                 raise ValueError("LeRobot export requires recorded images")
             if row.get("rendering") != profile:
                 raise ValueError("Export requires one MJWarp rendering profile")
+            if row.get("action_profile") != actions:
+                raise ValueError("Export requires one action profile")
             if (row["image_size"], row["fps"]) != (size, fps):
                 raise ValueError(
                     "All episodes must have the same image size and frame rate"
@@ -190,6 +217,13 @@ def export_dataset(
                     if annotated
                     else {}
                 )
+                if spline_annotations:
+                    annotations.update(
+                        {
+                            name: archive[f"annotation/{name}"]
+                            for name in ("target_pose", "task_error")
+                        }
+                    )
                 for tick in range(row["length"]):
                     frame = {
                         "observation.state": arrays["state"][tick].astype(np.float32),
@@ -207,6 +241,13 @@ def export_dataset(
                         if annotated
                         else np.zeros(5, dtype=np.float32)
                     )
+                    if spline_annotations:
+                        frame["annotation.target_pose"] = annotations["target_pose"][
+                            tick
+                        ].astype(np.float32)
+                        frame["annotation.task_error"] = np.array(
+                            [annotations["task_error"][tick]], dtype=bool
+                        )
                     for view in ("front", "wrist"):
                         frame[f"observation.images.{view}"] = arrays[view][tick]
                     for key in ("success", "done", "truncated"):
@@ -251,7 +292,8 @@ def export_dataset(
     write_json(
         output / "manifest.json",
         {
-            "format": "ogbench-mjwarp-2",
+            "format": "ogbench-mjwarp-3" if actions else "ogbench-mjwarp-2",
+            **({"action_profile": actions} if actions else {}),
             "rendering": profile,
             "randomization_schema_version": 1,
             "repo_id": repo_id,
@@ -291,7 +333,9 @@ def export_dataset(
     }
 
 
-def load_dataset(root, chunk_length=16, outcome="all", require_contact_valid=False):
+def load_dataset(
+    root, chunk_length=16, outcome="all", require_contact_valid=False, quality="all"
+):
     """Load policy inputs and padded action chunks without crossing episodes."""
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
@@ -306,7 +350,7 @@ def load_dataset(root, chunk_length=16, outcome="all", require_contact_valid=Fal
     manifest = json.loads((root / "manifest.json").read_text())
     episodes = [
         row["episode_index"]
-        for row in episode_metadata(root, outcome, require_contact_valid)
+        for row in episode_metadata(root, outcome, require_contact_valid, quality)
     ]
     if not episodes:
         raise ValueError("No episodes match the requested outcome")

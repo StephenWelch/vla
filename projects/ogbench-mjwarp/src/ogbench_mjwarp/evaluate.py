@@ -60,6 +60,9 @@ def prepare_evaluation(config):
     from ogbench_mjwarp.profile import ogbench_profile
 
     rendering = ogbench_profile(config.dataset, config.checkpoint)
+    from ogbench_mjwarp.actions import action_profile
+
+    actions = action_profile(config.dataset, config.checkpoint)
     if rendering is None:
         raise ValueError("OGBench evaluation requires a v2 OGBench dataset")
     features = metadata["features"]
@@ -71,8 +74,8 @@ def prepare_evaluation(config):
     policy_config = json.loads((config.checkpoint / "config.json").read_text())
     if policy_config["input_features"]["observation.state"]["shape"] != [
         18
-    ] or policy_config["output_features"]["action"]["shape"] != [5]:
-        raise ValueError("Checkpoint must use OGBench's 18-state/5-action contract")
+    ] or policy_config["output_features"]["action"]["shape"] != [7 if actions else 5]:
+        raise ValueError("Checkpoint must match the dataset state/action contract")
     processor = json.loads((config.checkpoint / "policy_preprocessor.json").read_text())
     rename = {}
     for step in processor["steps"]:
@@ -89,6 +92,7 @@ def prepare_evaluation(config):
             raise ValueError(f"Checkpoint camera mapping/shape does not match {key}")
     env_config = OGBenchEnvConfig(
         rendering=rendering,
+        action_profile=actions,
         task=config.env,
         task_ids=list(config.task_ids),
         image_size=tuple(images[0][1:]),

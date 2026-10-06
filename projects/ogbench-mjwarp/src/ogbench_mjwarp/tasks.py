@@ -172,6 +172,13 @@ def task_description(env):
     if hasattr(e, "_target_drawer_pos") and goal["task_name"] == "task1_open":
         return "Open the drawer and window. Leave the cube in place.", goal
     colors = ("red", "blue", "orange", "green", "yellow", "purple", "magenta", "gray")
+    if goal["task_name"] == "task5_stack" and getattr(e, "_num_cubes", 0) == 2:
+        heights = e._data.mocap_pos[e._cube_target_mocap_ids, 2]
+        lower, upper = np.argsort(heights)
+        return (
+            f"Move the {colors[lower]} cube to the center of the workspace and stack the {colors[upper]} cube on it.",
+            goal,
+        )
     if hasattr(e, "_cube_target_mocap_ids"):
         targets = e._data.mocap_pos[e._cube_target_mocap_ids]
         parts = [

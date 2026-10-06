@@ -9,7 +9,7 @@ from gymnasium.vector.utils import batch_space
 from lerobot.configs import FeatureType, PolicyFeature
 from lerobot.envs.configs import EnvConfig
 
-from .config import PlannerConfig
+from .config import CuroboConfig, PlannerConfig
 from .environment import BatchEnvironment
 from .io import jsonable
 from .tasks import image_shape, make_env
@@ -27,8 +27,15 @@ class OGBenchEnvConfig(EnvConfig):
     max_nonpad_penetration: float = 0.001
     max_penetration: float = 0.003
     rendering: dict | None = None
+    action_profile: dict | None = None
 
     def __post_init__(self):
+        if self.action_profile:
+            from .actions import validate_profile
+
+            validate_profile(self.action_profile)
+            if self.task != "cube-double-v0" or self.task_ids != [5]:
+                raise ValueError("Joint action pilot supports cube-double-v0 task 5")
         if (
             not self.task_ids
             or min(self.task_ids) < 1
@@ -43,7 +50,9 @@ class OGBenchEnvConfig(EnvConfig):
             raise ValueError("Contact thresholds must be finite and nonnegative")
         self.features = {
             "observation.state": PolicyFeature(FeatureType.STATE, (18,)),
-            "action": PolicyFeature(FeatureType.ACTION, (5,)),
+            "action": PolicyFeature(
+                FeatureType.ACTION, (7 if self.action_profile else 5,)
+            ),
             **{
                 f"observation.images.{view}": PolicyFeature(
                     FeatureType.VISUAL, (3, *shape)
@@ -88,6 +97,9 @@ class OGBenchVectorEnv(gym.vector.VectorEnv):
         }
         self.render_mode = "rgb_array"
         self.single_action_space = gym.spaces.Box(-1, 1, (5,), np.float32)
+        if config.action_profile:
+            bounds = np.asarray(config.action_profile["bounds"], dtype=np.float32)
+            self.single_action_space = gym.spaces.Box(bounds[:, 0], bounds[:, 1])
         image = gym.spaces.Box(0, 255, (*image_shape(config.image_size), 3), np.uint8)
         self.single_observation_space = gym.spaces.Dict(
             {
@@ -114,6 +126,15 @@ class OGBenchVectorEnv(gym.vector.VectorEnv):
                 env,
                 n_envs,
                 PlannerConfig(
+                    backend="curobo" if config.action_profile else "cem",
+                    curobo=CuroboConfig(
+                        **{
+                            key: config.action_profile[key]
+                            for key in ("max_velocity", "max_acceleration")
+                        }
+                    )
+                    if config.action_profile
+                    else CuroboConfig(),
                     max_nonpad_penetration=config.max_nonpad_penetration,
                     max_penetration=config.max_penetration,
                 ),
@@ -131,6 +152,8 @@ class OGBenchVectorEnv(gym.vector.VectorEnv):
         elif isinstance(seed, int):
             seed = list(range(seed, seed + self.num_envs))
         _, self.task_metadata = self.sim.reset(seed, [self.task_id] * self.num_envs)
+        if self.config.action_profile:
+            self.sim.fields["joint_target_velocity"].zero_()
         self.task_metadata = jsonable(self.task_metadata)
         self.elapsed = np.zeros(self.num_envs, dtype=int)
         self.done = np.zeros(self.num_envs, dtype=bool)
@@ -167,11 +190,22 @@ class OGBenchVectorEnv(gym.vector.VectorEnv):
 
     def step(self, actions):
         actions = np.asarray(actions, dtype=np.float32)
-        if actions.shape != (self.num_envs, 5) or not np.isfinite(actions).all():
-            raise ValueError("Actions must be finite [n_envs, 5] commands")
+        if (
+            actions.shape != (self.num_envs, *self.single_action_space.shape)
+            or not np.isfinite(actions).all()
+        ):
+            raise ValueError(
+                "Actions must be finite and match the environment action space"
+            )
         active = ~self.done
         frozen = self.sim.snapshot() if self.done.any() else None
-        success, valid = self.sim.step(self.sim.tensor(np.clip(actions, -1, 1)))
+        success, valid = self.sim.step(
+            self.sim.tensor(
+                np.clip(
+                    actions, self.single_action_space.low, self.single_action_space.high
+                )
+            )
+        )
         success, valid = success.cpu().numpy(), valid.cpu().numpy()
         depths = self.sim.contact_depth.cpu().numpy()
         self.peaks[active] = np.maximum(self.peaks[active], depths[active])

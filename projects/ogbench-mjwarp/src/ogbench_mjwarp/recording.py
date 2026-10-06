@@ -50,6 +50,7 @@ class EpisodeBuffer:
         )
 
     def save(self, outcome, reason, terminal):
+        archive_started = time.perf_counter()
         prefix = self.root / f"episode-{self.episode_id:06d}"
         arrays = (
             {
@@ -76,6 +77,7 @@ class EpisodeBuffer:
             "outcome": outcome,
             "reason": reason,
             "archive": prefix.with_suffix(".npz").name,
+            "archive_write_seconds": time.perf_counter() - archive_started,
         }
         write_json(prefix.with_suffix(".json"), metadata)
         return metadata
@@ -126,6 +128,7 @@ def generate(
     metrics=None,
     refill_slots=True,
     batched_cpu=True,
+    settle_steps=0,
 ):
     started = time.perf_counter()
     timings = {
@@ -133,9 +136,17 @@ def generate(
         "host_transfer_seconds": 0.0,
         "cpu_validation_seconds": 0.0,
         "planner_seconds": 0.0,
+        "physics_seconds": 0.0,
     }
     active_ticks = total_ticks = 0
+    planner_latencies, solve_latencies = [], []
     randomization = randomization or RandomizationConfig()
+    joint_actions = config.joint_actions
+    spline = config.backend == "spline"
+    if spline:
+        settle_steps = max(20, settle_steps)
+    if joint_actions and (env_id != "cube-double-v0" or task_ids != [5]):
+        raise ValueError("cuRobo pilot supports only cube-double-v0 task 5")
     image_shape(size)
     size = size if isinstance(size, int) else list(size)
     if episodes < 1 or not task_ids or (max_steps is not None and max_steps < 1):
@@ -145,7 +156,7 @@ def generate(
     root = Path(root)
     root.mkdir(parents=True, exist_ok=True)
     run = {
-        "format": "ogbench-rollouts-2",
+        "format": "ogbench-rollouts-3" if joint_actions else "ogbench-rollouts-2",
         "env_id": env_id,
         "episodes": episodes,
         "task_ids": task_ids,
@@ -162,6 +173,8 @@ def generate(
         "versions": versions(),
         "execution": {"refill_slots": refill_slots, "batched_cpu": batched_cpu},
     }
+    if settle_steps:
+        run["execution"]["settle_steps"] = settle_steps
     run_path = root / "run.json"
     if run_path.exists():
         existing = json.loads(run_path.read_text())
@@ -188,7 +201,17 @@ def generate(
         else None
     )
     try:
+        torch.cuda.reset_peak_memory_stats()
         execution = BatchEnvironment(env, batch_size, config)
+        # Capture execution kernels without advancing any recorded reset state.
+        saved = execution.snapshot()
+        warm_action = (
+            torch.cat((execution.qpos[:, execution.arm_q], execution.grip[:, None]), 1)
+            if joint_actions
+            else torch.zeros((batch_size, 5), device=execution.device)
+        )
+        execution.step(warm_action)
+        execution.restore(saved)
         if record_images:
             execution.render_batch()
             run["rendering"] = execution.renderer.profile
@@ -200,7 +223,23 @@ def generate(
                 raise ValueError("Recording rendering profile changed")
             write_json(run_path, run)
         roles = contact_roles(env.unwrapped._model)
-        planner = SamplingMPC(execution, config, seed)
+        if joint_actions:
+            from .actions import joint_profile
+            from .curobo_planner import CuroboPlanner, CuroboSkill
+
+            if spline:
+                from .spline_planner import SplinePlanner, SplineSkill
+
+                planner = SplinePlanner(execution, config, seed, root / "robot")
+            else:
+                planner = CuroboPlanner(execution, config, seed, root / "robot")
+            profile = joint_profile(env.unwrapped, config.curobo)
+        else:
+            planner = SamplingMPC(execution, config, seed)
+        initialization_seconds = time.perf_counter() - started
+        free_bytes, total_bytes = torch.cuda.mem_get_info(execution.device)
+        device_peak_used_bytes = total_bytes - free_bytes
+        generation_started = time.perf_counter()
         limit = max_steps or env.spec.max_episode_steps
         pending = deque(pending)
         buffers, skills, snapshots = (
@@ -211,6 +250,7 @@ def generate(
         ids = [-1] * batch_size
         active = np.zeros(batch_size, dtype=bool)
         elapsed = np.zeros(batch_size, dtype=int)
+        settling = np.zeros(batch_size, dtype=int)
 
         def fill(world, episode_id):
             provenance = episode_randomization(seed, episode_id, randomization, config)
@@ -278,6 +318,9 @@ def generate(
                 "joint_target_offset": snapshots[world]["joint_target_offset"].tolist(),
             }
             buffers[world] = EpisodeBuffer(root, episode_id, metadata)
+            if joint_actions:
+                metadata["action_profile"] = profile
+                metadata["robot_hash"] = planner.robot_hash
             metadata["contact_quality"] = {
                 "valid": True,
                 "peak_nonpad_penetration": 0.0,
@@ -286,13 +329,26 @@ def generate(
                 "max_penetration": config.max_penetration,
                 "scope": "GPU physics substeps/endpoints and CPU recorded states; robot/environment collision geometries only.",
             }
-            skills[world] = SkillPlan(env, streams["oracle"], randomization, provenance)
+            skill_type = CuroboSkill if joint_actions else SkillPlan
+            skills[world] = (
+                SplineSkill(
+                    env, streams["oracle"], randomization, provenance, config.spline
+                )
+                if spline
+                else skill_type(env, streams["oracle"], randomization, provenance)
+            )
+            if spline:
+                metadata["annotation_schema_version"] = 2
             ids[world] = episode_id
             elapsed[world] = 0
+            settling[world] = 0
             active[world] = True
-            planner.mean[world].zero_()
-            planner.previous_action[world].zero_()
-            planner.generators[world].manual_seed(streams["planner"])
+            if joint_actions:
+                planner.reset(world, streams["planner"])
+            else:
+                planner.mean[world].zero_()
+                planner.previous_action[world].zero_()
+                planner.generators[world].manual_seed(streams["planner"])
 
         step = 0
         while pending or active.any():
@@ -359,14 +415,48 @@ def generate(
             timings["cpu_validation_seconds"] += (
                 time.perf_counter() - validation_started
             )
-            action, stats = planner.plan(references, objectives)
+            action, stats = (
+                planner.plan(references, objectives, skills, active)
+                if joint_actions
+                else planner.plan(references, objectives)
+            )
             timings["planner_seconds"] += stats["seconds"]
-            action[torch.as_tensor(~active, device=execution.device)] = 0
+            planner_latencies.append(stats["seconds"])
+            if stats.get("planning_calls", 1):
+                solve_latencies.append(stats["seconds"])
+            if not joint_actions:
+                action[torch.as_tensor(~active, device=execution.device)] = 0
+            holding = torch.as_tensor(settling > 0, device=execution.device)
+            if joint_actions:
+                action[holding, :6] = execution.ctrl[holding][:, execution.arm_act]
+                action[holding, 6] = 0
+            else:
+                action[holding] = 0
+            physics_started = time.perf_counter()
             success, healthy = execution.step(action)
+            torch.cuda.synchronize(execution.device)
+            timings["physics_seconds"] += time.perf_counter() - physics_started
+            if step % 20 == 0:
+                free_bytes, total_bytes = torch.cuda.mem_get_info(execution.device)
+                device_peak_used_bytes = max(
+                    device_peak_used_bytes, total_bytes - free_bytes
+                )
             transfer_started = time.perf_counter()
             host_after = execution.cpu_states() if batched_cpu else None
             successes, health = success.cpu().numpy(), healthy.cpu().numpy()
             actions = action.cpu().numpy()
+            if joint_actions:
+                actions = (
+                    torch.cat(
+                        (
+                            execution.ctrl[:, execution.arm_act],
+                            execution.ctrl[:, execution.gripper_act] / 255,
+                        ),
+                        1,
+                    )
+                    .cpu()
+                    .numpy()
+                )
             gpu_depths = execution.contact_depth.cpu().tolist()
             overflows = execution.overflow.cpu().numpy()
             timings["host_transfer_seconds"] += time.perf_counter() - transfer_started
@@ -378,7 +468,12 @@ def generate(
                 bad_contact = not update_contact_quality(
                     quality, gpu_depths[world], cpu_depths[world]
                 )
-                skill_finished = skills[world].cursor + 1 >= len(skills[world].plan)
+                skill = skills[world]
+                skill_finished = (
+                    skill.phase_done and skill.phase_index == len(skill.phases) - 1
+                    if joint_actions
+                    else skill.cursor + 1 >= len(skill.plan)
+                )
                 done = bool(
                     successes[world]
                     and not invalid_plan
@@ -401,6 +496,20 @@ def generate(
                     env.unwrapped.post_step()
                     success_mismatch = not bool(env.unwrapped._success)
                     done = not success_mismatch and not bad_contact
+                if spline:
+                    # A scheduled completion is independent of native task success.
+                    success_mismatch = False
+                    done = bool(
+                        skill.complete
+                        and not (invalid_plan or bad_physics or bad_contact)
+                    )
+                if settle_steps and (done or settling[world]):
+                    if not settling[world]:
+                        buffers[world].metadata["native_success"] = bool(
+                            successes[world]
+                        )
+                    settling[world] += 1
+                    done = bool(done and settling[world] > settle_steps)
                 truncated = elapsed[world] == limit and not done
                 finished = (
                     done
@@ -410,6 +519,72 @@ def generate(
                     or bad_contact
                     or success_mismatch
                 )
+                completed = bool(done)
+                if spline and finished:
+                    from .stack_audit import audit_stack
+
+                    terminal = (
+                        {key: value[world].copy() for key, value in host_after.items()}
+                        if host_after is not None
+                        else execution.cpu_state(int(world))
+                    )
+                    finite = bool(
+                        np.isfinite(terminal["qpos"]).all()
+                        and np.isfinite(terminal["qvel"]).all()
+                    )
+                    out_of_bounds = bad_physics and finite and not overflows[world]
+                    truncated = bool(truncated or out_of_bounds)
+                    metadata = buffers[world].metadata
+                    metadata["native_success"] = bool(successes[world])
+                    physical_valid = bool(
+                        finite and not overflows[world] and not bad_contact
+                    )
+                    audit = {"valid": False, "failures": ["incomplete_attempt"]}
+                    if completed:
+                        states = buffers[world].states + [before[world], terminal]
+                        audit = audit_stack(
+                            env,
+                            {
+                                key: np.stack([s[key] for s in states])
+                                for key in terminal
+                            },
+                        )
+                    done = bool(completed and physical_valid and audit["valid"])
+                    if completed:
+                        skill.observed.append(
+                            {
+                                "event": "stable_stack",
+                                "frame": int(elapsed[world]),
+                                "observed": done,
+                                "failure": None if done else audit["failures"],
+                            }
+                        )
+                    metadata["stack_quality"] = audit
+                    metadata["quality"] = {
+                        "schema_version": 1,
+                        "physical_valid": physical_valid,
+                        "completed": completed,
+                        "stable_success": done,
+                        "planning_rejected": bool(invalid_plan),
+                        "out_of_bounds": bool(out_of_bounds),
+                    }
+                    from .execution_ablation import motion_metrics
+
+                    states = buffers[world].states + [before[world], terminal]
+                    command = np.stack(
+                        [s["ctrl"][env.unwrapped._arm_actuator_ids] for s in states]
+                    )
+                    q = execution.arm_q.cpu().numpy()
+                    v = env.unwrapped._model.jnt_dofadr[env.unwrapped._arm_joint_ids]
+                    metadata["motion"] = (
+                        motion_metrics(
+                            command,
+                            np.stack([s["qpos"][q] for s in states]),
+                            np.stack([s["qvel"][v] for s in states]),
+                        )
+                        if finite and np.isfinite(command).all()
+                        else {"available": False}
+                    )
                 buffers[world].states.append(before[world])
                 buffers[world].add(
                     images[world],
@@ -421,7 +596,8 @@ def generate(
                     stats["seconds"],
                     skills[world].annotation(),
                 )
-                skills[world].advance()
+                if not settling[world]:
+                    skills[world].advance()
                 if finished:
                     if done:
                         reason = "success"
@@ -430,11 +606,23 @@ def generate(
                     elif bad_contact:
                         reason = "contact_violation"
                     elif invalid_plan:
-                        reason = "invalid_candidates"
+                        reason = (
+                            planner.phase_records[world][-1].get(
+                                "failure", "planning_failure"
+                            )
+                            if joint_actions
+                            else "invalid_candidates"
+                        )
                     elif overflows[world]:
                         reason = "capacity_overflow"
                     elif bad_physics:
-                        reason = "numerical_failure"
+                        reason = (
+                            "out_of_bounds"
+                            if spline and out_of_bounds
+                            else "numerical_failure"
+                        )
+                    elif spline and completed:
+                        reason = "task_failure"
                     else:
                         reason = "timeout"
                     buffers[world].metadata["success_verified"] = done
@@ -483,16 +671,40 @@ def generate(
         try:
             writer.close()
         finally:
+            if joint_actions and "planner" in locals():
+                planner.close()
             env.close()
     result = summarize(root)
     result["performance"] = {
         **timings,
         "generation_seconds": time.perf_counter() - started,
+        "initialization_seconds": initialization_seconds,
+        "steady_generation_seconds": time.perf_counter() - generation_started,
         "archive_wait_seconds": writer.wait_seconds,
+        "archive_write_seconds": sum(
+            row.get("archive_write_seconds", 0) for row in episode_metadata(root)
+        ),
         "active_slot_utilization": active_ticks / total_ticks if total_ticks else 0,
         "torch_peak_allocated_bytes": torch.cuda.max_memory_allocated(execution.device),
         "torch_peak_reserved_bytes": torch.cuda.max_memory_reserved(execution.device),
+        "device_peak_used_bytes": device_peak_used_bytes,
+        "planner_step_latency_p50_seconds": float(np.median(planner_latencies)),
+        "planner_step_latency_p95_seconds": float(np.percentile(planner_latencies, 95)),
+        "solve_latency_p50_seconds": float(np.median(solve_latencies))
+        if solve_latencies
+        else 0,
+        "solve_calls": len(solve_latencies),
+        "simulated_seconds": active_ticks / 20,
+        "planning_seconds_per_simulated_second": timings["planner_seconds"]
+        / (active_ticks / 20),
     }
+    seconds = result["performance"]["steady_generation_seconds"]
+    result["performance"]["validated_successes_per_minute"] = (
+        result["validated_successes"] * 60 / seconds
+    )
+    result["performance"]["valid_failures_per_minute"] = (
+        result["valid_failures"] * 60 / seconds
+    )
     write_json(root / "summary.json", result)
     return result
 
@@ -507,6 +719,42 @@ def summarize(root):
         "failures": len(rows) - success,
         "success_rate": success / len(rows) if rows else 0.0,
         "frames": frames,
+        "validated_successes": sum(
+            r.get("quality", {}).get("stable_success", False) for r in rows
+        ),
+        "valid_failures": len(episode_metadata(root, quality="valid-failure")),
+        "planning_rejections": sum(
+            r.get("quality", {}).get("planning_rejected", False) for r in rows
+        ),
+        "invalid_attempts": sum(
+            r.get("quality", {}).get("physical_valid") is False for r in rows
+        ),
+        "strata": {
+            name: {
+                "attempts": len(selected),
+                "validated_successes": sum(
+                    r.get("quality", {}).get("stable_success", False) for r in selected
+                ),
+                "valid_failures": sum(
+                    r.get("quality", {}).get("physical_valid") is True
+                    and r.get("quality", {}).get("completed") is True
+                    and r.get("quality", {}).get("stable_success") is False
+                    for r in selected
+                ),
+            }
+            for name in ("nominal", "moderate", "challenging")
+            if (
+                selected := [
+                    r
+                    for r in rows
+                    if r.get("randomization", {})
+                    .get("factors", {})
+                    .get("spline", {})
+                    .get("stratum")
+                    == name
+                ]
+            )
+        },
         "outcomes": [
             {
                 "episode_id": r["episode_id"],

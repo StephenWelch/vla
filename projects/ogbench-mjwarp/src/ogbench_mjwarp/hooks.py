@@ -38,13 +38,22 @@ def scene_split(dataset, fraction=0.2, seed=1000, episodes=None):
     if not 0 < fraction < 1:
         raise ValueError("Validation fraction must be between zero and one")
     by_task = {}
+    prescribed = any("dataset_split" in row for row in rows)
+    split = {name: [] for name in ("train", "val")}
     for group in groups.values():
         group = [row for row in group if row["episode_index"] in selected]
         if group:
+            if prescribed:
+                labels = {row.get("dataset_split") for row in group}
+                if len(labels) != 1 or not labels <= {"train", "val"}:
+                    raise ValueError(
+                        "Recorded split must label every episode consistently within each reset group"
+                    )
+                split[labels.pop()].extend(group)
+                continue
             by_task.setdefault((group[0]["env_id"], group[0]["task_id"]), []).append(
                 group
             )
-    split = {name: [] for name in ("train", "val")}
     rng = random.Random(seed)
     for identity, task_groups in sorted(by_task.items()):
         if len(task_groups) < 2:
@@ -59,6 +68,9 @@ def scene_split(dataset, fraction=0.2, seed=1000, episodes=None):
         raise ValueError("Empty train/validation split")
     return {
         "schema_version": 1,
+        "method": "recorded_cross_dataset_split"
+        if prescribed
+        else "grouped_random_split",
         "seed": seed,
         "validation_fraction": fraction,
         "manifest_sha256": hashlib.sha256(
@@ -220,6 +232,10 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
             (
                 kwargs["checkpoint_dir"] / "pretrained_model" / "rendering.json"
             ).write_text(json.dumps(settings["rendering"], indent=2) + "\n")
+        if settings.get("action_profile"):
+            (
+                kwargs["checkpoint_dir"] / "pretrained_model/action_profile.json"
+            ).write_text(json.dumps(settings["action_profile"], indent=2) + "\n")
         step, policy = kwargs["step"], kwargs["policy"]
         report_path = output / "metrics" / f"{step:06d}.json"
         if (
@@ -307,6 +323,7 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
                         task_ids=[task["task_id"]],
                         image_size=image_size,
                         rendering=settings.get("rendering"),
+                        action_profile=settings.get("action_profile"),
                         max_steps=cfg.max_steps,
                         device="cuda:0" if cfg.device == "cuda" else cfg.device,
                     )
@@ -432,6 +449,7 @@ def main():
         **record["config"],
         "split": record["split"],
         "rendering": record.get("rendering"),
+        "action_profile": record.get("action_profile"),
     }
     from vla_tools.tracking import install_native_logging
 
@@ -448,6 +466,10 @@ def main():
                     kwargs["checkpoint_dir"] / "pretrained_model/rendering.json"
                 ).write_text(json.dumps(settings["rendering"], indent=2) + "\n")
             tracker = get_tracker()
+            if settings.get("action_profile"):
+                (
+                    kwargs["checkpoint_dir"] / "pretrained_model/action_profile.json"
+                ).write_text(json.dumps(settings["action_profile"], indent=2) + "\n")
             if tracker and tracker.run:
                 from vla_tools.tracking import write_json
 

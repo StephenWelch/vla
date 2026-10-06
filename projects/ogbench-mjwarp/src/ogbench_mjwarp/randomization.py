@@ -10,7 +10,7 @@ def initial_state_fingerprint(state):
     """Identify saved reset states while allowing different controller offsets."""
     digest = hashlib.sha256()
     for key, value in sorted(state.items()):
-        if key != "joint_target_offset":
+        if key not in ("joint_target_offset", "joint_target_velocity"):
             array = np.asarray(value)
             digest.update(f"{key}:{array.dtype}:{array.shape}".encode())
             digest.update(array.tobytes())

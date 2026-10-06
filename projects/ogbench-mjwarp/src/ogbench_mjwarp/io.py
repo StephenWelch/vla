@@ -30,8 +30,12 @@ def write_json(path, value):
     temp.replace(path)
 
 
-def episode_metadata(root, outcome="all", require_contact_valid=False):
+def episode_metadata(root, outcome="all", require_contact_valid=False, quality="all"):
     """Read and select raw or exported episodes, preserving their stored order."""
+    from .spline import quality_selection
+
+    if quality not in ("all", "validated-success", "valid-failure"):
+        raise ValueError(f"Unknown quality filter: {quality}")
     root = Path(root)
     manifest = root / "manifest.json"
     rows = (
@@ -49,6 +53,7 @@ def episode_metadata(root, outcome="all", require_contact_valid=False):
             not require_contact_valid
             or row.get("contact_quality", {}).get("valid") is True
         )
+        and quality_selection(row, quality)
     ]
 
 

@@ -176,7 +176,13 @@ class BatchEnvironment:
             self.window_v = int(self.host_model.joint("window_slide").dofadr[0])
         self.control_graph = None
         self.physics_graph = None
-        self.static_action = torch.zeros((worlds, 5), device=self.device)
+        self.static_action = torch.zeros(
+            (worlds, 7 if config.joint_actions else 5), device=self.device
+        )
+        if config.joint_actions:
+            self.fields["joint_target_velocity"] = torch.zeros(
+                (worlds, 6), device=self.device
+            )
         self.restore(
             {
                 k: np.repeat(np.asarray(v)[None], worlds, axis=0)
@@ -295,6 +301,27 @@ class BatchEnvironment:
         return state
 
     def _control(self, actions):
+        if self.config.joint_actions:
+            target = actions[:, :6].clamp(
+                self.joint_target_bounds[0], self.joint_target_bounds[1]
+            )
+            previous = self.ctrl[:, self.arm_act]
+            dt = self.base._control_timestep
+            limits = self.config.curobo
+            velocity = ((target - previous) / dt).clamp(
+                -limits.max_velocity, limits.max_velocity
+            )
+            old_velocity = self.fields["joint_target_velocity"]
+            velocity = torch.maximum(
+                torch.minimum(velocity, old_velocity + limits.max_acceleration * dt),
+                old_velocity - limits.max_acceleration * dt,
+            )
+            self.ctrl[:, self.arm_act] = (previous + velocity * dt).clamp(
+                self.joint_target_bounds[0], self.joint_target_bounds[1]
+            )
+            old_velocity.copy_(velocity)
+            self.ctrl[:, self.gripper_act] = 255 * actions[:, 6:7].clamp(0, 1)
+            return
         action = actions.clamp(-1, 1) * self.scale
         pos = torch.maximum(
             torch.minimum(self.effector + action[:, :3], self.bounds[1]), self.bounds[0]
@@ -319,6 +346,10 @@ class BatchEnvironment:
 
     @on_stream
     def set_control(self, actions):
+        if self.config.joint_actions:
+            # Joint control is cheap; avoid advancing slew state during graph warmup.
+            self._control(actions)
+            return
         self.static_action.copy_(actions)
         if self.control_graph is None:
             # Warm cuSOLVER and allocator before capture. No physics is advanced.

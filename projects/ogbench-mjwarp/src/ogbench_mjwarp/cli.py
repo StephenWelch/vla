@@ -56,6 +56,7 @@ class Export:
     repo_id: str = "local/ogbench-mjwarp"
     outcome: Literal["all", "success", "failure"] = "all"
     require_contact_valid: bool = False
+    quality: Literal["all", "validated-success", "valid-failure"] = "all"
     diverse_per_task: int | None = None
     streaming_encoding: bool = True
     encoder_queue_size: int = 30
@@ -77,6 +78,7 @@ class Inspect:
     chunk_length: int = 16
     outcome: Literal["all", "success", "failure"] = "all"
     require_contact_valid: bool = False
+    quality: Literal["all", "validated-success", "valid-failure"] = "all"
 
 
 @dataclass
@@ -314,12 +316,13 @@ def main(argv=None):
             streaming_encoding=args.streaming_encoding,
             encoder_queue_size=args.encoder_queue_size,
             encoder_threads=args.encoder_threads,
+            quality=args.quality,
         )
     elif args.command == "inspect":
         from .dataset import load_dataset
 
         dataset = load_dataset(
-            args.root, args.chunk_length, args.outcome, args.require_contact_valid
+            args.root, args.chunk_length, args.outcome, args.require_contact_valid, args.quality
         )
         item = dataset[0]
         result = {

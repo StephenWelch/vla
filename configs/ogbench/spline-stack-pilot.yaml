@@ -1,0 +1,15 @@
+output: ${oc.env:OGBENCH_DATA_ROOT,/mnt/e/vla-ogbench}/spline-pilot/matched-50
+episodes: 50
+tuning_episodes: 10
+repeats: 2
+batch_size: 32
+seed: 62000
+tuning_seed: 52000
+max_steps: 1600
+memory_limit_gib: 28.0
+render_export: true
+wandb:
+  enable: true
+  project: vla-ogbench
+  group: spline-stack
+  name: spline-stack-matched-50

@@ -91,7 +91,10 @@ def dataset_profile(root, checkpoint=None):
     manifest = json.loads(path.read_text()) if path.exists() else {}
     if not manifest.get("format", "").startswith("ogbench-mjwarp-"):
         return None
-    if manifest["format"] != "ogbench-mjwarp-2" or not manifest.get("rendering"):
+    if manifest["format"] not in (
+        "ogbench-mjwarp-2",
+        "ogbench-mjwarp-3",
+    ) or not manifest.get("rendering"):
         raise ValueError("Legacy OGBench dataset: collect a fresh MJWarp v2 dataset")
     profile = manifest["rendering"]
     if profile.get("revision") != 2:
