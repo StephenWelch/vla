@@ -36,6 +36,4 @@ def test_optimizer_logging_with_optional_gpu_meter(tmp_path, gpu_memory):
         "train/update_seconds": 0.1,
         "train/l1_loss": 0.2,
     }
-    if gpu_memory is not None:
-        expected["train/peak_gpu_memory_gb"] = gpu_memory
     assert record == expected

@@ -86,10 +86,31 @@ def validate_profiles(config):
     manifest = json.loads((config.dataset / "manifest.json").read_text())
     if manifest["action_profile"] != ACTION:
         raise ValueError("Training action views require native delta source data")
-    if (
-        config.action_mode != "delta" or config.percentile_normalization
-    ) and not config.validation_fraction:
+    if (config.action_mode != "delta" or config.percentile_normalization) and not (
+        config.validation_fraction or config.overfit
+    ):
         raise ValueError("Action views require a train/validation split")
+    if config.overfit:
+        selected = [
+            row
+            for row in manifest["episodes"]
+            if row["episode_index"] in (config.episodes or [])
+        ]
+        for row in selected:
+            plans = row.get("randomization", {}).get("plans", [])
+            if not (
+                row["native_success"]
+                and row["physical_valid"]
+                and row.get("dataset_split") == "train"
+                and plans
+                and all(
+                    p.get("num_pick_retries") == 0 and p.get("is_mistake") == 0
+                    for p in plans
+                )
+            ):
+                raise ValueError(
+                    "Overfit episode must be a clean audited training success"
+                )
     return rendering, actions
 
 

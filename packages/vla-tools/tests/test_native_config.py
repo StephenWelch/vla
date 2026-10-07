@@ -57,6 +57,7 @@ def test_saved_record_conversion():
     )
     assert result == {
         "image_normalization": "auto",
+        "overfit": False,
         "action_mode": "absolute",
         "overrides": {"policy.chunk_size": "25"},
     }

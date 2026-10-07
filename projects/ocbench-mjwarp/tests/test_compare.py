@@ -117,3 +117,39 @@ def test_clean_successes_exclude_high_level_mistakes_and_keep_holdout():
     del rows[0]["randomization"]["plans"][0]["is_mistake"]
     with pytest.raises(ValueError, match="mistake annotations"):
         selections({"episodes": rows}, exclude_mistakes=True)
+
+
+def test_overfit_requires_clean_training_episode(tmp_path, monkeypatch):
+    from ocbench_mjwarp import profile
+    from ocbench_mjwarp.config import ACTION
+    from ocbench_mjwarp.train import TrainConfig
+    from ocbench_mjwarp.training import validate_profiles
+
+    monkeypatch.setattr(profile, "profiles", lambda *args: ({}, ACTION))
+    row = {
+        "episode_index": 1,
+        "native_success": True,
+        "physical_valid": True,
+        "dataset_split": "train",
+        "randomization": {"plans": [{"num_pick_retries": 0, "is_mistake": 0}]},
+    }
+
+    def save():
+        (tmp_path / "manifest.json").write_text(
+            json.dumps({"action_profile": ACTION, "episodes": [row]})
+        )
+
+    cfg = TrainConfig(
+        dataset=tmp_path, output=tmp_path / "run", episodes=[1], overfit=True
+    )
+    save()
+    validate_profiles(cfg)
+    row["randomization"]["plans"][0]["num_pick_retries"] = 1
+    save()
+    with pytest.raises(ValueError, match="clean audited"):
+        validate_profiles(cfg)
+    row["randomization"]["plans"][0]["num_pick_retries"] = 0
+    row["dataset_split"] = "val"
+    save()
+    with pytest.raises(ValueError, match="clean audited"):
+        validate_profiles(cfg)

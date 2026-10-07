@@ -56,3 +56,7 @@ uvx --from 'rerun-sdk==0.38.1' rerun --web-viewer --renderer webgpu /path/to/dat
 ```
 
 Open the URL printed by Rerun in Windows Chrome or Edge (default web port 9090). Enable browser graphics acceleration and check `chrome://gpu` or `edge://gpu` for hardware-accelerated WebGPU. See [dataset browsing and WSL graphics](../../docs/ocbench-workflow.md#dataset-browsing-and-wsl-graphics) for the current dataset path, split selection and native WSLg troubleshooting.
+
+## Single-trajectory diagnostic
+
+`vla-ocbench-train --config configs/ocbench/act-overfit-episode001.yaml` fits one clean training episode from scratch. Explicit `overfit: true` requires exactly one selected episode and `validation_fraction: 0`. Statistics, loss probes and reset-seed rollouts use only that episode; reports contain training metrics and no validation scores. The recipe uses absolute actions, 25-step open-loop chunks, 320×240 images, BF16 AMP and 5,000 updates. Override `--output` for a fresh run.

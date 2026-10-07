@@ -147,11 +147,12 @@ def test_native_adapter_uses_one_run_and_disables_model_upload(sdk, tmp_path):
     )
     cfg = SimpleNamespace(output_dir=tmp_path, wandb=SimpleNamespace(), resume=False)
     logger = trainer.WandBLogger(cfg)
-    logger.log_dict({"loss": 2, "lr": 0.001}, 25)
+    logger.log_dict({"loss": 2, "lr": 0.001, "gpu_mem_gb": 1.5}, 25)
     getter().log({"val/probe": {"loss": 1}}, update=25)
     logger.log_policy(tmp_path)
     assert module.init.call_count == 1 and cfg.wandb.run_id == "testid"
     assert run.log.call_args_list[0].args[0]["train/loss"] == 2
+    assert "train/gpu_mem_gb" not in run.log.call_args_list[0].args[0]
 
 
 def test_real_offline_sdk_journal_and_resume(tmp_path, monkeypatch):

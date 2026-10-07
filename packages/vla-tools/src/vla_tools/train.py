@@ -33,6 +33,7 @@ class TrainingConfig:
     overrides: dict[str, str] = field(default_factory=dict)
     dry_run: bool = False
     validation_fraction: float = 0.0
+    overfit: bool = False  # Explicit single-episode training diagnostic; no holdout.
     image_size: tuple[int, int] | None = None  # Policy input (height, width).
     use_amp: bool = False
     amp_dtype: Literal["bfloat16", "float16"] = "bfloat16"
@@ -58,6 +59,7 @@ def normalize_record(values):
     """Read current-era saved experiments; new public configs use only canonical fields."""
     values = dict(values)
     values.pop("backend", None)
+    values.setdefault("overfit", False)
     if "absolute_arm" in values or "absolute_gripper" in values:
         arm = values.pop("absolute_arm", False)
         gripper = values.pop("absolute_gripper", False)
@@ -73,6 +75,14 @@ def normalize_record(values):
 
 def training_plan(config, validate_profiles=None, worker="vla_tools.hooks"):
     """Validate the data/checkpoint contract and build native LeRobot arguments."""
+    if config.overfit and (
+        config.validation_fraction
+        or config.episodes is None
+        or len(config.episodes) != 1
+    ):
+        raise ValueError(
+            "Overfit requires exactly one episode and validation_fraction=0"
+        )
     if config.use_amp and not config.device.startswith("cuda"):
         raise ValueError("Explicit ACT AMP requires CUDA")
     if config.image_size is not None and (
@@ -216,9 +226,9 @@ def training_plan(config, validate_profiles=None, worker="vla_tools.hooks"):
     split = None
     if (
         config.train_eval_seeds is not None or config.val_eval_seeds is not None
-    ) and not config.validation_fraction:
+    ) and not (config.validation_fraction or config.overfit):
         raise ValueError("Explicit evaluation seeds require validation")
-    if config.validation_fraction:
+    if config.validation_fraction or config.overfit:
         import torch
 
         from vla_tools.hooks import scene_split
@@ -242,7 +252,11 @@ def training_plan(config, validate_profiles=None, worker="vla_tools.hooks"):
         if config.rollout_eval_freq % config.loss_eval_freq:
             raise ValueError("Rollout frequency must be a multiple of loss frequency")
         split = scene_split(
-            config.dataset, config.validation_fraction, config.seed, config.episodes
+            config.dataset,
+            config.validation_fraction,
+            config.seed,
+            config.episodes,
+            overfit=config.overfit,
         )
         for name in ("train", "val"):
             seeds = getattr(config, f"{name}_eval_seeds")
@@ -299,6 +313,7 @@ def training_plan(config, validate_profiles=None, worker="vla_tools.hooks"):
             "batch_size",
             "seed",
             "validation_fraction",
+            "overfit",
             "overrides",
             "loss_eval_freq",
             "rollout_eval_freq",

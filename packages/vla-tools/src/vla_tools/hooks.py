@@ -9,7 +9,7 @@ from itertools import zip_longest
 from pathlib import Path
 
 
-def scene_split(dataset, fraction=0.2, seed=1000, episodes=None):
+def scene_split(dataset, fraction=0.2, seed=1000, episodes=None, *, overfit=False):
     """Keep reset-seed and state-fingerprint aliases together, including variants."""
     dataset = Path(dataset)
     manifest = json.loads((dataset / "manifest.json").read_text())
@@ -18,6 +18,22 @@ def scene_split(dataset, fraction=0.2, seed=1000, episodes=None):
     ids = {row["episode_index"] for row in rows}
     if len(ids) != len(rows) or not selected <= ids:
         raise ValueError("Manifest must contain one row per selected episode")
+    if overfit:
+        if len(selected) != 1 or fraction != 0:
+            raise ValueError(
+                "Overfit requires exactly one episode and no validation fraction"
+            )
+        return {
+            "schema_version": 1,
+            "method": "single_episode_overfit",
+            "seed": seed,
+            "validation_fraction": 0,
+            "manifest_sha256": hashlib.sha256(
+                (dataset / "manifest.json").read_bytes()
+            ).hexdigest(),
+            "train": [row for row in rows if row["episode_index"] in selected],
+            "val": [],
+        }
     groups, aliases = {}, {}
     for row in rows:
         index = row["episode_index"]
@@ -155,6 +171,7 @@ def install_hooks(
     output = Path(settings["output"])
     split = settings["split"]
     datasets = {}
+    parts = [name for name in ("train", "val") if split and split[name]]
     original_dataset, original_save = (
         trainer.make_train_eval_datasets,
         trainer.save_checkpoint,
@@ -188,11 +205,6 @@ def install_hooks(
                             "train/optimizer_loss": metrics.loss.val,
                             "train/grad_norm": metrics.grad_norm.val,
                             "train/update_seconds": metrics.update_s.val,
-                            **(
-                                {"train/peak_gpu_memory_gb": metrics.gpu_mem_gb.val}
-                                if hasattr(metrics, "gpu_mem_gb")
-                                else {}
-                            ),
                             **{
                                 f"train/{k}": v
                                 for k, v in (details or {}).items()
@@ -238,7 +250,7 @@ def install_hooks(
             for key in full.meta.camera_keys:
                 for field in ("mean", "std"):
                     stats[key][field] = np.asarray(full.meta.stats[key][field]).copy()
-        for name in ("train", "val"):
+        for name in parts:
             datasets[name] = LeRobotDataset(
                 cfg.dataset.repo_id,
                 root=cfg.dataset.root,
@@ -295,6 +307,9 @@ def install_hooks(
             "status": "running",
             "checkpoint": str(kwargs["checkpoint_dir"]),
             "policy_type": policy.config.type,
+            "scope": "single_episode_overfit"
+            if settings.get("overfit")
+            else "train_validation",
             "probe_seed": settings["seed"],
             "dataset_manifest_sha256": split.get("manifest_sha256"),
             "train_stats_sha256": hashlib.sha256(
@@ -316,7 +331,7 @@ def install_hooks(
         }
         try:
             policy.eval()
-            for name in ("train", "val"):
+            for name in parts:
                 random.seed(settings["seed"])
                 np.random.seed(settings["seed"])
                 torch.manual_seed(settings["seed"])
@@ -335,7 +350,7 @@ def install_hooks(
                 finally:
                     datasets[name].image_transforms = transforms
             if step % settings["rollout_eval_freq"] == 0 or step == settings["steps"]:
-                for name in ("train", "val"):
+                for name in parts:
                     task = split[name][0]
                     seeds = sorted({r["seed"] for r in split[name]})[
                         : settings["eval_episodes"]
@@ -404,7 +419,10 @@ def install_hooks(
         with (output / "metrics.jsonl").open("a") as stream:
             stream.write(json.dumps(report, default=lambda x: x.tolist()) + "\n")
         print(
-            f"Periodic evaluation step {step}: train loss={report['train/probe']['loss']:.5f}, val loss={report['val/probe']['loss']:.5f}",
+            f"Periodic evaluation step {step}: "
+            + ", ".join(
+                f"{name} loss={report[f'{name}/probe']['loss']:.5f}" for name in parts
+            ),
             flush=True,
         )
         retain_checkpoints(output, kwargs["checkpoint_dir"], report)

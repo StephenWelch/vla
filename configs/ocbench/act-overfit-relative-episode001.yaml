@@ -1,0 +1,35 @@
+dataset: /home/stephen/data/vla/ocbench/act-clean-actions-320-amp-20261006/dataset
+output: /home/stephen/data/vla/ocbench/act-overfit-relative-episode001-20261007/training
+policy: null
+policy_type: act
+episodes: [1]
+overfit: true
+validation_fraction: 0
+steps: 5000
+batch_size: 8
+workers: 2
+seed: 1000
+video_backend: torchcodec
+image_size: [240, 320]
+use_amp: true
+amp_dtype: bfloat16
+image_normalization: imagenet
+action_mode: absolute_gripper
+percentile_normalization: true
+loss_eval_freq: 250
+rollout_eval_freq: 1000
+probe_frames: 1428
+eval_episodes: 1
+eval_max_steps: 2500
+train_eval_seeds: [83002]
+overrides:
+  policy.chunk_size: 25
+  policy.n_action_steps: 25
+  log_freq: 25
+wandb:
+  enable: true
+  project: vla-ocbench
+  entity: rlgoats
+  group: single-trajectory-overfit
+  name: act-relative-episode001
+  tags: [act, overfit, clean-success, relative-arm, absolute-gripper, single-episode]

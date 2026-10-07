@@ -238,6 +238,8 @@ def install_native_logging(trainer, settings, record):
             self.cfg.run_id = tracker.state["run_id"]
 
         def log_dict(self, values, step=None, mode="train", custom_step_key=None):
+            # GPU usage is recorded by W&B's system monitor.
+            values = {k: v for k, v in values.items() if k != "gpu_mem_gb"}
             tracker.log({mode: values}, update=step)
 
         def log_video(self, path, step, mode="train"):

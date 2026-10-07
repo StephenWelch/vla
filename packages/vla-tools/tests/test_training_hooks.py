@@ -87,7 +87,8 @@ def test_loss_probe_weights_partial_batches():
     assert metrics["loss"] == pytest.approx(3)
 
 
-def test_checkpoint_probe_preserves_rng_mode_and_queues(monkeypatch, tmp_path):
+@pytest.mark.parametrize("overfit", [False, True])
+def test_checkpoint_probe_preserves_rng_mode_and_queues(monkeypatch, tmp_path, overfit):
     import random
     from collections import deque
     from types import SimpleNamespace
@@ -181,7 +182,10 @@ def test_checkpoint_probe_preserves_rng_mode_and_queues(monkeypatch, tmp_path):
     )
     settings = {
         "output": str(tmp_path),
-        "split": {"train": [{"episode_index": 0}], "val": [{"episode_index": 1}]},
+        "split": {
+            "train": [{"episode_index": 0}],
+            "val": [] if overfit else [{"episode_index": 1}],
+        },
         "seed": 1000,
         "probe_frames": 2,
         "batch_size": 2,
@@ -214,6 +218,8 @@ def test_checkpoint_probe_preserves_rng_mode_and_queues(monkeypatch, tmp_path):
     trainer.save_checkpoint(
         step=2, policy=policy, checkpoint_dir=checkpoint, preprocessor=lambda x: x
     )
+    report = json.loads((tmp_path / "metrics/000002.json").read_text())
+    assert ("val/probe" in report) != overfit
     assert policy.training
     assert policy._queues["action"][0].item() == 7
     assert random.getstate() == before[0]
@@ -227,3 +233,15 @@ def test_checkpoint_probe_preserves_rng_mode_and_queues(monkeypatch, tmp_path):
         step=2, policy=policy, checkpoint_dir=checkpoint, preprocessor=lambda x: x
     )
     assert len((tmp_path / "metrics.jsonl").read_text().splitlines()) == 1
+
+
+def test_single_episode_overfit_is_not_validation(tmp_path):
+    write_manifest(tmp_path, [1, 2])
+    split = scene_split(tmp_path, fraction=0, episodes=[1], overfit=True)
+    assert split["method"] == "single_episode_overfit"
+    assert [r["episode_index"] for r in split["train"]] == [1]
+    assert split["val"] == []
+    with pytest.raises(ValueError, match="exactly one"):
+        scene_split(tmp_path, fraction=0, episodes=[0, 1], overfit=True)
+    with pytest.raises(ValueError, match="exactly one"):
+        scene_split(tmp_path, episodes=[1], overfit=True)

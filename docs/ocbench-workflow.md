@@ -448,3 +448,23 @@ For a native WSLg window, Rerun supports `--renderer gl` as an alternative to it
 Local checks on 2026-10-06 found `/dev/dxg`, the WSL D3D12 libraries and Mesa's D3D12 driver. Rerun 0.38.1's CLI flags were verified. A headless OpenGL probe selected llvmpipe and failed to create its render context; the X11 probe stopped at the missing `libxkbcommon-x11` library. These checks do not establish native WSLg acceleration or browser acceleration; verify the actual adapter as above. No graphics drivers, global environment settings or training dependencies were changed.
 
 References: [Rerun LeRobot loading](https://rerun.io/docs/howto/logging-and-ingestion/lerobot), [Rerun graphics options](https://rerun.io/docs/reference/cli), [Rerun troubleshooting](https://rerun.io/docs/getting-started/install-rerun/troubleshooting), [WSLg GPU support](https://github.com/microsoft/wslg#opengl-accelerated-rendering).
+
+## Single-trajectory fitting diagnostic (2026-10-07)
+
+The interrupted absolute/relative comparison remains stopped. A separate fresh ACT run uses combined-dataset episode 1 (raw attempt 2, reset seed 83002): 1,428 frames at 50 Hz, native/audited success, and zero recorded pick retries or mistakes. This selection does not assert visibility or released stable completion; its archived stable-stack diagnostic is false.
+
+Recipe: `configs/ocbench/act-overfit-episode001.yaml`. Run artifacts: `/home/stephen/data/vla/ocbench/act-overfit-episode001-20261007`; the resolved config, source episode metadata, process launch and log are retained there. Budget is 5,000 updates at batch eight, from scratch, preserving absolute arm/gripper targets, 25-step open-loop execution, 320×240 images, ImageNet vision normalization, BF16 AMP and TorchCodec. State/action quantiles are fitted only on the selected trajectory. Native ACT optimizer and KL settings remain unchanged.
+
+The trainer now supports an explicit `overfit` mode. It rejects multiple episodes, nonzero validation fraction, and (for OCBench) episodes that are held out, unsuccessful, physically invalid, missing retry/mistake annotations, or annotated with retries/mistakes. It uses the existing dataset/action/preprocessor/checkpoint path. Loss probes cover all 1,428 frames every 250 updates; same-reset simulator evaluation runs every 1,000 updates and at completion. Reports are labeled `single_episode_overfit`, contain no validation partition metrics, and retain the latest checkpoint. Memorization loss and same-reset rollout outcomes are diagnostic, not held-out performance.
+
+Before launch, 32 focused configuration, normalization, split, checkpoint and comparison tests passed, including a single-episode checkpoint probe with an empty validation partition and preservation of the existing train/validation behavior. The new run does not resume or modify the interrupted comparison.
+
+W&B: https://wandb.ai/rlgoats/vla-ocbench/runs/6k0lf4wz. Live startup confirmed exactly one training episode, 1,428 frames, and an empty validation partition. The first 250-update checkpoint/probe completed: inference-mode normalized L1 was 0.08316 across all 1,428 frames. This is an early fit measurement; the first same-reset rollout is scheduled at 1,000 updates, so no rollout-success claim is made yet. Eight additional clean-selection/CPU-metric tests passed. The prior comparison's 55,000-update checkpoint passed the resumable-state integrity check and remains untouched.
+
+### Relative-action single-trajectory overfit (2026-10-07)
+
+Launched `configs/ocbench/act-overfit-relative-episode001.yaml` alongside the absolute-action pilot. The only modeling change is `action_mode: absolute_gripper`: relative arm actions, absolute gripper opening. Episode 1, seed 1000, reset seed 83002, 5,000 updates, batch 8, 25-step open-loop chunks, 320×240 images, BF16 AMP, TorchCodec, ImageNet image normalization and train-only percentile normalization match the absolute run. Both evaluate the same training trajectory/reset; neither provides held-out validation. Normalized probe losses use different action-space statistics, so compare rollout behavior as well as loss.
+
+Artifacts: `/home/stephen/data/vla/ocbench/act-overfit-relative-episode001-20261007` (`train.yaml`, `episode.json`, `launch.json`, `run.log`, and `training/`). W&B group: `single-trajectory-overfit`; run name: `act-relative-episode001`. The W&B layout cleanup is deferred until after this launch.
+
+Relative run: https://wandb.ai/rlgoats/vla-ocbench/runs/ddv5arjf. Absolute reference: https://wandb.ai/rlgoats/vla-ocbench/runs/6k0lf4wz.
