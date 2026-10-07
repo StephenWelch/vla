@@ -81,6 +81,11 @@ def load_policy(checkpoint, device):
     """Load a policy and its saved camera mapping, normalization, and processors."""
     from lerobot.policies.factory import get_policy_class, make_pre_post_processors
 
+    from vla_tools.preprocessing import configure_precision
+
+    precision = checkpoint / "precision.json"
+    if precision.exists():
+        configure_precision(json.loads(precision.read_text()))
     config = json.loads((checkpoint / "config.json").read_text())
     policy = (
         get_policy_class(config["type"]).from_pretrained(checkpoint).to(device).eval()

@@ -1,3 +1,5 @@
+> Historical report: the OGBench package and its commands have been removed. See the [current workspace guide](../README.md) for OCBench and LIBERO.
+
 # OCBench planner comparison
 
 Inspected OCBench 1.0.1 at commit `e2cd2f72110b66bd65afab1b855d81ebc73aeacc` on 2026-10-06. Here, "ours" means the current cuRobo-initialized joint-spline generator, not the older CEM baseline. The recommended initial OCBench task is `block-double-task2-v0` (stack anywhere), which avoids a coordinate-specified goal.

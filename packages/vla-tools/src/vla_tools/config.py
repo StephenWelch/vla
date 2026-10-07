@@ -5,7 +5,14 @@ def configuration_arguments(values, prefix=""):
     result = []
     for key, value in values.items():
         name = prefix + key.replace("_", "-")
-        if isinstance(value, dict):
+        if key == "overrides" and isinstance(value, dict):
+            import json
+
+            if value:
+                result.append("--" + name)
+                for k, v in value.items():
+                    result.extend([k, v if isinstance(v, str) else json.dumps(v)])
+        elif isinstance(value, dict):
             result.extend(configuration_arguments(value, name + "."))
         elif isinstance(value, bool):
             result.append(
@@ -20,7 +27,7 @@ def configuration_arguments(values, prefix=""):
     return result
 
 
-def parse_args(config_type, argv=None):
+def parse_args(config_type, argv=None, transform=None):
     """Typed defaults < YAML < explicit CLI flags."""
     import tyro
     from omegaconf import OmegaConf
@@ -44,5 +51,8 @@ def parse_args(config_type, argv=None):
             values = OmegaConf.merge(values, loaded)
         else:
             index += 1
-    argv = configuration_arguments(OmegaConf.to_container(values, resolve=True)) + argv
+    values = OmegaConf.to_container(values, resolve=True)
+    if transform:
+        values = transform(values)
+    argv = configuration_arguments(values) + argv
     return tyro.cli(config_type, args=argv, description=config_type.__doc__)

@@ -1,3 +1,5 @@
+> Historical report: the OGBench package and its commands have been removed. See the [current workspace guide](../README.md) for OCBench and LIBERO.
+
 # Spline stacking demonstrations
 
 The opt-in `spline` backend generates unseeded attempts for `cube-double-v0`, task 5. CEM and the original cuRobo backend remain available. It uses the existing seven-dimensional joint-target/gripper action profile, MJWarp physics, batched renderer, and LeRobot integration. No human trajectory, object welding, recovery policy, or perception-error model is involved.

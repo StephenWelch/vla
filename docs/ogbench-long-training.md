@@ -1,3 +1,5 @@
+> Historical report: the OGBench package and its commands have been removed. See the [current workspace guide](../README.md) for OCBench and LIBERO.
+
 # OGBench longer training
 
 ACT and SmolVLA share the same annotated dataset, scene split, training-only normalization statistics, and fixed rollout suites. The default recipes run 20,000 updates each, loss probes every 1,000 updates, and simulator evaluation every 2,000 updates. This workflow uses the isolated OGBench environment and LeRobot 0.6.1.

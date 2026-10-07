@@ -1,3 +1,5 @@
+> Historical report: the OGBench package and its commands have been removed. See the [current workspace guide](../README.md) for OCBench and LIBERO.
+
 ## Repository organization
 
 `main` contains the LIBERO and OGBench simulation stack, with shared configuration, policy/checkpoint utilities and W&B logging in `packages/vla-tools`. Simulator dependencies resolve independently; there is no root uv workspace combining their incompatible MuJoCo versions.

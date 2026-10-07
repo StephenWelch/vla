@@ -17,4 +17,4 @@ The downloader fetches the simulator assets and the optional LIBERO SmolVLA chec
 
 The CLI accepts YAML through `--config`, with explicit flags taking precedence. Store machine-specific overrides in ignored `configs/local/`. Run output includes the resolved dataset revision, episode IDs, training configuration, metrics and checkpoint paths. Keep these outputs and downloaded data outside Git.
 
-This environment pins MuJoCo 3.8.1 and must remain separate from OGBench's MuJoCo 3.14 environment. See the [ACT experiment report](../../docs/libero-act.md) for the drawer task, recorded results and held-out evaluation protocol.
+This environment pins MuJoCo 3.8.1 and must remain separate from OCBench's MuJoCo 3.14 environment. See the [ACT experiment report](../../docs/libero-act.md) for the drawer task, recorded results and held-out evaluation protocol.

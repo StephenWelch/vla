@@ -260,6 +260,7 @@ def stable_stack(sim, payload):
     positions = []
     geoms = [model.geom(f"object_{i}").id for i in range(2)]
     bodies = model.geom_bodyid[geoms]
+    stack_height = float(model.geom_size[geoms, 2].sum())
     for q in qpos[-51:]:
         data.qpos[:] = q
         mujoco.mj_forward(model, data)
@@ -270,7 +271,7 @@ def stable_stack(sim, payload):
             reasons.add("gripper_not_released")
         if (
             np.linalg.norm(pos[0, :2] - pos[1, :2]) > 0.012
-            or abs(pos[upper, 2] - pos[lower, 2] - 0.04) > 0.004
+            or abs(pos[upper, 2] - pos[lower, 2] - stack_height) > 0.004
         ):
             reasons.add("stack_alignment")
         if np.min(data.xmat[bodies].reshape(2, 3, 3)[:, 2, 2]) < np.cos(np.deg2rad(10)):

@@ -15,6 +15,20 @@ ACTION = {
     "gripper": "normalized-opening-delta",
 }
 FIELDS = ("qpos", "qvel", "ctrl", "mocap_pos", "mocap_quat", "time")
+ABSOLUTE_GRIPPER_ACTION = ACTION | {
+    "name": "ocbench-joint-delta-absolute-gripper-v1",
+    "scales": [0.18, 0.18, 0.18, 0.36, 0.36, 0.36, 1.0],
+    "gripper": "absolute-normalized-opening",
+    "gripper_bounds": [0.0, 1.0],
+}
+ARM_LIMITS = [6.2831, 6.2831, 3.1415, 6.2831, 6.2831, 6.2831]
+ABSOLUTE_ACTION = ABSOLUTE_GRIPPER_ACTION | {
+    "name": "ocbench-absolute-joint-position-v1",
+    "arm": "absolute-joint-position-radians",
+    "scales": [1.0] * 7,
+    "bounds": [-6.2831, 6.2831],
+    "arm_bounds": [[-limit, limit] for limit in ARM_LIMITS],
+}
 
 
 @dataclass
@@ -44,7 +58,5 @@ class CollectionConfig:
 
 
 def validate_action(profile):
-    if profile != ACTION:
-        raise ValueError(
-            "Expected OCBench 50 Hz normalized joint deltas; incompatible action contract"
-        )
+    if profile not in (ACTION, ABSOLUTE_GRIPPER_ACTION, ABSOLUTE_ACTION):
+        raise ValueError("Expected a supported versioned OCBench 50 Hz action contract")

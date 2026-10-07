@@ -5,13 +5,25 @@ oracle_seed: 93000
 worlds: 32
 max_steps: 2500
 render_batch_size: 4
-train_steps: 20000
-loss_eval_freq: 1000
-rollout_eval_freq: 2000
-eval_episodes: 10
-eval_max_steps: 2500
+encoder_backend: async
+render_batch_frames: 4
+buffer_frames: 2
+write_buffer_bytes: 1048576
+encoder_threads: 1
+encoder_queue_size: 8
 wandb:
   enable: true
   project: vla-ocbench
   group: native-stack-500
   mode: online
+training:
+  steps: 20000
+  validation_fraction: 0.2
+  overrides:
+    policy.chunk_size: 40
+    policy.n_action_steps: 40
+    log_freq: 25
+  loss_eval_freq: 1000
+  rollout_eval_freq: 2000
+  eval_episodes: 10
+  eval_max_steps: 2500

@@ -1,3 +1,5 @@
+> Historical report: the OGBench package and its commands have been removed. See the [current workspace guide](../README.md) for OCBench and LIBERO.
+
 # OGBench experiment tracking
 
 New collection → ACT → SmolVLA pipelines log to the `vla-ogbench` W&B project. Each experiment groups collection, both policies, and subsequent evaluations. Local reports and checkpoints remain the source for resume and checkpoint selection.

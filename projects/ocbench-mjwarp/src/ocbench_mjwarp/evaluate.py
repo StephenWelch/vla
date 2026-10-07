@@ -93,7 +93,9 @@ def evaluate_task(config, env_config, policy, pre, post, task_id):
 
             env.reset = reset_suite
         env_pre, env_post = make_env_pre_post_processors(task_config, policy.config)
-        with torch.inference_mode():
+        from vla_tools.preprocessing import policy_autocast
+
+        with torch.inference_mode(), policy_autocast(policy):
             metrics = eval_policy(
                 env,
                 policy,

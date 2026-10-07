@@ -1,5 +1,0 @@
-planner:
-  episodes: 1
-  candidates: 8
-  horizon: 8
-  iterations: 1

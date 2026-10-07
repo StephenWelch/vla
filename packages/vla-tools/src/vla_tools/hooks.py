@@ -101,7 +101,9 @@ def loss_probe(policy, preprocessor, dataset, frames, batch_size, seed):
         i for layer in zip_longest(*episode_indices) for i in layer if i is not None
     ][:frames]
     totals, weights, samples = {}, {}, 0
-    with torch.inference_mode():
+    from vla_tools.preprocessing import policy_autocast
+
+    with torch.inference_mode(), policy_autocast(policy):
         for batch in DataLoader(Subset(dataset, indices), batch_size=batch_size):
             count = len(batch["action"])
             for key in dataset.meta.camera_keys:
@@ -129,7 +131,14 @@ def loss_probe(policy, preprocessor, dataset, frames, batch_size, seed):
     }
 
 
-def install_hooks(trainer, settings, get_tracker=lambda: None):
+def install_hooks(
+    trainer,
+    settings,
+    get_tracker=lambda: None,
+    *,
+    prepare_views=None,
+    evaluate_rollout=None,
+):
     """Bind dataset/checkpoint hooks and observe upstream optimizer metrics."""
     import importlib.metadata
 
@@ -153,7 +162,22 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
     original_update = trainer.update_policy
 
     def update(*args, **kwargs):
+        expected = {"bfloat16": "bf16", "float16": "fp16"}[
+            settings.get("amp_dtype", "bfloat16")
+        ]
+        if settings.get("use_amp"):
+            accelerator = kwargs.get("accelerator") or args[5]
+            if accelerator.mixed_precision != expected:
+                raise RuntimeError(
+                    f"Expected {expected} AMP, got {accelerator.mixed_precision}"
+                )
         metrics, details = original_update(*args, **kwargs)
+        if settings.get("use_amp"):
+            if not math.isfinite(metrics.loss.val) or not math.isfinite(
+                metrics.grad_norm.val
+            ):
+                raise FloatingPointError("Nonfinite AMP loss or gradient norm")
+            details = {**(details or {}), "amp_bf16": int(expected == "bf16")}
         step = metrics.steps + 1
         if step % 25 == 0:
             with (output / "optimizer_metrics.jsonl").open("a") as stream:
@@ -162,6 +186,13 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
                         {
                             "step": step,
                             "train/optimizer_loss": metrics.loss.val,
+                            "train/grad_norm": metrics.grad_norm.val,
+                            "train/update_seconds": metrics.update_s.val,
+                            **(
+                                {"train/peak_gpu_memory_gb": metrics.gpu_mem_gb.val}
+                                if hasattr(metrics, "gpu_mem_gb")
+                                else {}
+                            ),
                             **{
                                 f"train/{k}": v
                                 for k, v in (details or {}).items()
@@ -174,6 +205,8 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
         return metrics, details
 
     def make_datasets(cfg):
+        if not split:
+            return original_dataset(cfg)
         full, _ = original_dataset(cfg)
         train_ids = {row["episode_index"] for row in split["train"]}
         episode_stats = {}
@@ -199,17 +232,25 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
                 "Training episodes require per-episode normalization statistics"
             )
         stats = aggregate_stats([episode_stats[index] for index in sorted(train_ids)])
+        if cfg.dataset.use_imagenet_stats:
+            # The native factory already applied the backbone's fixed RGB stats.
+            # Keep train-only state/action stats when replacing the split loaders.
+            for key in full.meta.camera_keys:
+                for field in ("mean", "std"):
+                    stats[key][field] = np.asarray(full.meta.stats[key][field]).copy()
         for name in ("train", "val"):
             datasets[name] = LeRobotDataset(
                 cfg.dataset.repo_id,
                 root=cfg.dataset.root,
                 episodes=[r["episode_index"] for r in split[name]],
                 delta_timestamps=resolve_delta_timestamps(cfg.policy, full.meta),
-                video_backend="pyav",
+                video_backend=cfg.dataset.video_backend,
                 return_uint8=True,
                 image_transforms=full.image_transforms if name == "train" else None,
             )
             datasets[name].meta.stats = stats
+        if prepare_views:
+            prepare_views(datasets, stats, settings)
         output.mkdir(parents=True, exist_ok=True)
         (output / "split.json").write_text(json.dumps(split, indent=2) + "\n")
         (output / "train_stats.json").write_text(
@@ -221,21 +262,27 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
     def save(**kwargs):
         original_save(**kwargs)
         tracker = get_tracker()
-        if tracker and tracker.run:
-            from vla_tools.tracking import write_json
+        from vla_tools.tracking import write_json
 
-            write_json(
-                kwargs["checkpoint_dir"] / "pretrained_model/tracking.json",
-                tracker.state,
-            )
-        if settings.get("rendering"):
-            (
-                kwargs["checkpoint_dir"] / "pretrained_model" / "rendering.json"
-            ).write_text(json.dumps(settings["rendering"], indent=2) + "\n")
-        if settings.get("action_profile"):
-            (
-                kwargs["checkpoint_dir"] / "pretrained_model/action_profile.json"
-            ).write_text(json.dumps(settings["action_profile"], indent=2) + "\n")
+        metadata = {
+            "precision": {
+                "use_amp": settings.get("use_amp", False),
+                "amp_dtype": settings.get("amp_dtype", "bfloat16"),
+            },
+            "rendering": settings.get("rendering"),
+            "action_profile": settings.get("action_profile"),
+            "tracking": tracker.state if tracker and tracker.run else None,
+        }
+        for name, value in metadata.items():
+            if value is not None:
+                write_json(
+                    kwargs["checkpoint_dir"] / "pretrained_model" / f"{name}.json",
+                    value,
+                )
+        if tracker and tracker.run:
+            tracker.run.summary["latest_checkpoint"] = str(kwargs["checkpoint_dir"])
+        if not split:
+            return
         step, policy = kwargs["step"], kwargs["policy"]
         report_path = output / "metrics" / f"{step:06d}.json"
         if (
@@ -288,58 +335,31 @@ def install_hooks(trainer, settings, get_tracker=lambda: None):
                 finally:
                     datasets[name].image_transforms = transforms
             if step % settings["rollout_eval_freq"] == 0 or step == settings["steps"]:
-                if settings.get("backend", "ogbench") == "ocbench":
-                    from ocbench_mjwarp import evaluate as module
-                    from ocbench_mjwarp.lerobot_env import (
-                        OCBenchEnvConfig as OGBenchEnvConfig,
-                    )
-                else:
-                    from ogbench_mjwarp import evaluate as module
-                    from ogbench_mjwarp.lerobot_env import OGBenchEnvConfig
-
-                image_size = tuple(
-                    datasets["train"].meta.features["observation.images.front"][
-                        "shape"
-                    ][1:]
-                )
                 for name in ("train", "val"):
                     task = split[name][0]
                     seeds = sorted({r["seed"] for r in split[name]})[
                         : settings["eval_episodes"]
                     ]
+                    if settings.get(f"{name}_eval_seeds") is not None:
+                        seeds = settings[f"{name}_eval_seeds"]
                     torch.manual_seed(settings["seed"])
                     random.seed(settings["seed"])
                     np.random.seed(settings["seed"])
-                    cfg = module.EvalConfig(
-                        checkpoint=kwargs["checkpoint_dir"] / "pretrained_model",
-                        dataset=Path(settings["dataset"]),
-                        output=output / "eval" / f"{step:06d}" / name,
-                        episodes=len(seeds),
-                        batch_size=min(5, len(seeds)),
-                        seed=settings["seed"],
-                        env=task["env_id"],
-                        task_ids=(task["task_id"],),
-                        seeds=seeds,
-                        videos=1,
-                        max_steps=settings["eval_max_steps"],
-                        device=settings["device"],
-                    )
-                    env = OGBenchEnvConfig(
-                        task=task["env_id"],
-                        task_ids=[task["task_id"]],
-                        image_size=image_size,
-                        rendering=settings.get("rendering"),
-                        action_profile=settings.get("action_profile"),
-                        max_steps=cfg.max_steps,
-                        device="cuda:0" if cfg.device == "cuda" else cfg.device,
-                    )
-                    metrics = module.evaluate_task(
-                        cfg,
-                        env,
+                    if evaluate_rollout is None:
+                        raise ValueError(
+                            "Periodic rollout evaluation requires an evaluation function"
+                        )
+                    metrics = evaluate_rollout(
+                        settings,
+                        datasets["train"],
+                        task,
+                        seeds,
+                        name,
+                        kwargs["checkpoint_dir"],
+                        step,
                         policy,
                         kwargs["preprocessor"],
                         kwargs["postprocessor"],
-                        task["task_id"],
                     )
                     records = metrics["per_episode"]
                     report[f"{name}/rollout"] = {
@@ -448,51 +468,35 @@ def retain_checkpoints(output, latest, report):
             shutil.rmtree(checkpoint)
 
 
-def main():
+def run_worker(prepare_views=None, evaluate_rollout=None):
     import os
 
     from lerobot.scripts import lerobot_train
 
+    from vla_tools.preprocessing import configure_training
+    from vla_tools.tracking import install_native_logging
+    from vla_tools.train import native_config, normalize_record
+
     os.environ.setdefault("MUJOCO_GL", "egl")
     record = json.loads(Path(os.environ["VLA_TRAIN_SETTINGS"]).read_text())
     settings = {
-        **record["config"],
+        **normalize_record(record["config"]),
         "split": record["split"],
         "rendering": record.get("rendering"),
         "action_profile": record.get("action_profile"),
     }
-    from vla_tools.tracking import install_native_logging
-
+    configure_training(lerobot_train, settings)
     get_tracker = install_native_logging(lerobot_train, settings, record)
-    if record["split"]:
-        install_hooks(lerobot_train, settings, get_tracker)
-    else:
-        original_save = lerobot_train.save_checkpoint
-
-        def save(**kwargs):
-            original_save(**kwargs)
-            if settings["rendering"]:
-                (
-                    kwargs["checkpoint_dir"] / "pretrained_model/rendering.json"
-                ).write_text(json.dumps(settings["rendering"], indent=2) + "\n")
-            tracker = get_tracker()
-            if settings.get("action_profile"):
-                (
-                    kwargs["checkpoint_dir"] / "pretrained_model/action_profile.json"
-                ).write_text(json.dumps(settings["action_profile"], indent=2) + "\n")
-            if tracker and tracker.run:
-                from vla_tools.tracking import write_json
-
-                write_json(
-                    kwargs["checkpoint_dir"] / "pretrained_model/tracking.json",
-                    tracker.state,
-                )
-                tracker.run.summary["latest_checkpoint"] = str(kwargs["checkpoint_dir"])
-
-        lerobot_train.save_checkpoint = save
+    install_hooks(
+        lerobot_train,
+        settings,
+        get_tracker,
+        prepare_views=prepare_views,
+        evaluate_rollout=evaluate_rollout,
+    )
     failed = True
     try:
-        lerobot_train.main()
+        lerobot_train.train(native_config(record))
         failed = False
     finally:
         tracker = get_tracker()
@@ -501,4 +505,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_worker()

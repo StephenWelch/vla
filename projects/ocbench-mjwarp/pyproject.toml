@@ -22,6 +22,9 @@ vla-ocbench-pipeline = "ocbench_mjwarp.pipeline:main"
 vla-ocbench-train = "ocbench_mjwarp.train:main"
 vla-ocbench-eval = "ocbench_mjwarp.evaluate:main"
 
+[project.optional-dependencies]
+gpu-video = ["PyNvVideoCodec==2.2.3"]
+
 [tool.uv.sources]
 vla-tools = { path = "../../packages/vla-tools", editable = true }
 

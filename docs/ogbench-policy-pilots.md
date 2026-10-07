@@ -1,3 +1,5 @@
+> Historical report: the OGBench package and its commands have been removed. See the [current workspace guide](../README.md) for OCBench and LIBERO.
+
 > Archived v1 results. The datasets and OpenGL recording path are retired; raw recordings and historical checkpoints are retained. Use the v2 training workflow for new experiments.
 
 # OGBench ACT and SmolVLA pilots

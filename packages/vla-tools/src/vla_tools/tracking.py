@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class WandbConfig:
     enable: bool = False
-    project: str = "vla-ogbench"
+    project: str = "vla-research"
     entity: str | None = None
     mode: Literal["online", "offline", "disabled"] = "online"
     group: str | None = None

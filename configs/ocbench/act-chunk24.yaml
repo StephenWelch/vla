@@ -1,0 +1,19 @@
+output: /home/stephen/data/vla/ocbench/act-chunk24-20261006
+training_root: /mnt/e/vla-ocbench/act-chunk24-20261006
+exclude_pick_retries: false
+dataset: ${oc.env:OCBENCH_PREPARED_DATASET,/home/stephen/data/vla/ocbench/act-clean-actions-320-amp-20261006/dataset}
+training:
+  steps: 20000
+  batch_size: 8
+  workers: 2
+  seed: 1000
+  loss_eval_freq: 1000
+  rollout_eval_freq: 2000
+  eval_episodes: 10
+  eval_max_steps: 2500
+  percentile_normalization: false
+  action_mode: delta
+  overrides:
+    policy.chunk_size: 24
+    policy.n_action_steps: 24
+    log_freq: 25

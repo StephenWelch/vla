@@ -58,10 +58,37 @@ def main():
         from .dataset import ExportConfig, export
 
         print(export(parse_args(ExportConfig)))
+    elif command == "prepare-dataset":
+        from .prepare import PrepareConfig, prepare_dataset
+
+        print(prepare_dataset(parse_args(PrepareConfig)))
+    elif command == "evaluate-recorded":
+        from vla_tools.evaluate import EvalConfig, evaluate
+
+        from .actions import absolute_targets
+        from .config import ABSOLUTE_ACTION, ACTION
+        from .profile import profiles
+
+        config = parse_args(EvalConfig)
+        _, actions = profiles(config.dataset, config.checkpoint)
+        transform = (
+            None
+            if actions == ACTION
+            else lambda action, state: absolute_targets(
+                action, state, actions == ABSOLUTE_ACTION
+            )
+        )
+        print(evaluate(config, profiles, transform))
     elif command == "view":
         view(parse_args(ViewConfig))
+    elif command == "replay-check":
+        from .replay_check import main as replay_main
+
+        replay_main()
     else:
-        raise ValueError("Commands: list-tasks, generate, render, export, view")
+        raise ValueError(
+            "Commands: list-tasks, generate, render, export, prepare-dataset, evaluate-recorded, view, replay-check"
+        )
 
 
 if __name__ == "__main__":

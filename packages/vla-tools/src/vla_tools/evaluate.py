@@ -7,6 +7,7 @@ from pathlib import Path
 
 from vla_tools.config import parse_args
 from vla_tools.policy import load_policy, runtime_environment
+from vla_tools.preprocessing import policy_autocast
 
 
 @dataclass
@@ -21,9 +22,10 @@ class EvalConfig:
     seed: int = 1000
     device: str = "cuda"
     hf_home: Path | None = None
+    video_backend: str = "torchcodec"
 
 
-def evaluate(config):
+def evaluate(config, validate_profiles=None, transform_target=None):
     if config.samples_per_episode < 1:
         raise ValueError("samples_per_episode must be positive")
     os.environ.update(runtime_environment(config.hf_home))
@@ -34,15 +36,28 @@ def evaluate(config):
 
     manifest_path = config.dataset / "manifest.json"
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
-    from ogbench_mjwarp.profile import ogbench_profile
-
-    ogbench_profile(config.dataset, config.checkpoint)
+    if validate_profiles:
+        validate_profiles(config.dataset, config.checkpoint)
+    else:
+        for name, key in (
+            ("rendering.json", "rendering"),
+            ("action_profile.json", "action_profile"),
+        ):
+            saved = config.checkpoint / name
+            if key in manifest and (
+                not saved.exists() or json.loads(saved.read_text()) != manifest[key]
+            ):
+                raise ValueError(
+                    "Dataset/checkpoint profiles differ; use the simulator recorded-evaluation entrypoint for action conversion"
+                )
     repo_id = config.repo_id or manifest.get("repo_id")
     if not repo_id:
         raise ValueError("Pass --repo-id for datasets without repo_id in manifest.json")
     checkpoint_config = json.loads((config.checkpoint / "config.json").read_text())
     set_seed(config.seed)
-    dataset = LeRobotDataset(repo_id, root=config.dataset, video_backend="pyav")
+    dataset = LeRobotDataset(
+        repo_id, root=config.dataset, video_backend=config.video_backend
+    )
     policy, pre, post = load_policy(config.checkpoint, config.device)
     errors, targets, records = [], [], []
     for episode in range(dataset.num_episodes):
@@ -54,13 +69,15 @@ def evaluate(config):
         for index in indices:
             frame = dataset[int(index)]
             target = frame["action"].numpy()
+            if transform_target:
+                target = transform_target(target, frame["observation.state"].numpy())
             observation = {
                 k: v
                 for k, v in frame.items()
                 if k.startswith("observation.") or k == "task"
             }
             policy.reset()  # Evaluate the first action of a fresh chunk at every sample.
-            with torch.inference_mode():
+            with torch.inference_mode(), policy_autocast(policy):
                 proposed = (
                     post(policy.select_action(pre(observation)))
                     .squeeze(0)

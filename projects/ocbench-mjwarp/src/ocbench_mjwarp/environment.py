@@ -7,10 +7,10 @@ import numpy as np
 import ocbench
 import torch
 import warp as wp
-from vla_tools.contacts import collect_contact_depth, contact_roles
-from vla_tools.rendering import BatchRenderer
 
-from .config import ACTION, FIELDS, TASK
+from .config import ACTION, ARM_LIMITS, FIELDS, TASK
+from .contacts import collect_contact_depth, contact_roles
+from .rendering import BatchRenderer
 
 
 class Simulation:
@@ -29,10 +29,14 @@ class Simulation:
         self.warp_device = self.data.qpos.device
         self.stream = wp.get_stream(self.warp_device)
         self.torch_stream = wp.stream_to_torch(self.stream)
-        self.is_scene = self.is_puzzle = False
         self.renderer = None
         if not np.allclose(self.base._joint_action_delta, ACTION["scales"]):
             raise ValueError("Upstream action scales changed")
+        bounds = self.host_model.actuator_ctrlrange[self.base._arm_actuator_ids]
+        if not np.allclose(
+            bounds, np.column_stack((-np.asarray(ARM_LIMITS), ARM_LIMITS))
+        ):
+            raise ValueError("Upstream arm actuator bounds changed")
         if not np.isclose(self.base._control_timestep, 0.02):
             raise ValueError("Expected the full 50 Hz native environment")
         self.depth = wp.zeros((self.worlds, 2), dtype=float, device=self.warp_device)

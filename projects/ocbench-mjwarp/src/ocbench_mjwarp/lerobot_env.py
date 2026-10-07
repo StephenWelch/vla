@@ -10,7 +10,14 @@ from gymnasium.vector.utils import batch_space
 from lerobot.configs import FeatureType, PolicyFeature
 from lerobot.envs.configs import EnvConfig
 
-from .config import ACTION, TASK, validate_action
+from .config import (
+    ABSOLUTE_ACTION,
+    ABSOLUTE_GRIPPER_ACTION,
+    ACTION,
+    ARM_LIMITS,
+    TASK,
+    validate_action,
+)
 from .environment import Simulation
 
 
@@ -66,6 +73,11 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
             "autoreset_mode": gym.vector.AutoresetMode.DISABLED,
         }
         self.single_action_space = gym.spaces.Box(-1, 1, (7,), np.float32)
+        if config.action_profile in (ABSOLUTE_GRIPPER_ACTION, ABSOLUTE_ACTION):
+            self.single_action_space.low[6] = 0
+        if config.action_profile == ABSOLUTE_ACTION:
+            self.single_action_space.low[:6] = -np.asarray(ARM_LIMITS)
+            self.single_action_space.high[:6] = ARM_LIMITS
         self.single_observation_space = gym.spaces.Dict(
             {
                 "agent_pos": gym.spaces.Box(-np.inf, np.inf, (18,), np.float32),
@@ -127,9 +139,18 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
         mask = wp.array(
             self.done.astype(np.int32), dtype=wp.int32, device=self.sim.warp_device
         )
-        self.sim.env.step_joint_actions_gpu(
-            wp.array(action, dtype=float, device=self.sim.warp_device), mask
-        )
+        gpu_action = wp.array(action, dtype=float, device=self.sim.warp_device)
+        if self.config.action_profile in (ABSOLUTE_GRIPPER_ACTION, ABSOLUTE_ACTION):
+            from .actions import step_absolute
+
+            step_absolute(
+                self.sim.env,
+                gpu_action,
+                mask,
+                absolute_arm=self.config.action_profile == ABSOLUTE_ACTION,
+            )
+        else:
+            self.sim.env.step_joint_actions_gpu(gpu_action, mask)
         self.steps += active
         self.history.append(self.sim.data.qpos.numpy().copy())
         self.peak[active] = np.maximum(

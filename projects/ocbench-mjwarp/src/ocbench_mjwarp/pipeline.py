@@ -1,5 +1,6 @@
 """Run collection, deferred cameras, export and ACT training in separate processes."""
 
+import json
 import shutil
 import subprocess
 import sys
@@ -11,24 +12,38 @@ from vla_tools.tracking import Tracker, WandbConfig, write_json
 
 from .collect import rows, summarize
 from .config import CollectionConfig
-from .dataset import ExportConfig, export
-from .train import TrainConfig
+from .dataset import ExportConfig
+from .train import TrainConfig, TrainingConfig
 
 
 @dataclass
 class PipelineConfig:
     output: Path
+    dataset_root: Path | None = None
     episodes: int = 500
     seed: int = 83000
     oracle_seed: int = 93000
     worlds: int = 32
     max_steps: int = 2500
     render_batch_size: int = 4
-    train_steps: int = 20000
-    eval_max_steps: int = 2500
-    loss_eval_freq: int = 1000
-    rollout_eval_freq: int = 2000
-    eval_episodes: int = 10
+    encoder_backend: str = "async"
+    render_batch_frames: int = 4
+    buffer_frames: int = 2
+    write_buffer_bytes: int = 1048576
+    worker_timeout_seconds: float = 180
+    worker_retries: int = 2
+    encoder_threads: int = 1
+    encoder_queue_size: int = 8
+    training: TrainingConfig = field(
+        default_factory=lambda: TrainingConfig(
+            validation_fraction=0.2,
+            overrides={
+                "policy.chunk_size": "40",
+                "policy.n_action_steps": "40",
+                "log_freq": "25",
+            },
+        )
+    )
     export_limit: int | None = None
     wandb: WandbConfig = field(
         default_factory=lambda: WandbConfig(
@@ -40,6 +55,8 @@ class PipelineConfig:
 def run(config):
     root = config.output
     root.mkdir(parents=True, exist_ok=True)
+    dataset_root = config.dataset_root or root / "datasets"
+    dataset_root.mkdir(parents=True, exist_ok=True)
     write_json(root / "pipeline.json", asdict(config))
     collection = CollectionConfig(
         output=root,
@@ -64,48 +81,64 @@ def run(config):
     )
     record = rows(root)
     summary = summarize(record)
-    # At most two H.264 copies: deferred camera videos and the LeRobot videos.
+    # One encoding pass into LeRobot videos, plus a few byte-copied previews.
     frames = sum(r["length"] for r in record if r["physical_valid"])
-    estimated_bytes = frames * 24000 + 6 * 2**30
+    estimated_bytes = (
+        frames * (18000 if config.encoder_backend == "async" else 12000) + 6 * 2**30
+    )
     if (
         config.export_limit is None
-        and shutil.disk_usage(root).free < estimated_bytes * 1.2
+        and shutil.disk_usage(dataset_root).free < estimated_bytes * 1.2
     ):
         raise RuntimeError(
             f"Collection saved; rendering/training need an estimated {estimated_bytes * 1.2 / 2**30:.1f} GiB free"
         )
-    command = [
-        sys.executable,
-        "-m",
-        "ocbench_mjwarp.cli",
-        "render",
-        "--source",
-        str(root),
-        "--batch-size",
-        str(config.render_batch_size),
-    ]
-    # Smoke exports can select a subset, but full collection always retains all attempts.
-    write_json(root / "status.json", {"status": "rendering", **summary})
-    subprocess.run(command, check=True)
+    write_json(root / "status.json", {"status": "rendering-export", **summary})
     tracker = Tracker(root, config.wandb, "collection", resume=True)
     failed = True
     try:
         for success, name in ((True, "successes"), (False, "failures")):
-            result = export(
-                ExportConfig(
-                    root,
-                    root / "datasets" / name,
-                    success,
-                    f"local/ocbench-stack-{name}",
-                    config.export_limit,
-                )
+            spec = ExportConfig(
+                source=root,
+                output=dataset_root / name,
+                successes=success,
+                repo_id=f"local/ocbench-stack-{name}",
+                limit=config.export_limit,
+                batch_size=config.render_batch_size,
+                encoder_threads=config.encoder_threads,
+                encoder_queue_size=config.encoder_queue_size,
+                encoder_backend=config.encoder_backend,
+                render_batch_frames=config.render_batch_frames,
+                buffer_frames=config.buffer_frames,
+                write_buffer_bytes=config.write_buffer_bytes,
+                worker_timeout_seconds=config.worker_timeout_seconds,
+                worker_retries=config.worker_retries,
             )
+            export_config = root / f"export-{name}.json"
+            write_json(export_config, asdict(spec))
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "ocbench_mjwarp.cli",
+                    "export",
+                    "--config",
+                    str(export_config),
+                ],
+                check=True,
+            )
+            info_path = spec.output / "meta/info.json"
+            info = json.loads(info_path.read_text()) if info_path.exists() else {}
+            result = {
+                "episodes": info.get("total_episodes", 0),
+                "frames": info.get("total_frames", 0),
+            }
             if result["episodes"]:
                 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
                 loaded = LeRobotDataset(
                     f"local/ocbench-stack-{name}",
-                    root=root / "datasets" / name,
+                    root=dataset_root / name,
                     video_backend="pyav",
                 )
                 if loaded.num_episodes != result["episodes"] or loaded[0][
@@ -117,42 +150,21 @@ def run(config):
                 del loaded
             tracker.log({f"export/{name}": result})
         videos = {}
-        for success, label in ((True, "success"), (False, "failure")):
-            samples = [
-                r
-                for r in record
-                if r["physical_valid"] and r["native_success"] == success
-            ][:3]
-            for row in samples:
-                for view in ("front", "wrist"):
-                    videos[f"examples/{label}-{row['episode_id']}/{view}"] = (
-                        root / "rendered" / f"{row['episode_id']:06d}-{view}.mp4"
-                    )
+        for name, label in (("successes", "success"), ("failures", "failure")):
+            preview_root = dataset_root / name / "previews"
+            for path in sorted(preview_root.glob("*.mp4")):
+                videos[f"examples/{label}/{path.stem}"] = path
         tracker.log(
             {"collection": summary}, videos=videos, reports=[root / "collection.json"]
         )
         failed = False
     finally:
         tracker.finish(failed)
-    if config.train_steps:
+    if config.training.steps:
         training = TrainConfig(
-            dataset=root / "datasets/successes",
-            policy=None,
+            dataset=dataset_root / "successes",
             output=root / "act",
-            steps=config.train_steps,
-            batch_size=8,
-            workers=2,
-            validation_fraction=0.2,
-            loss_eval_freq=config.loss_eval_freq,
-            rollout_eval_freq=config.rollout_eval_freq,
-            eval_episodes=config.eval_episodes,
-            eval_max_steps=config.eval_max_steps,
-            overrides=[
-                "policy.chunk_size=40",
-                "policy.n_action_steps=40",
-                "log_freq=25",
-            ],
-            wandb=config.wandb,
+            **(asdict(config.training) | {"wandb": config.wandb}),
         )
         write_json(root / "train.json", asdict(training))
         write_json(root / "status.json", {"status": "training", **summary})
