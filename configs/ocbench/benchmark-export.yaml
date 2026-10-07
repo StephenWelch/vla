@@ -1,0 +1,5 @@
+source: outputs/ocbench-hub-stack
+output: outputs/ocbench-export-benchmark
+episodes_per_split: 10
+repeats: 3
+verify_gpu: true

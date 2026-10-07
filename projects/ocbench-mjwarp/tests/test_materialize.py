@@ -89,7 +89,10 @@ def test_concurrent_videos_commit_with_native_stats_and_alignment(tmp_path):
 
 @pytest.mark.gpu
 @pytest.mark.dataset
-def test_default_gpu_video_across_batches_and_partial_tail(tmp_path, monkeypatch):
+@pytest.mark.parametrize("image_size", [(480, 640), (240, 320)])
+def test_default_gpu_video_across_batches_and_partial_tail(
+    tmp_path, monkeypatch, image_size
+):
     import json
 
     import av
@@ -133,7 +136,9 @@ def test_default_gpu_video_across_batches_and_partial_tail(tmp_path, monkeypatch
                 }
             )
         )
-    config = ExportConfig(source=source, output=tmp_path / "dataset")
+    config = ExportConfig(
+        source=source, output=tmp_path / "dataset", image_size=image_size
+    )
     calls = 0
 
     def interrupted_simulation(*args, **kwargs):
@@ -161,6 +166,7 @@ def test_default_gpu_video_across_batches_and_partial_tail(tmp_path, monkeypatch
     assert not list((config.output / ".encoding").iterdir())
     assert len(list((config.output / "previews").glob("*.mp4"))) == 6
     loaded = LeRobotDataset(config.repo_id, root=config.output, video_backend="pyav")
+    assert loaded[0]["observation.images.front"].shape == (3, *image_size)
     offset = 0
     for i, n in enumerate(lengths):
         np.testing.assert_allclose(loaded[offset]["action"], i / 10)

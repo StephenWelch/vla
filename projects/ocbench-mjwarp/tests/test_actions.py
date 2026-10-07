@@ -126,3 +126,33 @@ def test_checkpoint_profile_selects_matching_execution(tmp_path):
     action_path.write_text(json.dumps(ABSOLUTE_GRIPPER_ACTION | {"fps": 25}))
     with pytest.raises(ValueError, match="action_profile"):
         profiles(dataset, checkpoint)
+
+
+def test_offset_quantiles_exclude_padding_and_validation():
+    from datasets import Dataset
+
+    class View:
+        def __init__(self, values, frames):
+            self.hf_dataset = Dataset.from_dict(
+                {
+                    "action": np.repeat(
+                        np.asarray(values)[:, None], 7, axis=1
+                    ).tolist(),
+                    "observation.state": np.zeros((len(values), 18)).tolist(),
+                    "frame_index": frames,
+                }
+            )
+            self.reader = SimpleNamespace(delta_indices={"action": [0, 1, 2]})
+
+    views = {
+        "train": View([0, 1, 2, 3, 100, 101, 102], [0, 1, 2, 3, 0, 1, 2]),
+        "val": View([999, 999], [0, 1]),
+    }
+    stats = {"action": {}, "observation.state": {}}
+    prepare_training_views(views, stats, False, True, per_timestep=True)
+    for h, values in enumerate(
+        ([0, 1, 2, 3, 100, 101, 102], [1, 2, 3, 101, 102], [2, 3, 102])
+    ):
+        np.testing.assert_allclose(stats["action"]["q01"][h], np.quantile(values, 0.01))
+        np.testing.assert_allclose(stats["action"]["q99"][h], np.quantile(values, 0.99))
+    np.testing.assert_array_equal(stats["action"]["offset_count"], [7, 5, 3])

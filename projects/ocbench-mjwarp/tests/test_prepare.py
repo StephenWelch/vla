@@ -73,7 +73,7 @@ def test_existing_dataset_comparisons_share_unfiltered_holdout(tmp_path):
     )
     paths = prepare(action_config)
     action_specs = [parse_args(TrainConfig, ["--config", str(path)]) for path in paths]
-    assert [s.action_mode for s in action_specs] == ["absolute", "absolute_gripper"]
+    assert [s.action_mode for s in action_specs] == ["absolute", "delta"]
     assert action_specs[0].episodes == action_specs[1].episodes == [0, 3, 4]
     reports = [
         json.loads((root / "comparison.json").read_text())

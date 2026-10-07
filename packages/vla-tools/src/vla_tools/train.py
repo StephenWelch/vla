@@ -327,7 +327,11 @@ def training_plan(config, validate_profiles=None, worker="vla_tools.hooks"):
         current = json.loads(json.dumps(asdict(config), default=str))
         if any(
             old["config"].get(k, False) != current.get(k, False)
-            for k in ("action_mode", "percentile_normalization")
+            for k in (
+                "action_mode",
+                "percentile_normalization",
+                "per_timestep_normalization",
+            )
         ):
             raise ValueError("Resume changes action representation or normalization")
         for key, default in (

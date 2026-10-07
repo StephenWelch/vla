@@ -1,4 +1,4 @@
-"""Matched ACT comparisons over outcomes or arm action representations."""
+"""Matched ACT comparisons over outcomes or action representations."""
 
 import hashlib
 import json
@@ -23,7 +23,7 @@ class Config:
     training: TrainingConfig = field(
         default_factory=lambda: TrainingConfig(
             steps=100_000,
-            action_mode="absolute_gripper",
+            action_mode="delta",
             percentile_normalization=True,
             wandb=WandbConfig(enable=True, project="vla-ocbench"),
             overrides={
@@ -41,18 +41,18 @@ class Config:
 
     def __post_init__(self):
         if self.comparison == "actions" and not (
-            self.exclude_pick_retries
-            and self.exclude_mistakes
-            and self.training.action_mode != "delta"
+            self.exclude_pick_retries and self.exclude_mistakes
         ):
-            raise ValueError(
-                "Action comparison requires clean successes and absolute gripper in both arms"
-            )
+            raise ValueError("Action comparison requires clean successes")
 
 
 def selections(manifest, exclude_pick_retries=True, exclude_mistakes=False):
     """Filter success training by recorded retries, preserving the shared holdout."""
     rows = manifest["episodes"]
+    if any(r.get("source_kind") == "ocbench_hub" for r in rows):
+        raise ValueError(
+            "Imported data has unknown contact audits and regrasp counts; clean-success comparisons require locally audited episodes. Train the imported dataset directly instead."
+        )
     if any(
         not r["physical_valid"] or r.get("dataset_split") not in ("train", "val")
         for r in rows
@@ -137,7 +137,7 @@ def prepare(config):
                     "episodes": sorted(train_ids[name] + val_ids),
                     "action_mode": "absolute"
                     if name == "absolute"
-                    else "absolute_gripper"
+                    else "delta"
                     if name == "relative"
                     else config.training.action_mode,
                     "validation_fraction": 0.2,

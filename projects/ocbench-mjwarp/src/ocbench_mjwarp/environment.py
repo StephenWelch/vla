@@ -10,13 +10,20 @@ import warp as wp
 
 from .config import ACTION, ARM_LIMITS, FIELDS, TASK
 from .contacts import collect_contact_depth, contact_roles
-from .rendering import BatchRenderer
+from .rendering import BatchRenderer, image_shape
 
 
 class Simulation:
-    def __init__(self, seeds, task=TASK, audit=True):
+    def __init__(self, seeds, task=TASK, audit=True, image_size=(480, 640)):
+        self.task = task
         self.worlds = len(seeds)
-        self.env = ocbench.make(task, nworld=self.worlds, width=640, height=480)
+        self.image_size = image_shape(image_size)
+        self.env = ocbench.make(
+            task,
+            nworld=self.worlds,
+            width=self.image_size[1],
+            height=self.image_size[0],
+        )
         self.env.reset(seeds=np.asarray(seeds, dtype=np.uint32))
         self.base = self.env.cpu_env
         self.host_model = self.base.model
@@ -62,6 +69,14 @@ class Simulation:
             )
             self.env._step_graph = None
         self.env._ensure_gpu_step_buffers()
+
+    def reset_render(self, seeds):
+        """Reset episode-dependent state without rebuilding the render context."""
+        self.env.reset(seeds=np.asarray(seeds, dtype=np.uint32))
+        if self.renderer is not None:
+            with torch.cuda.stream(self.torch_stream):
+                self.renderer.geom.copy_(self.tensor(self.host_model.geom_rgba))
+                self.renderer.material.copy_(self.tensor(self.host_model.mat_rgba))
 
     def tensor(self, array):
         return torch.as_tensor(array, device=str(self.warp_device))

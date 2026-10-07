@@ -11,6 +11,7 @@ from vla_tools.tracking import Tracker, write_json
 
 from .config import ACTION, COMMIT, FIELDS
 from .environment import Simulation
+from .episodes import records as rows
 
 PLAN_FIELDS = (
     "rng_counter",
@@ -34,14 +35,10 @@ def quality(healthy, finite, peak, nonpad=0.001, penetration=0.003):
     return bool(healthy and finite and peak[0] <= nonpad and peak[1] <= penetration)
 
 
-def rows(root):
-    return [
-        json.loads(p.read_text()) for p in sorted((root / "raw").glob("episode-*.json"))
-    ]
-
-
 def generate(config):
     root = config.output
+    if (root / "import.json").exists():
+        raise ValueError("Cannot generate into an imported collection")
     root.mkdir(parents=True, exist_ok=True)
     spec = json.loads(json.dumps(asdict(config), default=str)) | {
         "upstream_commit": COMMIT,

@@ -39,7 +39,19 @@ def scene_split(dataset, fraction=0.2, seed=1000, episodes=None, *, overfit=Fals
         index = row["episode_index"]
         identity = (row["env_id"], row["task_id"])
         fingerprint = row.get("randomization", {}).get("initial_state_fingerprint")
-        keys = [(*identity, "seed", row["seed"])]
+        source = row.get("source", {})
+        keys = [
+            (
+                *identity,
+                "replay_id",
+                source.get("repo_id"),
+                source.get("revision"),
+                source.get("file"),
+                source.get("episode_index"),
+            )
+            if row.get("seed_kind") == "replay_id"
+            else (*identity, "seed", row["seed"])
+        ]
         if fingerprint:
             keys.append((*identity, "state", fingerprint))
         found = {aliases[k] for k in keys if k in aliases}
@@ -277,6 +289,9 @@ def install_hooks(
         from vla_tools.tracking import write_json
 
         metadata = {
+            "action_normalization": {
+                "per_timestep": settings.get("per_timestep_normalization", False)
+            },
             "precision": {
                 "use_amp": settings.get("use_amp", False),
                 "amp_dtype": settings.get("amp_dtype", "bfloat16"),
@@ -379,6 +394,18 @@ def install_hooks(
                     records = metrics["per_episode"]
                     report[f"{name}/rollout"] = {
                         "episodes": records,
+                        **{
+                            key: metrics[key]
+                            for key in (
+                                "observation_encoding",
+                                "environment_batch_size",
+                                "rollout_backend",
+                                "observation_decoder",
+                                "render_batch_frames",
+                                "performance",
+                            )
+                            if key in metrics
+                        },
                         **{
                             f"pc_{key}": 100
                             * sum(r[key] for r in records)

@@ -12,7 +12,7 @@ training:
   eval_episodes: 10
   eval_max_steps: 2500
   percentile_normalization: true
-  action_mode: absolute_gripper
+  action_mode: delta
   overrides:
     policy.chunk_size: 25
     policy.n_action_steps: 25

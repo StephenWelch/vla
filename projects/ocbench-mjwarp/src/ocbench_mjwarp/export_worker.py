@@ -13,6 +13,7 @@ def wait_for_progress(command, progress, timeout):
     """Kill and reap a stuck worker; a thread timeout cannot stop driver calls."""
     previous = None
     deadline = time.monotonic() + timeout
+    launched = time.time()
     process = subprocess.Popen(command)
     try:
         while process.poll() is None:
@@ -20,7 +21,22 @@ def wait_for_progress(command, progress, timeout):
             if signature != previous:
                 previous = signature
                 deadline = time.monotonic() + timeout
-            if time.monotonic() >= deadline:
+            active = False
+            for stage in ("render", "commit"):
+                path = progress.with_name(f"worker-{stage}.json")
+                if not path.exists() or path.stat().st_mtime < launched:
+                    continue
+                record = json.loads(path.read_text())
+                if record["active"]:
+                    active = True
+                    if time.time() - path.stat().st_mtime >= timeout:
+                        raise TimeoutError(
+                            f"Export {stage} made no progress for {timeout:g} seconds"
+                        )
+            if active:
+                # Independent phase deadlines above cannot mask each other's stalls.
+                deadline = time.monotonic() + timeout
+            elif time.monotonic() >= deadline:
                 raise TimeoutError(
                     f"Export worker made no progress for {timeout:g} seconds"
                 )

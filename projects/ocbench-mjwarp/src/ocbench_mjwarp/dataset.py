@@ -3,14 +3,15 @@
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 
 import numpy as np
 from vla_tools.tracking import write_json
 from vla_tools.video import VideoWriter
 
-from .collect import rows
 from .config import FIELDS
 from .environment import Simulation
+from .episodes import load_arrays, select_episodes
 
 
 @dataclass
@@ -21,9 +22,7 @@ class RenderConfig:
 
 
 def render(config):
-    selected = [r for r in rows(config.source) if r["physical_valid"]]
-    if config.limit is not None:
-        selected = selected[: config.limit]
+    selected = select_episodes(config.source, limit=config.limit)
     output = config.source / "rendered"
     output.mkdir(exist_ok=True)
     for offset in range(0, len(selected), config.batch_size):
@@ -39,10 +38,7 @@ def render(config):
                 "Less than 4 GiB free; completed render batches and raw attempts are retained"
             )
         sim = Simulation([r["seed"] for r in batch], audit=False)
-        archives = []
-        for row in batch:
-            with np.load(config.source / "raw" / row["archive"]) as archive:
-                archives.append({f"sim/{k}": archive[f"sim/{k}"] for k in FIELDS})
+        archives = load_arrays(config.source, batch)
         writers = {}
         try:
             for row in batch:
@@ -95,10 +91,14 @@ def render(config):
 class ExportConfig:
     source: Path
     output: Path
-    successes: bool = True
+    successes: bool | None = True
     repo_id: str = "local/ocbench-stack"
     limit: int | None = None
     batch_size: int = 4
+    image_size: tuple[int, int] = (480, 640)
+    episode_order: Literal["length", "source"] = "length"
+    overlap_commits: bool = True
+    reuse_simulation: bool = True
     encoder_threads: int = 1
     encoder_queue_size: int = 8
     encoder_backend: str = "async"
@@ -118,14 +118,19 @@ def export(config):
     )
 
 
-def dataset_features():
+def dataset_features(*, rewards=False, image_size=(480, 640)):
     return {
+        **(
+            {"next.reward": {"dtype": "float32", "shape": (1,), "names": None}}
+            if rewards
+            else {}
+        ),
         "observation.state": {"dtype": "float32", "shape": (18,), "names": None},
         "action": {"dtype": "float32", "shape": (7,), "names": None},
         **{
             f"observation.images.{view}": {
                 "dtype": "video",
-                "shape": (3, 480, 640),
+                "shape": (3, *image_size),
                 "names": ["channels", "height", "width"],
             }
             for view in ("front", "wrist")

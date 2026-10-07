@@ -13,6 +13,7 @@ from lerobot.datasets.compute_stats import RunningQuantileStats
 
 from .config import FIELDS
 from .rendering import BatchRenderer
+from .video_codec import create_encoder, encoder_options
 
 KEYS = ("observation.images.front", "observation.images.wrist")
 
@@ -120,8 +121,6 @@ class DeviceEncoder:
     def __init__(
         self, root, world, sim, length, stream=None, *, write_buffer_bytes=8192, gop=2
     ):
-        import PyNvVideoCodec as nvc
-
         self.length, self.count = length, 0
         self.results = None
         self.profile = False
@@ -140,19 +139,10 @@ class DeviceEncoder:
                     "wb", buffering=write_buffer_bytes
                 )
                 self.stats[key] = RunningQuantileStats()
-                self.encoders[key] = nvc.CreateEncoder(
-                    640,
-                    480,
-                    "ARGB",
-                    False,
-                    codec="h264",
-                    preset="P1",
-                    rc="constqp",
-                    constqp="18",
-                    fps="50",
-                    gop=str(gop),
-                    bf="0",
-                    cudastream=sim.stream.cuda_stream if stream is None else stream,
+                self.encoders[key] = create_encoder(
+                    sim.stream.cuda_stream if stream is None else stream,
+                    encoder_options(gop),
+                    sim.image_size,
                 )
         except BaseException:
             self.close()

@@ -6,6 +6,7 @@ import subprocess
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from typing import Literal
 
 from vla_tools.config import parse_args
 from vla_tools.tracking import Tracker, WandbConfig, write_json
@@ -13,12 +14,15 @@ from vla_tools.tracking import Tracker, WandbConfig, write_json
 from .collect import rows, summarize
 from .config import CollectionConfig
 from .dataset import ExportConfig
+from .hub import HubConfig
 from .train import TrainConfig, TrainingConfig
 
 
 @dataclass
 class PipelineConfig:
     output: Path
+    source: Literal["generate", "huggingface"] = "generate"
+    hub: HubConfig = field(default_factory=HubConfig)
     dataset_root: Path | None = None
     episodes: int = 500
     seed: int = 83000
@@ -26,6 +30,10 @@ class PipelineConfig:
     worlds: int = 32
     max_steps: int = 2500
     render_batch_size: int = 4
+    image_size: tuple[int, int] = (480, 640)
+    episode_order: Literal["length", "source"] = "length"
+    overlap_commits: bool = True
+    reuse_simulation: bool = True
     encoder_backend: str = "async"
     render_batch_frames: int = 4
     buffer_frames: int = 2
@@ -35,14 +43,7 @@ class PipelineConfig:
     encoder_threads: int = 1
     encoder_queue_size: int = 8
     training: TrainingConfig = field(
-        default_factory=lambda: TrainingConfig(
-            validation_fraction=0.2,
-            overrides={
-                "policy.chunk_size": "40",
-                "policy.n_action_steps": "40",
-                "log_freq": "25",
-            },
-        )
+        default_factory=lambda: TrainingConfig(validation_fraction=0.2)
     )
     export_limit: int | None = None
     wandb: WandbConfig = field(
@@ -53,36 +54,69 @@ class PipelineConfig:
 
 
 def run(config):
+    # Keep dict defaults empty for Tyro's arbitrary KEY VALUE override parser.
+    config.training.overrides = {
+        "policy.chunk_size": "40",
+        "policy.n_action_steps": "40",
+        "log_freq": "25",
+    } | config.training.overrides
     root = config.output
     root.mkdir(parents=True, exist_ok=True)
     dataset_root = config.dataset_root or root / "datasets"
     dataset_root.mkdir(parents=True, exist_ok=True)
     write_json(root / "pipeline.json", asdict(config))
-    collection = CollectionConfig(
-        output=root,
-        episodes=config.episodes,
-        seed=config.seed,
-        oracle_seed=config.oracle_seed,
-        worlds=config.worlds,
-        max_steps=config.max_steps,
-        wandb=config.wandb,
-    )
-    write_json(root / "generate.json", asdict(collection))
-    subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "ocbench_mjwarp.cli",
-            "generate",
-            "--config",
-            str(root / "generate.json"),
-        ],
-        check=True,
-    )
-    record = rows(root)
-    summary = summarize(record)
+    if config.source == "huggingface":
+        spec = asdict(config.hub) | {"output": root}
+        write_json(root / "import-config.json", spec)
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "ocbench_mjwarp.cli",
+                "import-hf",
+                "--config",
+                str(root / "import-config.json"),
+            ],
+            check=True,
+        )
+        record = rows(root)
+        summary = {
+            "episodes": len(record),
+            "upstream_successes": sum(r["native_success"] for r in record),
+            "audit_status": "unknown",
+        }
+        exports = [(None, "all")]
+    else:
+        collection = CollectionConfig(
+            output=root,
+            episodes=config.episodes,
+            seed=config.seed,
+            oracle_seed=config.oracle_seed,
+            worlds=config.worlds,
+            max_steps=config.max_steps,
+            wandb=config.wandb,
+        )
+        write_json(root / "generate.json", asdict(collection))
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "ocbench_mjwarp.cli",
+                "generate",
+                "--config",
+                str(root / "generate.json"),
+            ],
+            check=True,
+        )
+        record = rows(root)
+        summary = summarize(record)
+        exports = [(True, "successes"), (False, "failures")]
     # One encoding pass into LeRobot videos, plus a few byte-copied previews.
-    frames = sum(r["length"] for r in record if r["physical_valid"])
+    frames = sum(
+        r["length"]
+        for r in record
+        if r["physical_valid"] or config.source == "huggingface"
+    )
     estimated_bytes = (
         frames * (18000 if config.encoder_backend == "async" else 12000) + 6 * 2**30
     )
@@ -97,7 +131,7 @@ def run(config):
     tracker = Tracker(root, config.wandb, "collection", resume=True)
     failed = True
     try:
-        for success, name in ((True, "successes"), (False, "failures")):
+        for success, name in exports:
             spec = ExportConfig(
                 source=root,
                 output=dataset_root / name,
@@ -105,6 +139,10 @@ def run(config):
                 repo_id=f"local/ocbench-stack-{name}",
                 limit=config.export_limit,
                 batch_size=config.render_batch_size,
+                image_size=config.image_size,
+                episode_order=config.episode_order,
+                overlap_commits=config.overlap_commits,
+                reuse_simulation=config.reuse_simulation,
                 encoder_threads=config.encoder_threads,
                 encoder_queue_size=config.encoder_queue_size,
                 encoder_backend=config.encoder_backend,
@@ -150,19 +188,29 @@ def run(config):
                 del loaded
             tracker.log({f"export/{name}": result})
         videos = {}
-        for name, label in (("successes", "success"), ("failures", "failure")):
+        for _, name in exports:
             preview_root = dataset_root / name / "previews"
             for path in sorted(preview_root.glob("*.mp4")):
-                videos[f"examples/{label}/{path.stem}"] = path
+                videos[f"examples/{name}/{path.stem}"] = path
         tracker.log(
-            {"collection": summary}, videos=videos, reports=[root / "collection.json"]
+            {"collection": summary},
+            videos=videos,
+            reports=[
+                root
+                / (
+                    "import.json"
+                    if config.source == "huggingface"
+                    else "collection.json"
+                )
+            ],
         )
         failed = False
     finally:
         tracker.finish(failed)
     if config.training.steps:
         training = TrainConfig(
-            dataset=dataset_root / "successes",
+            dataset=dataset_root
+            / ("all" if config.source == "huggingface" else "successes"),
             output=root / "act",
             **(asdict(config.training) | {"wandb": config.wandb}),
         )

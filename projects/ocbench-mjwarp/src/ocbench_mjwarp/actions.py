@@ -25,7 +25,12 @@ def absolute_targets(action, state, absolute_arm=False):
 
 
 def prepare_training_views(
-    datasets, stats, absolute_gripper, percentiles, absolute_arm=False
+    datasets,
+    stats,
+    absolute_gripper,
+    percentiles,
+    absolute_arm=False,
+    per_timestep=False,
 ):
     """Transform per-frame targets before chunk lookup and fit only train frames."""
     import pyarrow as pa
@@ -67,6 +72,32 @@ def prepare_training_views(
             if key == "action" and absolute_gripper:
                 low[6], high[6] = 0, 1
             stats[key].update(q01=low, q99=high)
+
+    if per_timestep:
+        if not percentiles:
+            raise ValueError("Per-timestep normalization requires percentiles")
+        offsets = datasets["train"].reader.delta_indices["action"]
+        if offsets != list(range(len(offsets))):
+            raise ValueError("Expected consecutive ACT action offsets starting at zero")
+        frame = np.asarray(train["frame_index"])
+        actions = np.asarray(train["action"], dtype=np.float32)
+        bounds, counts = [], []
+        for offset in offsets:
+            # Each valid target at offset h is a frame at least h into its episode.
+            # This matches sliding training chunks without replicating end padding.
+            values = actions[frame >= offset]
+            if not len(values):
+                raise ValueError(f"No unpadded training targets at offset {offset}")
+            low, high = np.quantile(values, [0.01, 0.99], axis=0)
+            high = np.where(high - low < 1e-6, low + 1, high)
+            if absolute_gripper:
+                low[6], high[6] = 0, 1  # Preserve the baseline gripper scaling.
+            bounds.append((low, high))
+            counts.append(len(values))
+        bounds = np.asarray(bounds)
+        stats["action"].update(
+            q01=bounds[:, 0], q99=bounds[:, 1], offset_count=np.asarray(counts)
+        )
 
 
 @wp.kernel

@@ -5,6 +5,7 @@ import json
 import os
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
+from typing import Literal
 
 from vla_tools.config import parse_args
 from vla_tools.policy import load_policy, runtime_environment
@@ -26,12 +27,18 @@ class EvalConfig:
     device: str = "cuda"
     hf_home: Path | None = None
     seeds: list[int] | None = None
+    observation_compression: Literal["dataset", "none"] = "dataset"
+    rollout_backend: Literal["auto", "lerobot", "chunked"] = "auto"
+    observation_decoder: Literal["pyav", "nvdec"] = "pyav"
+    render_batch_frames: Literal[1, 2, 4] = 1
+    profile: bool = False
     wandb: WandbConfig = field(default_factory=WandbConfig)
 
 
 def prepare_evaluation(config):
     from .lerobot_env import OCBenchEnvConfig
     from .profile import profiles
+    from .video_codec import dataset_encoding
 
     rendering, actions = profiles(config.dataset, config.checkpoint)
     if config.output.exists():
@@ -45,12 +52,14 @@ def prepare_evaluation(config):
         rendering=rendering,
         action_profile=actions,
         max_steps=config.max_steps,
+        encoding=dataset_encoding(config.dataset, config.observation_compression),
     )
     return env, {
         "config": asdict(config),
         "status": "running",
         "tasks": {},
         "versions": {},
+        "observation_encoding": env.encoding,
         "checkpoint_sha256": hashlib.sha256(
             (config.checkpoint / "model.safetensors").read_bytes()
         ).hexdigest(),
@@ -58,21 +67,77 @@ def prepare_evaluation(config):
     }
 
 
-def evaluate_task(config, env_config, policy, pre, post, task_id):
+def evaluate_task(config, env_config, policy, pre, post, task_id, *, trace=None):
     """Run one task and merge ordered LeRobot metrics with contact diagnostics."""
     import torch
     from lerobot.envs import make_env, make_env_pre_post_processors
     from lerobot.scripts.lerobot_eval import eval_policy
 
-    task_config = replace(env_config, task_ids=[task_id])
-    env = make_env(task_config, n_envs=min(config.batch_size, config.episodes))[
-        config.env
-    ][task_id]
+    from .eval_profile import EvaluationProfile
+    from .eval_video import RolloutRecorder, record_environment
+    from .rollout import chunked_evaluate, device_postprocessor, resolve_backend
+    from .video_codec import dataset_encoding
+
+    backend = resolve_backend(config.rollout_backend, policy)
+    if config.render_batch_frames not in (1, 2, 4):
+        raise ValueError("Temporal render batch must be 1, 2 or 4")
+    if backend == "lerobot" and (
+        config.render_batch_frames != 1 or config.observation_decoder != "pyav"
+    ):
+        raise ValueError("Temporal batching and NVDEC require rollout_backend=chunked")
+    if (
+        config.observation_decoder == "nvdec"
+        and config.observation_compression == "none"
+    ):
+        raise ValueError("NVDEC requires compressed observations")
+
+    task_config = replace(
+        env_config,
+        task_ids=[task_id],
+        encoding=dataset_encoding(config.dataset, config.observation_compression),
+    )
+    # Two NVENC sessions per world; use the same per-process cap as GPU export.
+    batch_size = min(config.batch_size, config.episodes)
+    if task_config.encoding is not None:
+        batch_size = min(batch_size, 4)
+    if backend == "chunked":
+        from .device_env import DeviceEnvironment
+
+        env = DeviceEnvironment(task_config, batch_size)
+    else:
+        env = make_env(task_config, n_envs=batch_size)[config.env][task_id]
+    recorder = None
+    profile = EvaluationProfile(config.profile)
     try:
+        if config.videos > 0:
+            recorder = RolloutRecorder(
+                config.output / f"task-{task_id}" / "videos",
+                min(config.videos, config.episodes),
+            )
         manifest = json.loads((config.dataset / "manifest.json").read_text())
         env.initial_states = {
             r["seed"]: config.dataset / r["replay"] for r in manifest["episodes"]
         }
+        replay_rows = {
+            r["seed"]: r
+            for r in manifest["episodes"]
+            if r.get("seed_kind") == "replay_id"
+        }
+        if replay_rows:
+            seeds = config.seeds
+            if seeds is None:
+                seeds = [
+                    r["seed"]
+                    for r in manifest["episodes"]
+                    if r["dataset_split"] == "val"
+                ][: config.episodes]
+            if len(seeds) != config.episodes or any(
+                s not in replay_rows for s in seeds
+            ):
+                raise ValueError(
+                    "Imported evaluation needs one recorded replay ID per episode; default selection uses the official validation split"
+                )
+            config = replace(config, seeds=seeds)
         seed_map = None
         if config.seeds is not None:
             # LeRobot enumerates consecutive seed IDs; map those IDs to the fixed suite.
@@ -95,25 +160,68 @@ def evaluate_task(config, env_config, policy, pre, post, task_id):
         env_pre, env_post = make_env_pre_post_processors(task_config, policy.config)
         from vla_tools.preprocessing import policy_autocast
 
+        if trace is not None:
+            import numpy as np
+
+            method = "advance" if backend == "chunked" else "step"
+            advance = getattr(env, method)
+
+            def traced(action):
+                result = advance(action)
+                trace.append(
+                    {
+                        "action": action.detach().cpu().numpy().copy()
+                        if torch.is_tensor(action)
+                        else np.array(action, copy=True),
+                        "qpos": env.sim.data.qpos.numpy().copy(),
+                        "done": env.done.copy(),
+                    }
+                )
+                return result
+
+            setattr(env, method, traced)
+
         with torch.inference_mode(), policy_autocast(policy):
-            metrics = eval_policy(
-                env,
-                policy,
-                env_pre,
-                env_post,
-                pre,
-                post,
-                n_episodes=config.episodes,
-                start_seed=config.seed,
-                max_episodes_rendered=min(config.videos, config.episodes),
-                videos_dir=config.output / f"task-{task_id}" / "videos",
-            )
+            if backend == "chunked":
+                post = device_postprocessor(post, config.device)
+                metrics = chunked_evaluate(
+                    config, env, policy, env_pre, env_post, pre, post, recorder, profile
+                )
+            else:
+                if recorder:
+                    record_environment(env, recorder)
+                env.reset = profile.wrap(env.reset, "initialization")
+                env.step = profile.wrap(env.step, "reference_step")
+                env.observation = profile.wrap(env.observation, "observation")
+                select_action = policy.select_action
+                policy.select_action = profile.wrap(select_action, "inference")
+                try:
+                    metrics = eval_policy(
+                        env,
+                        policy,
+                        env_pre,
+                        env_post,
+                        profile.wrap(pre, "preprocessing"),
+                        profile.wrap(post, "action_processing"),
+                        n_episodes=config.episodes,
+                        start_seed=config.seed,
+                        max_episodes_rendered=0,
+                    )
+                finally:
+                    policy.select_action = select_action
+        if recorder:
+            with profile.stage("video_finalization"):
+                recorder.close()
+            metrics["video_paths"] = [str(p) for p in recorder.paths]
         # Worlds finish out of order; extra worlds in the last batch are omitted.
         records = {row["seed"]: row for row in env.records}
         for row in metrics["per_episode"]:
             if seed_map is not None:
                 row["seed"] = seed_map[row["seed"]]
             row.update(records[row["seed"]])
+            if row["seed"] in replay_rows:
+                row["seed_kind"] = "replay_id"
+                row["source"] = replay_rows[row["seed"]]["source"]
         metrics["aggregated"].update(
             {
                 f"pc_{name}": 100
@@ -122,9 +230,27 @@ def evaluate_task(config, env_config, policy, pre, post, task_id):
                 for name in ("task_success", "contact_valid")
             }
         )
+        metrics["observation_encoding"] = task_config.encoding
+        metrics["environment_batch_size"] = batch_size
+        metrics["rollout_backend"] = backend
+        metrics["observation_decoder"] = config.observation_decoder
+        metrics["render_batch_frames"] = config.render_batch_frames
+        metrics["performance"] = profile.report(
+            sum(row["steps"] for row in metrics["per_episode"])
+        )
+        if recorder:
+            metrics["performance"].update(
+                video_queue_peak=recorder.peak_queue_frames,
+                video_backpressure_seconds=recorder.backpressure_seconds,
+            )
         return metrics
     finally:
-        env.close()
+        try:
+            if recorder:
+                recorder.close()
+        finally:
+            profile.close()
+            env.close()
 
 
 def evaluate(config):

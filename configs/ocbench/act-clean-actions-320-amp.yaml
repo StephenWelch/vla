@@ -20,7 +20,7 @@ training:
   use_amp: true
   amp_dtype: bfloat16
   video_backend: torchcodec
-  action_mode: absolute_gripper
+  action_mode: delta
   overrides:
     policy.chunk_size: 25
     policy.n_action_steps: 25

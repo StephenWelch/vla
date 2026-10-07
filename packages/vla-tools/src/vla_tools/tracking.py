@@ -257,6 +257,18 @@ def evaluation_log(tracker, report, output, step=None):
     for key, value in report.items():
         if key.endswith(("/probe", "/rollout")):
             values[key] = dict(value)
+            performance = values[key].pop("performance", {})
+            values[key].update(
+                {
+                    k: performance[k]
+                    for k in (
+                        "environment_steps_per_second",
+                        "peak_process_rss_bytes",
+                        "peak_torch_reserved_bytes",
+                    )
+                    if k in performance
+                }
+            )
             if isinstance(value, dict) and value.get("episodes"):
                 tables[f"{key}/episodes"] = value["episodes"]
                 for metric in ("peak_nonpad_penetration", "peak_penetration"):
@@ -265,6 +277,17 @@ def evaluation_log(tracker, report, output, step=None):
                     )
     for task, metrics in report.get("tasks", {}).items():
         aggregate = dict(metrics["aggregated"])
+        aggregate.update(
+            {
+                k: metrics.get("performance", {})[k]
+                for k in (
+                    "environment_steps_per_second",
+                    "peak_process_rss_bytes",
+                    "peak_torch_reserved_bytes",
+                )
+                if k in metrics.get("performance", {})
+            }
+        )
         for metric in ("physics_valid", "truncated"):
             rows = metrics["per_episode"]
             if rows:

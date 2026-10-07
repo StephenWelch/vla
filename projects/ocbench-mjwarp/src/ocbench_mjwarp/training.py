@@ -14,6 +14,7 @@ def prepare_views(datasets, stats, settings):
             mode != "delta",
             settings.get("percentile_normalization", False),
             absolute_arm=mode == "absolute",
+            per_timestep=settings.get("per_timestep_normalization", False),
         )
 
 
@@ -46,6 +47,11 @@ def evaluate_rollout(
         videos=1,
         max_steps=settings["eval_max_steps"],
         device=settings["device"],
+        observation_compression=settings.get("eval_observation_compression", "dataset"),
+        rollout_backend=settings.get("eval_rollout_backend", "lerobot"),
+        observation_decoder=settings.get("eval_observation_decoder", "pyav"),
+        render_batch_frames=settings.get("eval_render_batch_frames", 1),
+        profile=settings.get("eval_profile", False),
     )
     env = OCBenchEnvConfig(
         task=task["env_id"],
@@ -75,7 +81,29 @@ def validate_profiles(config):
     from .config import ABSOLUTE_ACTION, ABSOLUTE_GRIPPER_ACTION, ACTION
     from .profile import profiles
 
-    rendering, saved = profiles(config.dataset, config.resume or config.policy)
+    if config.per_timestep_normalization and (
+        config.policy_type != "act" or not config.percentile_normalization
+    ):
+        raise ValueError(
+            "Per-timestep normalization requires ACT percentile normalization"
+        )
+    if config.per_timestep_normalization and config.overrides.get(
+        "policy.temporal_ensemble_coeff"
+    ) not in (None, "None", "null"):
+        raise ValueError("Per-timestep normalization requires open-loop ACT chunks")
+    checkpoint = config.resume or config.policy
+    if checkpoint:
+        normalization = checkpoint / "action_normalization.json"
+        saved_per_timestep = (
+            json.loads(normalization.read_text())["per_timestep"]
+            if normalization.exists()
+            else False
+        )
+        if saved_per_timestep != config.per_timestep_normalization:
+            raise ValueError(
+                "Checkpoint per-timestep normalization differs from training"
+            )
+    rendering, saved = profiles(config.dataset, checkpoint)
     actions = {
         "delta": ACTION,
         "absolute_gripper": ABSOLUTE_GRIPPER_ACTION,

@@ -100,3 +100,62 @@ def test_amp_configures_accelerate_and_rejects_silent_fallback(monkeypatch):
     )
     with pytest.raises(RuntimeError, match="Expected bf16"):
         trainer.update_policy(accelerator=SimpleNamespace(mixed_precision="no"))
+
+
+@pytest.mark.parametrize("execute_steps", [1, 2, 3])
+def test_per_offset_actions_decode_before_queue_and_survive_reload(
+    tmp_path, execute_steps
+):
+    from lerobot.configs import NormalizationMode
+    from lerobot.policies.act.modeling_act import ACTPolicy
+    from vla_tools.preprocessing import configure_chunk_normalization
+
+    cfg = ACTConfig(
+        device="cpu",
+        chunk_size=3,
+        n_action_steps=execute_steps,
+        input_features={"observation.state": PolicyFeature(FeatureType.STATE, (2,))},
+        output_features={"action": PolicyFeature(FeatureType.ACTION, (2,))},
+        normalization_mapping={
+            "STATE": NormalizationMode.IDENTITY,
+            "ACTION": NormalizationMode.QUANTILES,
+        },
+    )
+    low = torch.tensor([[0.0, 10.0], [100.0, 200.0], [-10.0, -20.0]])
+    high = low + torch.tensor([[2.0, 4.0], [10.0, 20.0], [4.0, 8.0]])
+    normalized = torch.tensor([[[-1.0, 1.0], [0.0, -0.5], [0.5, 0.0]]]).repeat(2, 1, 1)
+    physical = (normalized + 1) * (high - low) / 2 + low
+    pre, post = make_pre_post_processors(
+        cfg, dataset_stats={"action": {"q01": low, "q99": high}}
+    )
+
+    class Policy:
+        config = cfg
+        reset = ACTPolicy.reset
+        select_action = ACTPolicy.select_action
+
+        def eval(self):
+            return self
+
+        def predict_action_chunk(self, batch):
+            return normalized.to(torch.bfloat16)
+
+    for reload in (False, True):
+        if reload:
+            pre, post = make_pre_post_processors(cfg, pretrained_path=tmp_path)
+        policy = Policy()
+        configure_chunk_normalization(policy, pre, post)
+        configure_chunk_normalization(policy, pre, post)  # Idempotent.
+        torch.testing.assert_close(
+            pre({"action": physical, "observation.state": torch.zeros(2, 2)})["action"],
+            normalized,
+        )
+        torch.testing.assert_close(post(policy.predict_action_chunk({})), physical)
+        for _ in range(2):
+            policy.reset()
+            for i in range(execute_steps * 2):
+                actual = post(policy.select_action({}))
+                assert actual.shape == (2, 2) and actual.dtype == torch.float32
+                torch.testing.assert_close(actual, physical[:, i % execute_steps])
+        pre.save_pretrained(tmp_path)
+        post.save_pretrained(tmp_path)

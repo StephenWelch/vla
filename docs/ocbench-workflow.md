@@ -433,6 +433,19 @@ uvx --from 'rerun-sdk==0.38.1' rerun "$DATASET"
 
 This opens all 398 stored episodes, not just the 147 clean training episodes and 82 held-out episodes selected by the current comparison. The authoritative selections are in `training/absolute/split.json` beneath that experiment directory. Training examples include indices 1, 2, 5, 8, 9, 10 and 14; validation examples include 0, 4, 6, 11, 15 and 19. Indices refer to the combined dataset, not raw collection attempt IDs.
 
+For a single episode with LeRobot's viewer, enable compressed image logging to avoid dropping early frames from the distant server's buffer:
+
+```bash
+lerobot-dataset-viz \
+  --repo-id local/ocbench-stack-all \
+  --root "$DATASET" \
+  --episode-index 1 --num-workers 0 \
+  --mode distant --web-port 9090 \
+  --display-compressed-images
+```
+
+Open `http://localhost:9090/?url=rerun%2Bhttp%3A%2Flocalhost%3A9876%2Fproxy` and use the `frame_index` or `timestamp` timeline. The installed Rerun 0.33.1 gRPC server defaults to a 1 GiB buffer and drops the oldest logged data when full. LeRobot's default uncompressed logging can exceed it: episode 1 has 1,428 frames from two 640×480 RGB cameras (2.45 GiB before transport compression). Missing early camera images in a late-connected viewer can therefore coexist with complete action curves. `--display-compressed-images` JPEG-compresses only the viewer payload; it does not modify training images, videos, or datasets. Reload the episode with this flag; refreshing a server that already discarded frames cannot recover them. Verified the episode's two original videos each decode all 1,428 frames at 50 Hz without timestamp gaps or decoder errors.
+
 The viewer displays stored 640×480 images and native delta actions. Training resizes images to 320×240 and applies its configured action conversion and normalization in memory; those transformations are not applied by the standalone dataset viewer.
 
 For accelerated display, serve from WSL and open the viewer in Windows Chrome or Edge:
@@ -468,3 +481,201 @@ Launched `configs/ocbench/act-overfit-relative-episode001.yaml` alongside the ab
 Artifacts: `/home/stephen/data/vla/ocbench/act-overfit-relative-episode001-20261007` (`train.yaml`, `episode.json`, `launch.json`, `run.log`, and `training/`). W&B group: `single-trajectory-overfit`; run name: `act-relative-episode001`. The W&B layout cleanup is deferred until after this launch.
 
 Relative run: https://wandb.ai/rlgoats/vla-ocbench/runs/ddv5arjf. Absolute reference: https://wandb.ai/rlgoats/vla-ocbench/runs/6k0lf4wz.
+
+### Single-trajectory failure investigation (2026-10-07)
+
+Both absolute and relative ACT pilots completed 5,000 updates without native task success. Full-episode inference probe L1 was 0.06456 (absolute) and 0.06320 (relative); these are different normalized action spaces, not directly comparable physical errors. Diagnostics live under `/home/stephen/data/vla/ocbench/overfit-investigation-20261007`: `audit.py`, `absolute.json`, `relative.json`, per-model teacher/rollout NPZs, `analyze.py`, `analysis.json`, and `trajectory-diagnostics.png`. Original checkpoints and training configurations remain unchanged.
+
+The audit tests the final checkpoints on 281 recorded observations, then runs three worlds from the identical recorded initial state: recorded demonstration actions, 25-step policy chunks, and policy replanning every step. Recorded actions reach native audited success at frame 1,428 with both action representations. Neither learned-policy variant lifts a block above 6.5 cm or completes the task. Replays are successful controls, not bit-exact trajectory parity: maximum qpos differences are 0.00112 (absolute) and 0.00954 (relative), with larger transient velocity differences during contact. Both recorded replays retain the known failed stable-stack diagnostic at native early termination.
+
+Chunk targets match raw converted actions exactly; saved processor round-trip error is at most 2.4e-7. Absolute-action teacher errors average 0.015–0.062 radians per arm joint (about 0.9–3.6 degrees). Near frame 300, its 25-step rollout pinch point differs from the demonstrated point by roughly 3.9 cm; it misses the first grasp and subsequently leaves the demonstrated state distribution. One-step replanning is not a fix: the absolute model stalls near its initial posture. Relative actions also fail with either execution frequency.
+
+Giving the VAE encoder access to demonstration actions while leaving dropout disabled barely changes teacher L1: absolute 0.06465 with zero latent versus 0.06342 with sampled posterior; relative 0.06313 versus 0.06258. Thus the zero-latent deployment path is not the leading explanation for these checkpoints. The evidence points to insufficiently accurate imitation and compounding closed-loop errors; low average normalized L1 alone does not establish successful single-trajectory overfitting.
+
+A diagnostic continuation (`fit_deployment.py`, `deployment-fit/`) optimized the deployed zero-latent network directly for 1,000 additional updates with dropout disabled, batch 8, and LR 1e-4. Its sampled inference L1 improved from 0.06465 to 0.04442, but both 25-step and one-step rollouts still failed. This combined intervention is not a controlled attribution to learning rate, regularization, or budget; it shows that a better average probe loss is insufficient by itself. Original comparison checkpoints were preserved.
+
+`image_parity.py` compares 15 recorded states with decoded video frames, holding policy state inputs fixed when isolating images. Average normalized prediction changes were 0.00915 (absolute) and 0.01186 (relative); average RGB differences were about 0.0044–0.0047 on [0,1]. Image differences are measurable, but smaller than existing teacher errors; their causal contribution to rollout failures has not been eliminated.
+
+The viewer's missing early images (reported for episode 1, frames 0–290) are consistent with its 1 GiB gRPC retention limit, not missing training video. `video-coverage.json` confirms both cameras decode all 1,428 frames, with 20 ms intervals and no errors. `action-timestamps.json` confirms contiguous action frames with timestamp errors below 1 microsecond. A second viewer using `--display-compressed-images` loaded the full episode on web port 9091 / gRPC port 9877; the original viewer remains untouched.
+
+User confirmed the compressed viewer restores the early camera frames. A capture from its gRPC server (`viewer-capture/output.rrd`) contains exactly 1,428 entries for each camera, state and action, verified with `rerun rrd stats`; the recording is about 83 MB. The viewer workaround is documented above and does not change training data.
+
+The final control, `teacher_execution.py`, executes cached 25-step predictions while feeding only recorded observations to the model. Over the first 1,400 frames, the original absolute and relative models still fail to lift either block. The diagnostic continuation can lift both blocks when conditioned on those recorded observations (peak center heights 0.302 m and 0.259 m), yet neither live-feedback rollout succeeds. This separates two effects: the original models' imitation errors already prevent grasping even with reference observations; after improving the fit, sensitivity to states induced by execution remains. This truncated control does not establish full task completion, and its contact audit exceeds the 1 mm non-pad threshold slightly (1.099 mm).
+
+No successful learned-policy rollout has been obtained in these diagnostics. Keep the original 25-step comparison intact. Next experiments should track first-grasp success and physical target errors alongside full-task success, and isolate tighter fitting from robustness improvements; a lower mean normalized probe loss alone is not a sufficient acceptance criterion.
+
+### Batch-32 absolute versus native-delta overfit comparison (2026-10-07)
+
+Relaunched both policies from scratch for **5,000 updates at batch 32**, following the revised 5k request. Current recipes are `configs/ocbench/act-overfit-episode001.yaml` and `configs/ocbench/act-overfit-relative-episode001.yaml`; their previous batch-8 versions remain in the prior run directories. Artifacts are under `/home/stephen/data/vla/ocbench/act-overfit-bs32-20261007/{absolute,relative}`; `launch.json` records both independent processes.
+
+The absolute run uses absolute arm and gripper actuator targets (`action_mode: absolute`). The relative run now uses native deltas for **all seven actions** (`action_mode: delta`), unlike the previous relative-arm/absolute-gripper run. After action unnormalization, OCBench clips the gripper delta action to [-1,1], scales it by 0.12, adds the current measured normalized gripper position, clips the resulting target to [0,1], then maps to the actuator's [0,255] control range. It uses the existing native execution kernel; no new clipping implementation is introduced.
+
+Both select episode 1 (raw attempt 2), use seed 1000 and reset seed 83002, 25-step open-loop chunks, 320×240 images, BF16 AMP, TorchCodec, ImageNet image normalization, train-only percentile normalization, and two loader workers. Learning rates, VAE, KL weight, and dropout remain at the previous ACT settings (the diagnostic deployment-fit continuation is not used). Probes cover all 1,428 frames every 250 updates; one same-reset rollout runs every 1,000 updates and at completion. This is an overfit comparison without held-out validation. Batch 32 gives 160,000 sampled training examples over 5k updates, four times the prior batch-8 budget. W&B group: `single-trajectory-overfit-bs32-20261007`.
+
+W&B: [absolute batch-32 ACT](https://wandb.ai/rlgoats/vla-ocbench/runs/1e1kh0is) and [native-delta batch-32 ACT](https://wandb.ai/rlgoats/vla-ocbench/runs/4eo08u1a). Both registered online and confirmed exactly one training episode and batch size 32.
+
+Startup verification: both workers completed optimizer updates with finite loss; combined GPU usage was about 11.8 GB of 32 GB. Initial throughput was around 6 updates/s per active trainer, varying during probes and concurrent work. No prior checkpoint was resumed or overwritten.
+
+### Per-timestep action normalization comparison (2026-10-07)
+
+Launched two additional fresh ACT runs using `configs/ocbench/act-overfit-per-timestep-{absolute,relative}.yaml`, under `/home/stephen/data/vla/ocbench/act-overfit-bs32-per-timestep-20261007/{absolute,relative}`. Each uses batch 32, 5,000 updates, episode 1, seed 1000, reset seed 83002, 25-step open-loop chunks, 320×240/BF16, the original ACT learning rates/VAE/dropout, and the same probe/rollout schedule as the preceding batch-32 pair. These checkpoints are not initialized from either earlier comparison or the diagnostic continuation.
+
+`per_timestep_normalization: true` is opt-in and requires ACT with percentile normalization and no temporal ensembling. It fits separate q01/q99 action vectors for each **chunk offset**, not each absolute episode frame. Statistics use only training episodes and exclude padded targets: at offset h, the sample population contains frames h through the end of every training episode. `train_stats.json` records action bounds with shape [25,7] and `offset_count` for auditing. State/image normalization stays unchanged. Absolute gripper bounds remain [0,1] at every offset, matching the baseline; relative gripper quantiles are fitted per offset like other deltas. All-zero/constant action dimensions retain the existing unit-span fallback. Sliding chunks overlap heavily, so offset statistics can differ only modestly on a long single trajectory.
+
+Training forward/probes use offset-normalized targets. During inference, the shared ACT adapter unnormalizes the **entire predicted chunk in float32 before queueing actions**, and the saved postprocessor uses identity action scaling to avoid a second inverse. Reload through the project training/evaluation commands or `vla_tools.policy.load_policy`, which reinstall this adapter from saved preprocessing statistics; directly loading a native ACT model without the adapter is insufficient. Checkpoints also save `action_normalization.json`; switching normalization on resume/fine-tuning is rejected. Demonstration replay explicitly inverts the saved offset statistics without a policy.
+
+The OCBench training/comparison defaults and current general recipes now use native `action_mode: delta`, including relative gripper commands with OCBench's clipping. Action comparisons pair `absolute` with `delta`; the older `absolute_gripper` mode remains available explicitly for standalone training. Existing run configurations and datasets are unchanged.
+
+Validation includes train-only/padding-aware quantile populations; float32 chunk decoding, repeated queue resets, execution lengths 1/2/3, and processor serialization/reload. A two-update small ACT smoke run completed checkpoints, inference probes, and two-step simulation evaluation. These checks establish integration, not policy success.
+
+W&B: [absolute per-timestep ACT](https://wandb.ai/rlgoats/vla-ocbench/runs/qi8yuzpx) and [relative per-timestep ACT](https://wandb.ai/rlgoats/vla-ocbench/runs/1nwlnehy). Saved action bounds have shape [25,7]; valid sample counts decline from 1,428 at offset 0 to 1,404 at offset 24. A fresh-process reload of the smoke checkpoint completed simulator evaluation. The final targeted integration suite passed 21 tests, alongside five preprocessing tests and the preparation/comparison checks.
+
+### Live camera compression parity (2026-10-07)
+
+New standalone evaluations default to `observation_compression: dataset`; new training jobs default to `eval_observation_compression: dataset` for periodic rollouts. Both use the dataset's native 640×480 cameras, then NVENC H.264 P1 / constant QP 18 / GOP 2 / no B-frames at 50 Hz, then decoded RGB. Policy resizing to 320×240 and ImageNet normalization happen afterwards. The export and live paths share encoder construction. Only the known `async-gpu-v1` export profile is accepted; unknown/CPU export settings fail explicitly instead of silently approximating their compression. `none` selects the earlier uncompressed observation path:
+
+```bash
+python -m ocbench_mjwarp.evaluate \
+  --checkpoint /path/to/pretrained_model --dataset /path/to/dataset \
+  --output /path/to/new-evaluation --observation-compression none
+```
+
+Each camera/world keeps its own encoder and decoder, reset at episode boundaries. PyNvVideoCodec normally buffers three output frames; draining after each input with `EndEncode()` preserves the reference frames and I/P sequence on the installed version while returning the current image immediately. The GPU regression test checks decoded pixel equality against normal export encoding, multi-camera/world ordering, and episode resets. This behavior must be rechecked when upgrading PyNvVideoCodec. Decoding uses PyAV on CPU; there is synchronous codec overhead, but no simulated frame delay. Compressed evaluation caps each environment batch at four worlds (eight NVENC sessions), matching export. Concurrent processes still share the GPU's session budget.
+
+Evaluation reports record `observation_encoding` and effective `environment_batch_size`, including periodic rollout reports. Running training processes retain their already-loaded evaluation code; the two existing per-timestep runs were not restarted or changed mid-run.
+
+Validation artifacts are under `/home/stephen/data/vla/ocbench/live-compression-20261007`. Re-rendering episode 1 frames 0–15 from recorded states and passing them through live compression produced **pixel-identical RGB in both cameras** to TorchCodec-decoded dataset frames. The uncompressed images differ from the dataset by approximately one intensity level on average. This establishes parity on those checked frames, not a policy-success improvement or universal bit-exact rendering across platforms.
+
+The two-camera encode/decode round trip averaged 9.77 ms in that concurrent-training check. All 19 targeted codec, environment, training-hook, and GPU export tests passed. A fresh-process two-step policy evaluation completed with dataset compression and recorded the encoding profile in `eval-smoke/eval_info.json`.
+
+Useful references: [OpenPI's LIBERO evaluator](https://github.com/Physical-Intelligence/openpi/blob/215abfb217dbac7d5f1273282331b9b1866c0479/examples/libero/main.py) explicitly matches training render resolution, orientation, and resizing, and defaults to replanning every five actions. [LeHome's dataset writer](https://github.com/IliaLarchenko/lehome_solution/blob/ca73828d82b61ad6cf60a0069f67892359a902d7/src/lehome_solution/eval/dataset_writer.py) documents a compression-quality shortcut in its success head and raises rollout-video quality to address it. Its optional [JPEG-proxy augmentation](https://github.com/IliaLarchenko/lehome_solution/blob/ca73828d82b61ad6cf60a0069f67892359a902d7/src/lehome_solution/models/train_aug_config.py) is a bilinear downsample/upsample approximation, not a matching H.264 round trip. These motivate preprocessing parity and later robustness experiments; they do not establish why our ACT pilots fail.
+
+### Extending the batch-32 baseline comparison (2026-10-07)
+
+The completed absolute/native-relative pair under `act-overfit-bs32-20261007` was relaunched from each `005000` checkpoint for 10,000 total updates (5,000 additional), retaining batch 32, global per-joint percentile normalization, 25-step open-loop chunks, episode 1, and optimizer state. These are the original runs, not the separate per-timestep normalization pair. Resume specifications and logs are `{absolute,relative}/resume-10000.{yaml,log}`, with launch metadata in `resume-10000.json`; the pre-resume experiment records are preserved alongside them.
+
+W&B continues the same runs: [absolute](https://wandb.ai/rlgoats/vla-ocbench/runs/1e1kh0is) and [relative](https://wandb.ai/rlgoats/vla-ocbench/runs/4eo08u1a). Probe frequency remains 250 updates and rollout frequency 1,000. Resumed rollouts explicitly set `eval_observation_compression: dataset`; earlier rollout results used raw RGB, so changes across step 5,000 also include this evaluation-input change.
+
+The first absolute resume attempt failed with a CUDA allocation error before completing an update while the other three jobs were active. WSL had about 3.7 GiB available host memory despite 15 GiB reported free VRAM after the failure. It was retried from the same checkpoint with `workers: 0` to reduce host-memory pressure; batch size and training semantics remain unchanged. The failed attempt log is retained, and the retry writes `absolute/resume-10000-retry.log`.
+
+### Recovery after WSL restart: 25,000-update queue (2026-10-07)
+
+After the user-reported WSL crash, all four ACT jobs were stopped. The previous four-way launch underestimated host-memory pressure; free VRAM alone was insufficient. Recovery uses at most two training jobs at once and `workers: 0` for all four runs, retaining batch 32 and each run's existing action/normalization settings. Every run now targets **25,000 total updates**, not 25,000 additional updates, continuing its original W&B identity and optimizer state.
+
+The original global-normalization absolute/relative pair resumes first from steps 5,000/5,750. Only after **both** finish successfully does the per-timestep absolute/relative pair resume from steps 4,500/4,750. Saved JSON files, required optimizer/RNG files, and safetensors header/payload lengths were checked before launch. The second pair's resume configurations also receive dry-run validation. Live evaluation compression remains `dataset` for all resumed jobs.
+
+Queue state and launcher: `/home/stephen/data/vla/ocbench/act-bs32-25000-20261007/{queue.json,run_queue.py}`. Each run has `resume-25000.yaml` and `resume-25000.log` in its existing experiment directory. The detached launcher waits for both children, verifies their step-25,000 checkpoints, and leaves the next pair queued if either fails. It does not survive another WSL shutdown or automatically replay an interrupted queue; inspect checkpoints and rebuild the resume queue after such a restart.
+
+Recovery also found a null-byte tail in the optimizer-metric JSONL files of both relative runs. Original files were preserved as `optimizer_metrics.before-crash-repair.jsonl`; only the final all-null line was removed. Normal resume then trims valid metrics newer than the restored checkpoint. All 93 top-level experiment/metric JSON records checked across the four runs parsed successfully, and both queued per-timestep resume dry runs passed.
+
+### Batched ACT evaluation
+
+Evaluation now streams selected front/wrist videos into MP4 through a four-frame queue, including the initial and terminal observations. Both backends use this recorder; native LeRobot's episode-sized RGB accumulation is disabled. A 2,500-step, two-camera episode previously retained about 4.3 GiB of RGB before the additional stack/encode copy. Recording memory is now bounded independently of episode length, and encoder exceptions propagate to evaluation.
+
+`rollout_backend: chunked` enables an OCBench-specific open-loop ACT loop. It preprocesses and predicts once per action chunk, retains actions on GPU through the saved postprocessor, and accumulates contact/physics diagnostics and a 51-state history ring on GPU. It preserves the saved action representation and global or per-offset normalization, native termination, fixed world membership, and the existing stable-stack diagnostic. A compact status transfer remains per step; state packing uses a compact CPU transfer at policy decisions to preserve NumPy yaw arithmetic. Simulation and renderer allocations are reused between batches.
+
+Temporal batches snapshot the live renderer's cached transforms, rather than recomputing kinematics from the newer integrated joint positions. Two GPU slots and an ordered codec worker overlap rendering/physics with compression. Every intervening frame still enters its camera's H.264 stream, including frames between policy decisions; partial batches pad render worlds only. Codec sessions reset between episodes, and a decision cannot consume a delayed frame. Startup encoding is drained before the first physics CUDA graph capture.
+
+```bash
+vla-ocbench-eval \
+  --checkpoint <pretrained_model> --dataset <dataset> --output <new-output> \
+  --episodes 4 --batch-size 4 \
+  --rollout-backend chunked --render-batch-frames 4
+```
+
+Standalone flags also accept YAML through `--config`. Periodic training evaluations expose `eval_rollout_backend`, `eval_render_batch_frames`, `eval_observation_decoder`, and `eval_profile`. Render batch sizes are 1, 2 or 4; compressed evaluation remains capped at four worlds per process. `auto` currently resolves to the native LeRobot reference, so existing training recipes do not opt into the experimental path.
+
+The default observation decoder is PyAV, preserving the reference RGB conversion. Camera resolution remains 640×480 with the dataset's NVENC P1, constQP 18, GOP 2, BF 0 and 50 Hz configuration, followed by the checkpoint's saved resizing/normalization. `--observation-decoder nvdec` is an explicit experimental GPU decode option for the chunked backend; RGB conversion can differ from FFmpeg, so it is not an exact-parity default. `--observation-compression none` remains a separate input-distribution experiment.
+
+`eval_info.json` includes stage wall times/call counts, environment steps/s, sampled process RSS, sampled Torch allocation/reservation, and video-queue occupancy/backpressure. Torch counters exclude Warp and codec allocations. Asynchronous stages overlap, so their times must not be summed. `--profile` synchronizes stage boundaries for diagnosis and changes throughput; leave it off for performance measurements. W&B receives only throughput and memory summaries; detailed timings stay in the report.
+
+Run the serial benchmark after training:
+
+```bash
+python -m ocbench_mjwarp.benchmark_eval \
+  --checkpoint <pretrained_model> --dataset <dataset> --output <new-benchmark-output> \
+  --episodes 4 --max-steps 2500 \
+  --wait-for-queue /home/stephen/data/vla/ocbench/act-bs32-25000-20261007/queue.json
+```
+
+The optional queue argument waits for successful completion before loading the policy or allocating GPU resources. The benchmark also refuses to run alongside OCBench trainers. It checks repeated reference rollouts against the chunked path at 1/2/4 worlds and 1/2/4 temporal frames, then measures video-off/video-on cases serially. It records numeric errors against reference repeatability, requires identical termination/outcome diagnostics, and stops on a failed check. The default 250-step budget is a smoke test; use 2,500 for full-horizon assessment. Performance measurements and default promotion remain deferred while the current training queue is active.
+
+Validation on 2026-10-07: 19 pipeline/codec tests and 25 preprocessing, tracking, hook and comparison regressions passed. Coverage includes 2,501-frame bounded recording, encoder failure propagation, reset/frozen-world/history behavior, pixel-exact temporal batches of 1/2/4 (including post-integration transforms), NVDEC frame ownership, and real ACT comparisons for absolute/relative actions with global/per-timestep normalization. The first action chunk is checked tightly; later action tolerances are calibrated against a separate repeated reference rollout because physics itself is not bit-exact. This is correctness coverage, not a full-horizon success or throughput result.
+
+The full-horizon sweep is queued behind all four 25k training jobs. Its configuration, log and launch metadata are `act-bs32-25000-20261007/eval-benchmark.{yaml,log}` and `eval-benchmark-launch.json`. It targets the absolute policy's final `025000` checkpoint and writes `/home/stephen/data/vla/ocbench/eval-benchmark-20261007/benchmark.json`. The waiting process allocates no GPU resources and does not change the training queue. Like the training launcher, it must be relaunched after a WSL shutdown. Default promotion remains manual after inspecting the report.
+
+### Official OCBench Hub import
+
+`configs/ocbench/import-stack.yaml` selects the published `block-double-task2-v0` dataset as an alternative to local generation. The pilot imports the first 100 train and 20 validation episodes from the first shard, including failures. It uses the installed OCBench library's pinned `seohongpark/ocbench` release, preserves official split membership, and renders into one combined dataset at `<output>/datasets/all`. Training is disabled in the recipe.
+
+```bash
+vla-ocbench-pipeline --config configs/ocbench/import-stack.yaml \
+  --output /path/to/ocbench-hub-stack
+```
+
+To separate import from rendering:
+
+```bash
+ocbench-mjwarp import-hf --output /path/to/ocbench-hub-stack \
+  --train-episodes 100 --val-episodes 20 --shards 1
+ocbench-mjwarp export --source /path/to/ocbench-hub-stack \
+  --output /path/to/ocbench-hub-stack/datasets/all --successes None
+```
+
+The pipeline's `source` is `generate` by default or `huggingface` for import; nested `hub` fields are `task`, `cache`, `shards`, `train_episodes`, and `val_episodes`. Standalone import exposes the same fields plus `output`. All commands use the existing Tyro/YAML precedence. Only stack-anywhere is supported initially. No upload is performed.
+
+Downloading one shard retrieves its paired metadata and validation archive: approximately 5 GB compressed. Import extracts only the six required state/control/label arrays into temporary memory-mapped files, one shard at a time; the first training shard needs about 3.57 GiB of temporary disk space. It does not concatenate the full release in RAM. Raw selected episodes, rendered videos and checkpoints require additional storage. The importer retains source hashes, original episode IDs, segment annotations, speed, and the resolved Hub revision. Per-episode checksums detect changed archives on resume and export; incompatible import selections require a fresh output.
+
+Published `qpos`/`qvel` describe **N pre-action states for N joint actions**, without a final simulator snapshot. Rendering restores those states directly; it does not integrate actions or invent a terminal state. Our 18-dimensional proprioception is reconstructed with forward kinematics. Rendering-only controls are initialized to zero, mocap fields use fixed stacking defaults, and timestamps use the native 50 Hz rate; these choices are recorded explicitly. They do not recover the original actuator history or certify exact physics replay. Imported joint actions and source rewards, episode boundaries, termination and truncation are retained unchanged.
+
+The shared exporter uses the same front/wrist cameras, 640×480 resolution, temporal batches, NVENC settings, previews, and restart mechanism as local generation. Imported manifests identify `upstream-outcomes-unaudited` quality. Upstream success, health, mistakes and segment labels remain available, but `physical_valid`, contact audit, stable-stack diagnostic and regrasp counts remain unknown. Unknown is not a passed audit. Clean-success comparisons and exact demonstration-replay checks reject these imports with an explanation; ordinary training accepts them.
+
+Training uses the existing entrypoint, for example:
+
+```bash
+vla-ocbench-train --dataset /path/to/ocbench-hub-stack/datasets/all \
+  --output /path/to/ocbench-hub-stack/act \
+  --validation-fraction 0.2 --percentile-normalization \
+  --image-size 240 320 --use-amp \
+  --overrides policy.chunk_size 25 policy.n_action_steps 25
+```
+
+The nonzero validation setting enables the split-aware loader; recorded official memberships take precedence over its nominal fraction. Normalization uses training episodes only. For an imported dataset, standalone policy evaluation defaults to recorded validation initial states. Explicit `--seeds` values select the manifest's replay IDs, which are labeled `seed_kind: replay_id` and are not claimed to be original reset seeds. Original reset seeds are unavailable. Periodic train/validation evaluations use their corresponding recorded states; live rollout audits describe the new policy rollout, not the imported demonstrations.
+
+Browse the resulting `datasets/all` directory with the Rerun commands above. `ocbench-mjwarp view --root <import-root> --episode <episode_id>` also displays the recorded simulator states before export; use the manifest's source episode ID, not its LeRobot episode index.
+
+On 2026-10-07, the pilot import completed under `/home/stephen/data/vla/ocbench/hub-stack-pilot-20261007`: 185,832 frames, with 87 upstream successes/13 failures in train and 17 successes/3 failures in validation. All 120 initial-state fingerprints were distinct. `smoke/report.json` records pixel-exact direct-versus-temporal rendering checks on first/middle/last frames from one train and one validation episode, proprioceptive reconstruction error, and recorded initial-state restoration. Contact sheets are in the same directory.
+
+The full export is queued in `run_when_idle.py`; `render-queue.json` and `render-queue.log` track it. It waits for successful completion of the existing four-run training queue and for the queued evaluation benchmark to exit, then runs the GPU export checks and throughput sweep configured in `export-benchmark.json`. Only a successful sweep starts `pilot.json` at 640×480 with training disabled. It stops if training fails. This waiting process does not survive WSL shutdown; rerun it after checking those jobs. Existing training and benchmark configurations were not changed.
+
+Validation passed for all seven import tests, plus the existing preparation, export/restart, replay and training-hook regressions. Checks cover source/episode integrity, missing-audit rejection, official split preservation, train-only percentile statistics, imported validation-state selection during evaluation, LeRobot video/frame alignment, and CLI/YAML overrides. Ruff and scoped whitespace checks passed. The pilot configuration also fixes nested dictionary override parsing while preserving existing generation-time defaults.
+
+
+### Export resource reuse and resolution comparison (2026-10-07)
+
+New exports reuse the simulation/render context across full batches, sort selected episodes by length, and commit one batch while rendering the next. The final partial batch gets a smaller context. Selection and `limit` are applied before sorting. Source episode IDs, timestamps, actions, and official split membership remain unchanged; LeRobot episode indices follow the new order. `<output>.schedule.json` records the input metadata and order before export starts. Existing exports retain source order; changed inputs, ordering, or resolution require a fresh output.
+
+Only finalized encoded paths, statistics, and trajectory arrays pass to the CPU writer. There is at most one committing batch and one rendering/completed batch; full RGB trajectories are never queued. NVENC sessions close before the next batch opens. Each batch still finalizes data and metadata Parquet files before publishing its checkpoint. Separate render/commit progress records let the watchdog detect either stage hanging. A crash during a partial commit remains an explicit unsafe-resume error rather than silently skipping episodes.
+
+Export and pipeline settings use the existing Tyro/YAML precedence:
+
+```yaml
+image_size: [480, 640]  # height, width; production default
+reuse_simulation: true
+episode_order: length  # source preserves selection order
+overlap_commits: true
+```
+
+`configs/ocbench/import-stack-320.yaml` tests direct 320×240 rendering in a separate output. Dataset features, NVENC dimensions, live compression, and both evaluation backends use that recorded resolution. Explicit evaluation resolution conflicts are rejected. Direct low-resolution rendering is a different image distribution from rendering 640×480 and resizing in the policy; checkpoints/datasets with different rendering profiles are not interchangeable.
+
+```bash
+ocbench-mjwarp benchmark-export \
+  --config configs/ocbench/benchmark-export.yaml \
+  --source /home/stephen/data/vla/ocbench/hub-stack-pilot-20261007 \
+  --output /home/stephen/data/vla/ocbench/export-benchmark-20261007 \
+  --wait-for-queue /home/stephen/data/vla/ocbench/act-bs32-25000-20261007/queue.json
+```
+
+The sweep selects ten train and ten validation episodes evenly across trajectory lengths, preserves their source identities, and runs GPU checks before five serial ablations: baseline (all three optimizations disabled), context reuse, length grouping, commit overlap, and optimized 320×240. Each case runs three times with fresh output. `benchmark.json` reports median paired-camera frames/second, stage durations, padded frames, process wall time and sampled peak host/device memory. Device memory includes Warp/NVENC and other resident GPU allocations. Stage durations overlap and must not be added to infer wall time. Python startup is reported separately from the export's wall time.
+
+The sweep waits for the active training queue and evaluation benchmark. The pilot waiting process was restarted as PID 3628379 with this dependency on 2026-10-07; neither trainer was restarted. Validation: 29 CPU tests passed, including real LeRobot encoding/reload, ordering/alignment, resume and partial-commit rejection, actual commit/render overlap with a single writer owner, independent watchdog stalls, and YAML/CLI resolution overrides. GPU tests were collected successfully and are queued ahead of the sweep. GPU parity and throughput results are pending; no speedup is claimed yet. Production remains 640×480, four episodes/four timestamps per render, two frame buffers, and GOP 2. Temporal CUDA graphs and larger world batches are deferred.

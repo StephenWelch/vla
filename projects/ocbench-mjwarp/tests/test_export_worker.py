@@ -64,3 +64,26 @@ def test_supervisor_retries_without_removing_checkpoint(tmp_path, monkeypatch):
     assert export_worker.supervise(config) == {"episodes": 3}
     assert len(attempts) == 2
     assert json.loads(checkpoint.read_text()) == {"episodes": [1, 2]}
+
+
+@pytest.mark.parametrize("stalled", ["render", "commit"])
+def test_busy_stage_does_not_hide_other_stage_hang(tmp_path, stalled):
+    progress = tmp_path / "worker-state.json"
+    busy = "commit" if stalled == "render" else "render"
+    command = [
+        sys.executable,
+        "-c",
+        f"""
+import json, pathlib, time
+root = pathlib.Path({str(tmp_path)!r})
+(root / "worker-{stalled}.json").write_text(json.dumps({{"active": True}}))
+for i in range(100):
+    p = root / "worker-{busy}.json"
+    temp = p.with_suffix('.tmp')
+    temp.write_text(json.dumps({{"active": True, "frame": i}}))
+    temp.replace(p)
+    time.sleep(.05)
+""",
+    ]
+    with pytest.raises(TimeoutError, match=stalled):
+        wait_for_progress(command, progress, 0.5)

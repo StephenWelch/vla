@@ -1,5 +1,5 @@
 dataset: /home/stephen/data/vla/ocbench/act-clean-actions-320-amp-20261006/dataset
-output: /home/stephen/data/vla/ocbench/act-overfit-bs32-20261007/absolute/training
+output: /home/stephen/data/vla/ocbench/act-overfit-bs32-per-timestep-20261007/relative/training
 policy: null
 policy_type: act
 episodes: [1]
@@ -14,8 +14,9 @@ image_size: [240, 320]
 use_amp: true
 amp_dtype: bfloat16
 image_normalization: imagenet
-action_mode: absolute
+action_mode: delta
 percentile_normalization: true
+per_timestep_normalization: true
 loss_eval_freq: 250
 rollout_eval_freq: 1000
 probe_frames: 1428
@@ -30,6 +31,6 @@ wandb:
   enable: true
   project: vla-ocbench
   entity: rlgoats
-  group: single-trajectory-overfit-bs32-20261007
-  name: act-absolute-episode001-bs32
-  tags: [act, overfit, clean-success, absolute, single-episode, batch32]
+  group: single-trajectory-overfit-bs32-per-timestep-20261007
+  name: act-relative-episode001-bs32-per-timestep
+  tags: [act, overfit, clean-success, relative, single-episode, batch32, per-timestep]

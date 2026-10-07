@@ -19,6 +19,7 @@ from .config import (
     validate_action,
 )
 from .environment import Simulation
+from .rendering import image_shape
 
 
 @EnvConfig.register_subclass("ocbench")
@@ -27,27 +28,27 @@ class OCBenchEnvConfig(EnvConfig):
     task: str = TASK
     task_ids: list[int] = field(default_factory=lambda: [2])
     fps: int = 50
-    image_size: tuple[int, int] = (480, 640)
+    image_size: tuple[int, int] | None = None
     max_steps: int = 2500
     device: str = "cuda:0"
     rendering: dict | None = None
+    encoding: dict | None = None
     action_profile: dict = field(default_factory=lambda: dict(ACTION))
 
     def __post_init__(self):
         validate_action(self.action_profile)
-        if (
-            self.task != TASK
-            or self.task_ids != [2]
-            or self.fps != 50
-            or tuple(self.image_size) != (480, 640)
-        ):
-            raise ValueError("Expected native block-double-task2 at 50 Hz and 640x480")
+        recorded = self.rendering.get("resolution") if self.rendering else None
+        self.image_size = image_shape(self.image_size or recorded or (480, 640))
+        if recorded and tuple(recorded) != self.image_size:
+            raise ValueError("Evaluation resolution differs from dataset")
+        if self.task != TASK or self.task_ids != [2] or self.fps != 50:
+            raise ValueError("Expected native block-double-task2 at 50 Hz")
         self.features = {
             "observation.state": PolicyFeature(FeatureType.STATE, (18,)),
             "action": PolicyFeature(FeatureType.ACTION, (7,)),
             **{
                 f"observation.images.{v}": PolicyFeature(
-                    FeatureType.VISUAL, (3, 480, 640)
+                    FeatureType.VISUAL, (3, *self.image_size)
                 )
                 for v in ("front", "wrist")
             },
@@ -66,6 +67,7 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
     def __init__(self, config, n_envs):
         self.config, self.num_envs = config, n_envs
         self.sim = None
+        self.codec = None
         self.records = []
         self.initial_states = {}
         self.metadata = {
@@ -83,7 +85,7 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
                 "agent_pos": gym.spaces.Box(-np.inf, np.inf, (18,), np.float32),
                 "pixels": gym.spaces.Dict(
                     {
-                        v: gym.spaces.Box(0, 255, (480, 640, 3), np.uint8)
+                        v: gym.spaces.Box(0, 255, (*config.image_size, 3), np.uint8)
                         for v in ("front", "wrist")
                     }
                 ),
@@ -93,19 +95,46 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
         self.observation_space = batch_space(self.single_observation_space, n_envs)
 
     def observation(self):
-        self.images = self.sim.render()
+        if self.config.encoding is None:
+            self.images = self.sim.render()
+        else:
+            from .rendering import BatchRenderer
+            from .video_codec import LiveVideoCodec
+
+            if self.sim.renderer is None:
+                self.sim.renderer = BatchRenderer(self.sim)
+            if self.codec is None:
+                self.codec = LiveVideoCodec(
+                    self.num_envs,
+                    self.sim.torch_stream,
+                    self.config.encoding,
+                    image_size=self.config.image_size,
+                )
+            self.images = self.codec(self.sim.renderer.render(device=True))
         state = self.sim.state()
         return {"agent_pos": state, "observation.state": state, "pixels": self.images}
 
     def reset(self, *, seed=None, options=None):
-        self.close()
+        reuse = getattr(self, "reuse_simulation", False) and self.sim is not None
+        if reuse:
+            if self.codec is not None:
+                self.codec.close()
+                self.codec = None
+        else:
+            self.close()
         seeds = (
             list(seed)
             if isinstance(seed, (list, np.ndarray))
             else list(range(seed or 0, (seed or 0) + self.num_envs))
         )
         self.seeds = seeds
-        self.sim = Simulation(seeds, self.config.task)
+        if reuse:
+            self.sim.env.reset(seeds=np.asarray(seeds, dtype=np.uint32))
+            self.sim.depth.zero_()
+        else:
+            self.sim = Simulation(
+                seeds, self.config.task, image_size=self.config.image_size
+            )
         if self.initial_states:
             from .config import FIELDS
 
@@ -125,6 +154,8 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
         self.steps = np.zeros(self.num_envs, int)
         self.peak = np.zeros((self.num_envs, 2))
         self.history = deque([self.sim.data.qpos.numpy().copy()], maxlen=51)
+        if getattr(self, "defer_observations", False):
+            return None, {}
         observation = self.observation()
         if self.config.rendering and self.sim.renderer.profile != self.config.rendering:
             raise ValueError("Evaluation camera/model profile differs from dataset")
@@ -200,6 +231,9 @@ class OCBenchVectorEnv(gym.vector.VectorEnv):
         )
 
     def close(self):
+        if self.codec is not None:
+            self.codec.close()
+            self.codec = None
         if self.sim:
             self.sim.close()
             self.sim = None

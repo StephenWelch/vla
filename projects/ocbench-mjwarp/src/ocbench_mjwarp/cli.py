@@ -23,11 +23,14 @@ def view(config):
     import numpy as np
     import ocbench
 
+    from .episodes import records
+
+    row = next(r for r in records(config.root) if r["episode_id"] == config.episode)
     env = ocbench.make("block-cpu-double-task2-v0")
     model = env.unwrapped.model
     data = mujoco.MjData(model)
     with (
-        np.load(config.root / "raw" / f"episode-{config.episode:06d}.npz") as archive,
+        np.load(config.root / "raw" / row["archive"]) as archive,
         mujoco.viewer.launch_passive(model, data) as viewer,
     ):
         frame = 0
@@ -50,6 +53,10 @@ def main():
         from .collect import generate
 
         generate(parse_args(CollectionConfig))
+    elif command == "import-hf":
+        from .hub import ImportConfig, import_dataset
+
+        print(import_dataset(parse_args(ImportConfig)))
     elif command == "render":
         from .dataset import RenderConfig, render
 
@@ -58,6 +65,10 @@ def main():
         from .dataset import ExportConfig, export
 
         print(export(parse_args(ExportConfig)))
+    elif command == "benchmark-export":
+        from .benchmark_export import BenchmarkConfig, run
+
+        run(parse_args(BenchmarkConfig))
     elif command == "prepare-dataset":
         from .prepare import PrepareConfig, prepare_dataset
 
@@ -87,7 +98,7 @@ def main():
         replay_main()
     else:
         raise ValueError(
-            "Commands: list-tasks, generate, render, export, prepare-dataset, evaluate-recorded, view, replay-check"
+            "Commands: list-tasks, generate, import-hf, render, export, benchmark-export, prepare-dataset, evaluate-recorded, view, replay-check"
         )
 
 

@@ -14,6 +14,7 @@ from vla_tools.config import parse_args
 from vla_tools.hooks import scene_split
 from vla_tools.tracking import write_json
 
+from .episodes import imported
 from .profile import profiles
 
 
@@ -45,7 +46,11 @@ def validate_prepared(root):
         raise ValueError("Prepared frame count differs from metadata")
     identities = [(r["source_root"], r["episode_id"]) for r in rows]
     if len(set(identities)) != len(rows) or any(
-        not r["physical_valid"] or r.get("dataset_split") not in ("train", "val")
+        (
+            r["physical_valid"] is not True
+            and not (imported(r) and r["physical_valid"] is None)
+        )
+        or r.get("dataset_split") not in ("train", "val")
         for r in rows
     ):
         raise ValueError(
@@ -88,7 +93,9 @@ def prepare_dataset(config):
     ]
     combined = manifests[0] | {
         "repo_id": "local/ocbench-stack-all",
-        "quality": "audited-successes-and-failures",
+        "quality": "upstream-outcomes-unaudited"
+        if any(imported(r) for m in manifests for r in m["episodes"])
+        else "audited-successes-and-failures",
         "episodes": [],
     }
     for source, manifest in zip(sources, manifests, strict=True):

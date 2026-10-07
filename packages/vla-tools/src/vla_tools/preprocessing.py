@@ -35,9 +35,72 @@ def resize_preprocessor(pre, size):
     pre.steps.insert(index, ImageCropResizeProcessorStep(resize_size=tuple(size)))
 
 
+def configure_chunk_normalization(policy, pre, post):
+    """Decode offset-specific ACT outputs before native select_action queues them.
+
+    Training forward/probes remain in per-offset normalized coordinates. Inference
+    predict_action_chunk returns physical actions, so the saved postprocessor skips
+    action unnormalization. Call this after loading the saved processors as well.
+    """
+    from dataclasses import replace
+
+    import torch
+    from lerobot.configs import FeatureType, NormalizationMode
+    from lerobot.processor import NormalizerProcessorStep, UnnormalizerProcessorStep
+
+    if policy.config.type != "act":
+        return
+    normalizer = next(s for s in pre.steps if isinstance(s, NormalizerProcessorStep))
+    low = torch.as_tensor(normalizer.stats.get("action", {}).get("q01", []))
+    if low.ndim != 2:
+        return
+    if policy.config.type != "act" or policy.config.temporal_ensemble_coeff is not None:
+        raise ValueError("Per-timestep normalization requires open-loop ACT")
+    if normalizer.norm_map[FeatureType.ACTION] != NormalizationMode.QUANTILES:
+        raise ValueError("Per-timestep normalization requires action quantiles")
+    if low.shape != (policy.config.chunk_size, policy.config.action_feature.shape[0]):
+        raise ValueError("Action statistics do not match the ACT chunk shape")
+    if getattr(policy, "_per_timestep_normalization", False):
+        return
+    low = low.to(device=policy.config.device, dtype=torch.float32)
+    high = torch.as_tensor(
+        normalizer.stats["action"]["q99"], device=low.device, dtype=torch.float32
+    )
+    span = high - low
+    if not torch.isfinite(span).all() or not (span > 0).all():
+        raise ValueError("Action quantile spans must be finite and positive")
+    original = policy.predict_action_chunk
+
+    def predict(batch):
+        normalized = original(batch).float()
+        return (normalized + 1) * span / 2 + low
+
+    policy.predict_action_chunk = predict
+    policy._per_timestep_normalization = True
+    for i, step in enumerate(post.steps):
+        if isinstance(step, UnnormalizerProcessorStep):
+            post.steps[i] = replace(
+                step,
+                norm_map={
+                    **step.norm_map,
+                    FeatureType.ACTION: NormalizationMode.IDENTITY,
+                },
+            )
+
+
 def configure_training(trainer, settings):
     configure_precision(settings)
     original = trainer.make_pre_post_processors
+    policy = None
+    if settings.get("per_timestep_normalization"):
+        make_policy = trainer.make_policy
+
+        def capture_policy(*args, **kwargs):
+            nonlocal policy
+            policy = make_policy(*args, **kwargs)
+            return policy
+
+        trainer.make_policy = capture_policy
 
     def processors(*args, **kwargs):
         pre, post = original(*args, **kwargs)
@@ -57,6 +120,8 @@ def configure_training(trainer, settings):
                         device=settings["device"], float_dtype="float32"
                     ),
                 )
+        if settings.get("per_timestep_normalization"):
+            configure_chunk_normalization(policy, pre, post)
         return pre, post
 
     trainer.make_pre_post_processors = processors

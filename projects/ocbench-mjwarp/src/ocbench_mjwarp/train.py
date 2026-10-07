@@ -16,8 +16,14 @@ class TrainingConfig(BaseConfig):
     policy_type: Literal["act", "smolvla", "pi05"] = "act"
     video_backend: Literal["pyav", "torchcodec"] = "torchcodec"
     eval_max_steps: int = 2500
+    eval_observation_compression: Literal["dataset", "none"] = "dataset"
+    eval_rollout_backend: Literal["auto", "lerobot", "chunked"] = "auto"
+    eval_observation_decoder: Literal["pyav", "nvdec"] = "pyav"
+    eval_render_batch_frames: Literal[1, 2, 4] = 1
+    eval_profile: bool = False
     action_mode: Literal["delta", "absolute_gripper", "absolute"] = "delta"
     percentile_normalization: bool = False
+    per_timestep_normalization: bool = False
 
 
 @dataclass(kw_only=True)

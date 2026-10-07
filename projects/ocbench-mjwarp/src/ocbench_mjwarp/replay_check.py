@@ -37,11 +37,16 @@ def run(config):
         raise ValueError("Choose distinct raw episode IDs")
     if not np.isfinite(config.atol) or config.atol <= 0:
         raise ValueError("atol must be finite and positive")
+    from .episodes import records
+
+    available = {r["episode_id"]: r for r in records(config.source)}
     rows, arrays = [], []
     for episode in config.episodes:
-        row = json.loads(
-            (config.source / "raw" / f"episode-{episode:06}.json").read_text()
-        )
+        row = available[episode]
+        if row.get("terminal_state_available") is False:
+            raise ValueError(
+                "Imported trajectories lack terminal simulator states and contact audits; exact replay checks are unavailable"
+            )
         validate_action(row["action_profile"])
         if row["env_id"] != TASK:
             raise ValueError("Replay requires the supported stacking task")
@@ -73,6 +78,26 @@ def run(config):
             str(config.checkpoint),
             preprocessor_overrides={"device_processor": {"device": "cpu"}},
         )
+        # Per-offset policies decode their chunks before queueing and save an
+        # identity action postprocessor. This control has no policy: explicitly
+        # invert the saved quantiles for its full normalized demonstration chunks.
+        from dataclasses import replace
+
+        from lerobot.configs import FeatureType, NormalizationMode
+        from lerobot.processor import UnnormalizerProcessorStep
+
+        for i, step in enumerate(post.steps):
+            if (
+                isinstance(step, UnnormalizerProcessorStep)
+                and np.asarray(step.stats.get("action", {}).get("q01", [])).ndim == 2
+            ):
+                post.steps[i] = replace(
+                    step,
+                    norm_map={
+                        **step.norm_map,
+                        FeatureType.ACTION: NormalizationMode.QUANTILES,
+                    },
+                )
     replay_actions = []
     for data in arrays:
         actions = data["action"].copy()

@@ -1,0 +1,23 @@
+output: outputs/ocbench-hub-stack-320
+source: huggingface
+hub:
+  task: block-double-task2-v0
+  shards: 1
+  train_episodes: 100
+  val_episodes: 20
+image_size: [240, 320]
+episode_order: length
+overlap_commits: true
+render_batch_size: 4
+render_batch_frames: 4
+encoder_backend: async
+training:
+  steps: 0
+  validation_fraction: 0.2
+  overrides:
+    policy.chunk_size: 25
+    policy.n_action_steps: 25
+wandb:
+  enable: true
+  project: vla-ocbench
+  group: ocbench-hub-stack-320

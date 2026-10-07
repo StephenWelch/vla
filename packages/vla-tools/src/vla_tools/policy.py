@@ -95,4 +95,7 @@ def load_policy(checkpoint, device):
         str(checkpoint),
         preprocessor_overrides={"device_processor": {"device": device}},
     )
+    from vla_tools.preprocessing import configure_chunk_normalization
+
+    configure_chunk_normalization(policy, pre, post)
     return policy, pre, post
